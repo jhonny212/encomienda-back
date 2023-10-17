@@ -1,0 +1,59 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Nombre de tu API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/jobType": {
+      "post": {
+        "summary": "Create a new job type",
+        "description": "Create a new job type.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobTypeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Instancia creada",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 1,
+                  "name": "isma",
+                  "description": "descripcion"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Job Type"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JobTypeRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the job type"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the job type"
+          }
+        }
+      }
+    }
+  }
+}
