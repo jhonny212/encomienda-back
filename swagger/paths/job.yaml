@@ -1,0 +1,33 @@
+post:
+  summary: Create a new job
+  description: Create a new job
+  tags:
+    - Job
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#components/schemas/Job"
+  responses:
+    "200":
+      description: Model Job
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Job"
+get:
+  summary: Obtener listado de trabajos
+  description: Obtiene un listado de trabajos (JobRequest).
+  tags:
+    - Job
+  responses:
+    "200":
+      description: Lista de trabajos obtenida con éxito.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/JobRequest"
+    "404":
+      description: No se encontraron trabajos.

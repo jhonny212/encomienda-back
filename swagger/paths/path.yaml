@@ -1,0 +1,63 @@
+get:
+  summary: Obtener listado de PathRequest
+  description: Obtiene un listado de PathRequest.
+  tags:
+    - PathRequest
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/PathRequest"
+  responses:
+    "200":
+      description: Lista de PathRequest obtenida con éxito.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/PathRequest"
+    "404":
+      description: No se encontraron PathRequest
+post:
+  summary: Crear un nuevo path
+  description: Crea un nuevo path.
+  tags:
+    - PathRequest
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PathRequest'
+  responses:
+    '201':
+      description: Path creado con éxito.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PathRequest'
+    '400':
+      description: Solicitud incorrecta.
+put:
+  summary: Actualizar un path existente
+  description: Actualiza un path existente.
+  tags:
+    - PathRequest
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/PathRequest'
+  responses:
+    '200':
+      description: Path actualizado con éxito.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PathRequest'
+    '400':
+      description: Solicitud incorrecta.
+    '404':
+      description: Path no encontrado.

@@ -1,0 +1,36 @@
+get:
+  summary: Obtener listado de RouteRequest
+  description: Obtiene un listado de RouteRequest.
+  tags:
+    - RouteRequest
+  responses:
+    "200":
+      description: Lista de RouteRequest obtenida con éxito.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/RouteRequest"
+    "404":
+      description: No se encontraron RouteRequest.
+post:
+  summary: Crear una nueva route
+  description: Crea una nueva route.
+  tags:
+    - RouteRequest
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/RouteRequest"
+  responses:
+    "201":
+      description: Route creado con éxito.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RouteRequest"
+    "400":
+      description: Solicitud incorrecta.

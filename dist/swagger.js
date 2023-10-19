@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
-const swaggerDocument = yamljs_1.default.load('./swagger.yaml');
+const swaggerDocument = yamljs_1.default.load('./swagger/swagger.yaml');
 const app = (0, express_1.default)();
 // Define las opciones para swagger-jsdoc
 const options = {

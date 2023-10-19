@@ -1,0 +1,445 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in HTML.
+  version: 0.1.9
+servers:
+  - url: http://localhost:3000
+    description: Optional server description, e.g. Main (production) server
+#basePath: /api
+paths:
+  /api/jobType:
+    post:
+      summary: Create a new job type.
+      description: Create a new job type.
+      tags:
+        - JobType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/JobTypeRequest'
+      responses:
+        '200':    # status code
+          description: Model Job Type
+          content:
+            application/json:
+              schema: 
+                $ref: '#components/schemas/JobTypeRequest'
+    get:
+      summary: Get all job types
+      description: Get all job types
+      tags:
+        - JobType
+      responses:
+        '200':
+          description: Array of Job Types
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#components/schemas/JobTypeRequest'
+  
+  /api/job:
+    post:
+      summary: Create a new job
+      description: Create a new job
+      tags:
+        - Job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/JobRequest"
+      responses:
+        "200":
+          description: Model Job
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/JobRequest"
+    get:
+      summary: Obtener listado de trabajos
+      description: Obtiene un listado de trabajos (JobRequest).
+      tags:
+        - Job
+      responses:
+        "200":
+          description: Lista de trabajos obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JobRequestRequest"
+        "404":
+          description: No se encontraron trabajos.
+
+  /api/branch:
+    get:
+      summary: Obtener listado de BranchOfficeRequest
+      description: Obtiene un listado de BranchOfficeRequest.
+      tags:
+        - BranchOfficeRequest
+      responses:
+        "200":
+          description: Lista de BranchOfficeRequest obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BranchOfficeRequest"
+        "404":
+          description: No se encontraron BranchOfficeRequest.
+    post:
+      summary: Crear una nueva branchoffice
+      description: Crea una nueva branchoffice.
+      tags:
+        - BranchOfficeRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BranchOfficeRequest"
+      responses:
+        "201":
+          description: Branchoffice creada con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BranchOfficeRequest"
+        "400":
+          description: Solicitud incorrecta.
+    put:
+      summary: Actualizar una branchoffice existente
+      description: Actualiza una branchoffice existente.
+      tags:
+        - BranchOfficeRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BranchOfficeRequest"
+      responses:
+        "200":
+          description: Branchoffice actualizada con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BranchOfficeRequest"
+        "400":
+          description: Solicitud incorrecta.
+        "404":
+          description: Branchoffice no encontrada.
+
+  /api/route:
+    get:
+      summary: Obtener listado de RouteRequest
+      description: Obtiene un listado de RouteRequest.
+      tags:
+        - RouteRequest
+      responses:
+        "200":
+          description: Lista de RouteRequest obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RouteRequest"
+        "404":
+          description: No se encontraron RouteRequest.
+    post:
+      summary: Crear una nueva route
+      description: Crea una nueva route.
+      tags:
+        - RouteRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RouteRequest"
+      responses:
+        "201":
+          description: Route creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RouteRequest"
+        "400":
+          description: Solicitud incorrecta.
+
+  /api/department:
+    get:
+      summary: Obtener listado de DepartmentRequest
+      description: Obtiene un listado de DepartmentRequest.
+      tags:
+        - DepartmentRequest
+      responses:
+        "200":
+          description: Lista de DepartmentRequest obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DepartmentRequest"
+        "404":
+          description: No se encontraron DepartmentRequest.
+
+  /api/city:
+    get:
+      summary: Obtener listado de CityRequest
+      description: Obtiene un listado de CityRequest.
+      tags:
+        - CityRequest
+      responses:
+        "200":
+          description: Lista de CityRequest obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CityRequest"
+        "404":
+          description: No se encontraron CityRequest.
+
+  /api/path:
+    get:
+      summary: Obtener listado de PathRequest
+      description: Obtiene un listado de PathRequest.
+      tags:
+        - PathRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PathRequest"
+      responses:
+        "200":
+          description: Lista de PathRequest obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PathRequest"
+        "404":
+          description: No se encontraron PathRequest
+    post:
+      summary: Crear un nuevo path
+      description: Crea un nuevo path.
+      tags:
+        - PathRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PathRequest'
+      responses:
+        '201':
+          description: Path creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathRequest'
+        '400':
+          description: Solicitud incorrecta.
+    put:
+      summary: Actualizar un path existente
+      description: Actualiza un path existente.
+      tags:
+        - PathRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PathRequest'
+      responses:
+        '200':
+          description: Path actualizado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathRequest'
+        '400':
+          description: Solicitud incorrecta.
+        '404':
+          description: Path no encontrado.
+
+components:
+  schemas:
+    UserRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+
+    EmployeeRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        userId:
+          type: number
+        jobId:
+          type: number
+        branchOfficeId:
+          type: number
+        salary:
+          type: number
+        isActive:
+          type: boolean
+
+    JobTypeRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+
+    JobRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+        jobTypeId:
+          type: number
+        baseSalary:
+          type: number
+
+    OrderStatusRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+
+    OrderRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        date:
+          type: string
+          format: date-time
+        total:
+          type: number
+        email:
+          type: string
+        client:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        description:
+          type: string
+        orderStatusId:
+          type: number
+
+    PackageRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        weight:
+          type: number
+        cost:
+          type: number
+        total:
+          type: number
+        hight:
+          type: number
+        widht:
+          type: number
+        orderId:
+          type: number
+
+    BranchOfficeRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        address:
+          type: string
+        isActive:
+          type: boolean
+        cityId:
+          type: number
+
+    CityRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        departmentId:
+          type: number
+
+    DepartmentRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+
+    PathRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        routeId:
+          type: number
+        originId:
+          type: number
+        destinationId:
+          type: number
+
+    RouteRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        priceWeight:
+          type: number
+        originId:
+          type: number
+        destinationId:
+          type: number
+        isActive:
+          type: boolean

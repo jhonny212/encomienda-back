@@ -1,0 +1,31 @@
+post:
+      summary: Create a new job type.
+      description: Create a new job type.
+      tags:
+        - JobType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/JobType'
+      responses:
+        '200':    # status code
+          description: Model Job Type
+          content:
+            application/json:
+              schema: 
+                $ref: '#components/schemas/JobType'
+get:
+  summary: Get all job types
+  description: Get all job types
+  tags:
+    - JobType
+  responses:
+    '200':
+      description: Array of Job Types
+      content:
+        application/json:
+          schema: 
+            type: array
+            items:
+              $ref: '#components/schemas/JobType'

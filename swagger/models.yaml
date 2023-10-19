@@ -1,0 +1,166 @@
+UserRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    email:
+      type: string
+    name:
+      type: string
+    password:
+      type: string
+
+EmployeeRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    userId:
+      type: number
+    jobId:
+      type: number
+    branchOfficeId:
+      type: number
+    salary:
+      type: number
+    isActive:
+      type: boolean
+
+JobTypeRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    description:
+      type: string
+
+JobRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    description:
+      type: string
+    jobTypeId:
+      type: number
+    baseSalary:
+      type: number
+
+OrderStatusRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    description:
+      type: string
+
+OrderRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    date:
+      type: string
+      format: date-time
+    total:
+      type: number
+    email:
+      type: string
+    client:
+      type: string
+    address:
+      type: string
+    phone:
+      type: string
+    description:
+      type: string
+    orderStatusId:
+      type: number
+
+PackageRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    weight:
+      type: number
+    cost:
+      type: number
+    total:
+      type: number
+    hight:
+      type: number
+    widht:
+      type: number
+    orderId:
+      type: number
+
+BranchOfficeRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    address:
+      type: string
+    isActive:
+      type: boolean
+    cityId:
+      type: number
+
+CityRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    departmentId:
+      type: number
+
+DepartmentRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+
+PathRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    routeId:
+      type: number
+    originId:
+      type: number
+    destinationId:
+      type: number
+
+RouteRequest:
+  type: object
+  properties:
+    id:
+      type: number
+    name:
+      type: string
+    priceWeight:
+      type: number
+    originId:
+      type: number
+    destinationId:
+      type: number
+    isActive:
+      type: boolean

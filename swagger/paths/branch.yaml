@@ -1,0 +1,58 @@
+get:
+  summary: Obtener listado de BranchOfficeRequest
+  description: Obtiene un listado de BranchOfficeRequest.
+  tags:
+    - BranchOfficeRequest
+  responses:
+    "200":
+      description: Lista de BranchOfficeRequest obtenida con éxito.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/BranchOfficeRequest"
+    "404":
+      description: No se encontraron BranchOfficeRequest.
+post:
+  summary: Crear una nueva branchoffice
+  description: Crea una nueva branchoffice.
+  tags:
+    - BranchOfficeRequest
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/BranchOfficeRequest"
+  responses:
+    "201":
+      description: Branchoffice creada con éxito.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BranchOfficeRequest"
+    "400":
+      description: Solicitud incorrecta.
+put:
+  summary: Actualizar una branchoffice existente
+  description: Actualiza una branchoffice existente.
+  tags:
+    - BranchOfficeRequest
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/BranchOfficeRequest"
+  responses:
+    "200":
+      description: Branchoffice actualizada con éxito.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BranchOfficeRequest"
+    "400":
+      description: Solicitud incorrecta.
+    "404":
+      description: Branchoffice no encontrada.

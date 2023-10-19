@@ -8,20 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.endpoints = void 0;
 const database_1 = require("../models/database");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const limit = Number(process.env.LIMIT);
+const pagination_1 = require("../utils/pagination");
 const getAllTypeJobs = (req, res, pageSize = 0) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.jobType.findMany({
-        skip: pageSize,
-        take: limit
-    });
+    return database_1.prisma.jobType.findMany((0, pagination_1.paginator)(pageSize));
 });
 //Creates
 const createJobType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
