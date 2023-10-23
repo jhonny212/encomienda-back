@@ -72,7 +72,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/JobRequestRequest"
+                  $ref: "#/components/schemas/JobRequest"
         "404":
           description: No se encontraron trabajos.
 
@@ -296,12 +296,12 @@ components:
           type: number
         name:
           type: string
-        userId:
-          type: number
-        jobId:
-          type: number
-        branchOfficeId:
-          type: number
+        user:
+          $ref: '#/components/schemas/UserRequest'
+        job:
+          $ref: '#/components/schemas/JobRequest'
+        branchOffice:
+          $ref: '#/components/schemas/BranchOfficeRequest'
         salary:
           type: number
         isActive:
@@ -326,8 +326,8 @@ components:
           type: string
         description:
           type: string
-        jobTypeId:
-          type: number
+        jobType:
+          $ref: '#/components/schemas/JobTypeRequest'
         baseSalary:
           type: number
 
@@ -361,8 +361,8 @@ components:
           type: string
         description:
           type: string
-        orderStatusId:
-          type: number
+        orderStatus:
+          $ref: '#/components/schemas/OrderStatusRequest'
 
     PackageRequest:
       type: object
@@ -381,8 +381,8 @@ components:
           type: number
         widht:
           type: number
-        orderId:
-          type: number
+        order:
+          $ref: '#/components/schemas/OrderRequest'
 
     BranchOfficeRequest:
       type: object
@@ -393,8 +393,8 @@ components:
           type: string
         isActive:
           type: boolean
-        cityId:
-          type: number
+        city:
+          $ref: '#/components/schemas/CityRequest'
 
     CityRequest:
       type: object
@@ -403,8 +403,8 @@ components:
           type: number
         name:
           type: string
-        departmentId:
-          type: number
+        department:
+          $ref: '#/components/schemas/DepartmentRequest'
 
     DepartmentRequest:
       type: object
@@ -421,12 +421,12 @@ components:
           type: number
         name:
           type: string
-        routeId:
-          type: number
-        originId:
-          type: number
-        destinationId:
-          type: number
+        route:
+          $ref: '#/components/schemas/RouteRequest'
+        origin:
+          $ref: '#/components/schemas/BranchOfficeRequest'
+        destination:
+          $ref: '#/components/schemas/BranchOfficeRequest'
 
     RouteRequest:
       type: object
@@ -437,9 +437,9 @@ components:
           type: string
         priceWeight:
           type: number
-        originId:
-          type: number
-        destinationId:
-          type: number
+        origin:
+          $ref: '#/components/schemas/BranchOfficeRequest'
+        destination:
+          $ref: '#/components/schemas/BranchOfficeRequest'
         isActive:
           type: boolean

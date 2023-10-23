@@ -1,16 +1,15 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 /// We could not retrieve columns for the underlying table. Either it has none or you are missing rights to see them. Please check your privileges.
 // model newtable {
 // }
-
 
 // ----------------------------Job -------------------------
 model User {
@@ -71,8 +70,9 @@ model OrderStatus {
 
 model Order {
     id          Int      @id @default(autoincrement())
-    date        DateTime
+    date        DateTime @default(now())
     total       Float
+    cost        Float
     email       String
     client      String
     address     String
@@ -80,9 +80,13 @@ model Order {
     description String
 
     //relations
-    orderStatus   OrderStatus @relation(fields: [orderStatusId], references: [id])
+    orderStatus   OrderStatus  @relation(fields: [orderStatusId], references: [id])
     orderStatusId Int
     Package       Package[]
+    route         Route        @relation(fields: [routeId], references: [id])
+    routeId       Int
+    brachOffice   BranchOffice? @relation(fields: [brachOfficeId], references: [id])
+    brachOfficeId Int?
 }
 
 model Package {
@@ -91,7 +95,7 @@ model Package {
     weight  Float
     cost    Float
     total   Float
-    hight   Float
+    height  Float
     widht   Float
     order   Order  @relation(fields: [orderId], references: [id])
     orderId Int
@@ -112,6 +116,7 @@ model BranchOffice {
     Path2  Path[]  @relation("ref_route4")
     city   City    @relation(fields: [cityId], references: [id])
     cityId Int
+    Order  Order[]
 }
 
 model City {
@@ -145,10 +150,12 @@ model Route {
     id            Int          @id @default(autoincrement())
     name          String
     priceWeight   Float
+    costWeight    Float
     origin        BranchOffice @relation("ref_route1", fields: [originId], references: [id])
     originId      Int
     destination   BranchOffice @relation("ref_route2", fields: [destinationId], references: [id])
     destinationId Int
     isActive      Boolean
     Path          Path[]
+    Order         Order[]
 }

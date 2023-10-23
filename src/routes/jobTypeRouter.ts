@@ -1,11 +1,11 @@
 import { Router, Request, Response } from 'express';
-import {endpoints} from '../database/jobTypeRepository'
+import {createJobType,getAllTypeJobs} from '../database/jobTypeRepository'
 
 const routerJobType = Router();
 
 routerJobType.post('', async (req:Request, res:Response) => {
     try {
-        const result = await endpoints.createJobType(req,res);
+        const result = await createJobType(req,res);
         return res.status(200).json(result);
     } catch (error) {
         return res.status(500)
@@ -14,7 +14,8 @@ routerJobType.post('', async (req:Request, res:Response) => {
 
 routerJobType.get('', async (req:Request, res:Response) => {
     try {
-        const result = await endpoints.getAllTypeJobs(req,res)
+        const pageSize = Number(req.query.pageSize)
+        const result = await getAllTypeJobs(req,res,pageSize)
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500)

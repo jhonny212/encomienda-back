@@ -47,7 +47,7 @@ JobRequest:
       type: string
     description:
       type: string
-    jobTypeId:
+    jobType:
       type: number
     baseSalary:
       type: number

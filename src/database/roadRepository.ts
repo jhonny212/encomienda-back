@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {prisma} from '../models/database'
-import {paginator} from '../utils/pagination';
+import {paginator} from '../utils/paginator';
 import { updateCleaner } from '../utils/crud';
 
 /**
@@ -10,31 +10,31 @@ import { updateCleaner } from '../utils/crud';
 /**
  * Get of models
  */
-const getBranches = () => (pageSize: number, filters: {} = {})=>{
+export const getBranches = async (pageSize: number)=>{
     return prisma.branchOffice.findMany(paginator(pageSize))
 }
 
-const getCities = () => (pageSize: number, filters: {} = {})=>{
-    return prisma.city.findMany(paginator(pageSize))
+export const getCities = async (pageSize: number, filters: {} = {})=>{
+    return prisma.city.findMany(paginator(pageSize,filters))
 }
 
-const getDepartments= () => (pageSize: number, filters: {} = {})=>{
-    return prisma.department.findMany(paginator(pageSize))
+export const getDepartments= async  (pageSize: number, filters: {} = {})=>{
+    return prisma.department.findMany(paginator(pageSize,filters))
 }
 
-const getPaths= () => (pageSize: number, filters: {} = {})=>{
-    return prisma.path.findMany(paginator(pageSize))
+export const getPaths= async  (pageSize: number, filters: {} = {})=>{
+    return prisma.path.findMany(paginator(pageSize,filters))
 }
 
-const getRoutes= () => (pageSize: number, filters: {} = {})=>{
-    return prisma.route.findMany(paginator(pageSize))
+export const getRoutes= async (pageSize: number, filters: {} = {})=>{
+    return prisma.route.findMany(paginator(pageSize,filters))
 }
 
 
 /**
  * Create models
  */
-const createBranch = (req: Request) =>{
+export const createBranch = async  (req: Request) =>{
     const body = req.body as BranchOfficeRequest
     return prisma.branchOffice.create({
         data: {
@@ -43,7 +43,7 @@ const createBranch = (req: Request) =>{
     })
 }
 
-const createPath = (req: Request) => {
+export const createPath = async  (req: Request) => {
     const body = req.body as PathRequest
     return prisma.path.create({
         data: {
@@ -52,7 +52,7 @@ const createPath = (req: Request) => {
     })
 }
 
-const createRoute = (req: Request) => {
+export const createRoute = async  (req: Request) => {
     const body = req.body as RouteRequest
     return prisma.route.create({
         data: {...body}
@@ -63,7 +63,7 @@ const createRoute = (req: Request) => {
  * update models
  */
 
-const updateBranch = (req: Request) =>{
+export const updateBranch = async  (req: Request) =>{
     const [pk, newdata ]= updateCleaner(req,"id")
     const data = newdata as BranchOfficeRequest
     return prisma.branchOffice.update({
@@ -74,7 +74,7 @@ const updateBranch = (req: Request) =>{
     })
 }
 
-const updatePath = (req: Request) =>{
+export const updatePath = async  (req: Request) =>{
     const [pk, newdata ]= updateCleaner(req,"id")
     const data = newdata as PathRequest
     return prisma.path.update({
@@ -85,7 +85,7 @@ const updatePath = (req: Request) =>{
     })
 }
 
-const updateRoute = (req: Request) =>{
+export const updateRoute = async  (req: Request) =>{
     const [pk, newdata ]= updateCleaner(req,"id")
     const data = newdata as RouteRequest
     return prisma.route.update({
@@ -94,10 +94,4 @@ const updateRoute = (req: Request) =>{
             id: pk
         }
     })
-}
-
-export const endpoints = {
-    getBranches,getCities,getDepartments,getPaths,getRoutes,
-    createBranch,createPath,createRoute,
-    updateBranch,updatePath,updateRoute
 }

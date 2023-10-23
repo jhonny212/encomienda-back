@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.endpoints = void 0;
+exports.createJob = exports.getAllJobs = void 0;
 const database_1 = require("../models/database");
-const pagination_1 = require("../utils/pagination");
+const paginator_1 = require("../utils/paginator");
 /**
  * The function getAllJobs retrieves all jobs from the database using pagination.
  * @param {Request} req - The `req` parameter is the request object, which contains information about
@@ -25,8 +25,12 @@ const pagination_1 = require("../utils/pagination");
  * @returns a promise that resolves to an array of job objects.
  */
 const getAllJobs = (req, res, pageSize = 0) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.job.findMany((0, pagination_1.paginator)(pageSize));
+    const options = (0, paginator_1.paginator)(pageSize);
+    return database_1.prisma.job.findMany(Object.assign(Object.assign({}, options), { include: {
+            jobType: true
+        } }));
 });
+exports.getAllJobs = getAllJobs;
 //Creates
 /**
  * The function creates a job using the data from the request body and returns the created job.
@@ -44,7 +48,4 @@ const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         data: Object.assign({}, body)
     });
 });
-exports.endpoints = {
-    createJob,
-    getAllJobs
-};
+exports.createJob = createJob;

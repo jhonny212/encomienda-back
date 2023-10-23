@@ -13,7 +13,7 @@ const jobRouter_1 = __importDefault(require("./src/routes/jobRouter"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 const allowedOrigins = ['http://localhost:3000'];

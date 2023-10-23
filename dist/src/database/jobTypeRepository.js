@@ -9,12 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.endpoints = void 0;
+exports.createJobType = exports.getAllTypeJobs = void 0;
 const database_1 = require("../models/database");
-const pagination_1 = require("../utils/pagination");
+const paginator_1 = require("../utils/paginator");
 const getAllTypeJobs = (req, res, pageSize = 0) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.jobType.findMany((0, pagination_1.paginator)(pageSize));
+    return database_1.prisma.jobType.findMany((0, paginator_1.paginator)(pageSize));
 });
+exports.getAllTypeJobs = getAllTypeJobs;
 //Creates
 const createJobType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
@@ -22,7 +23,4 @@ const createJobType = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         data: Object.assign({}, body)
     });
 });
-exports.endpoints = {
-    createJobType,
-    getAllTypeJobs
-};
+exports.createJobType = createJobType;

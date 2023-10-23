@@ -14,7 +14,7 @@ const jobRepository_1 = require("../database/jobRepository");
 const routerJob = (0, express_1.Router)();
 routerJob.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield jobRepository_1.endpoints.createJob(req, res);
+        const result = yield (0, jobRepository_1.createJob)(req, res);
         return res.status(200).json(result);
     }
     catch (error) {
@@ -23,7 +23,9 @@ routerJob.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 routerJob.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield jobRepository_1.endpoints.getAllJobs(req, res);
+        const pageSize = Number(req.query.pageSize);
+        const result = yield (0, jobRepository_1.getAllJobs)(req, res, pageSize);
+        console.log(result);
         return res.status(200).json(result);
     }
     catch (error) {

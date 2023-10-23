@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {prisma} from '../models/database'
-import { paginator } from '../utils/pagination';
+import { paginator } from '../utils/paginator';
 
 
 /**
@@ -15,8 +15,14 @@ import { paginator } from '../utils/pagination';
  * the default value is set to 0.
  * @returns a promise that resolves to an array of job objects.
  */
-const getAllJobs = async (req: Request, res: Response, pageSize: number = 0) => {
-    return prisma.job.findMany(paginator(pageSize))
+export const getAllJobs = async (req: Request, res: Response, pageSize: number = 0) => {
+    const options = paginator(pageSize)
+    return prisma.job.findMany({
+        ...options,
+        include: {
+            jobType: true
+        }
+    })
 }
 
 //Creates
@@ -30,16 +36,11 @@ const getAllJobs = async (req: Request, res: Response, pageSize: number = 0) => 
  * @returns a Promise that resolves to the result of creating a new job in the database using the
  * Prisma client.
  */
-const createJob = async (req: Request, res: Response) => {
+export const createJob = async (req: Request, res: Response) => {
     const body = req.body as JobRequest
     return prisma.job.create({
         data: {
             ...body
         }
     })
-}
-
-export const endpoints = {
-    createJob,
-    getAllJobs
 }

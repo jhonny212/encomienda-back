@@ -14,9 +14,9 @@ interface UserRequest {
   interface EmployeeRequest {
     id?: number;
     name: string;
-    userId?: number | null;
-    jobId?: number | null;
-    branchOfficeId?: number | null;
+    userId: number
+    jobId: number;
+    branchOfficeId: number;
     salary: number;
     isActive: boolean;
   }
@@ -43,7 +43,7 @@ interface UserRequest {
   
   interface OrderRequest {
     id?: number;
-    date: Date;
+    date?: Date;
     total: number;
     email: string;
     client: string;
@@ -51,17 +51,30 @@ interface UserRequest {
     phone: string;
     description: string;
     orderStatusId?: number | null;
+    packages: [PackageRequest]
+    routeId?: number
   }
   
   interface PackageRequest {
     id?: number;
     name: string;
     weight: number;
-    cost: number;
-    total: number;
+    cost?: number;
+    total?: number;
     hight: number;
     widht: number;
     orderId?: number | null;
+  }
+
+  interface PackageModel {
+    id?: number;
+    name: string;
+    weight: number;
+    cost: number;
+    total: number;
+    height: number;
+    widht: number;
+    orderId: number | null;
   }
   
   interface BranchOfficeRequest {
@@ -94,6 +107,7 @@ interface UserRequest {
     id?: number;
     name: string;
     priceWeight: number;
+    costWeight: number;
     originId: number;
     destinationId: number;
     isActive: boolean;
