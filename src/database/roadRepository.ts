@@ -10,24 +10,46 @@ import { updateCleaner } from '../utils/crud';
 /**
  * Get of models
  */
-export const getBranches = async (pageSize: number)=>{
-    return prisma.branchOffice.findMany(paginator(pageSize))
+export const getBranches = async (req: Request)=>{
+    return prisma.branchOffice.findMany({
+        ...paginator(req),
+        include: {
+            city: true,
+        }
+    })
 }
 
-export const getCities = async (pageSize: number, filters: {} = {})=>{
-    return prisma.city.findMany(paginator(pageSize,filters))
+export const getCities = async (req: Request, filters: {} = {})=>{
+    return prisma.city.findMany({
+        ...paginator(req,filters),
+        include: {
+            department: true
+        }
+    })
 }
 
-export const getDepartments= async  (pageSize: number, filters: {} = {})=>{
-    return prisma.department.findMany(paginator(pageSize,filters))
+export const getDepartments= async  (req: Request, filters: {} = {})=>{
+    return prisma.department.findMany(paginator(req,filters))
 }
 
-export const getPaths= async  (pageSize: number, filters: {} = {})=>{
-    return prisma.path.findMany(paginator(pageSize,filters))
+export const getPaths= async  (req: Request, filters: {} = {})=>{
+    return prisma.path.findMany({
+        ...paginator(req,filters),
+        include: {
+            origin: true,
+            destination: true
+        }
+    })
 }
 
-export const getRoutes= async (pageSize: number, filters: {} = {})=>{
-    return prisma.route.findMany(paginator(pageSize,filters))
+export const getRoutes= async (req: Request, filters: {} = {})=>{
+    return prisma.route.findMany({
+        ...paginator(req,filters),
+        include: {
+            origin: true,
+            destination: true
+        }
+    })
 }
 
 

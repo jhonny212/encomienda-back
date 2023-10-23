@@ -24,8 +24,8 @@ const paginator_1 = require("../utils/paginator");
  * the default value is set to 0.
  * @returns a promise that resolves to an array of job objects.
  */
-const getAllJobs = (req, res, pageSize = 0) => __awaiter(void 0, void 0, void 0, function* () {
-    const options = (0, paginator_1.paginator)(pageSize);
+const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const options = (0, paginator_1.paginator)(req);
     return database_1.prisma.job.findMany(Object.assign(Object.assign({}, options), { include: {
             jobType: true
         } }));

@@ -14,8 +14,11 @@ const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
 //Employee CRUD
-const getEmployees = (pageSize) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.employee.findMany((0, paginator_1.paginator)(pageSize));
+const getEmployees = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.employee.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+            job: true,
+            branchOffice: true
+        } }));
 });
 exports.getEmployees = getEmployees;
 const createEmployee = (req) => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,8 +40,10 @@ const updateEmployee = (req) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.updateEmployee = updateEmployee;
 //User CRUD
-const getUsers = (pageSize) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.user.findMany((0, paginator_1.paginator)(pageSize));
+const getUsers = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.user.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+            employee: true
+        } }));
 });
 exports.getUsers = getUsers;
 const createUser = (req) => __awaiter(void 0, void 0, void 0, function* () {

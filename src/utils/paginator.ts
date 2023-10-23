@@ -1,9 +1,9 @@
-import dotenv from 'dotenv'
+import { Router, Request, Response } from 'express';
 
-dotenv.config();
-
-const limit = Number(process.env.LIMIT)
-
-export const paginator = (pageSize: number, filters: {} = {})=> {
-    return {skip: pageSize, take: limit, ...filters}
+export const paginator = (req: Request, filters: {} = {})=> {
+    console.log(req.query);
+    const pageSize = Number(req.query.pageSize) || -1
+    const page = Number(req.query.page) || 10
+    if(pageSize == -1) return {}
+    return {skip: page, take: pageSize, ...filters}
 }

@@ -23,9 +23,7 @@ routerJob.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 routerJob.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pageSize = Number(req.query.pageSize);
-        const result = yield (0, jobRepository_1.getAllJobs)(req, res, pageSize);
-        console.log(result);
+        const result = yield (0, jobRepository_1.getAllJobs)(req, res);
         return res.status(200).json(result);
     }
     catch (error) {

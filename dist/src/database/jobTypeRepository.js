@@ -13,7 +13,7 @@ exports.createJobType = exports.getAllTypeJobs = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const getAllTypeJobs = (req, res, pageSize = 0) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.jobType.findMany((0, paginator_1.paginator)(pageSize));
+    return database_1.prisma.jobType.findMany((0, paginator_1.paginator)(req));
 });
 exports.getAllTypeJobs = getAllTypeJobs;
 //Creates

@@ -9,8 +9,7 @@ const road = Router();
 //Get Branches
 road.get('/branch', async (req:Request, res:Response) => {
     try{
-        const pageSize = Number(req.query.pageSize)
-        const result = await getBranches(pageSize)
+        const result = await getBranches(req)
         return res.status(200).json(result)
     }catch(err){
         return res.status(500)
@@ -40,8 +39,7 @@ road.put('/branch', async (req:Request, res:Response) => {
 //Get routes
 road.get('/route', async (req:Request, res:Response) =>{
     try {
-        const pageSize = Number(req.query.pageSize)
-        const result = await getRoutes(pageSize)
+        const result = await getRoutes(req)
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500)
@@ -71,8 +69,7 @@ road.get('/route', async (req:Request, res:Response) =>{
 //Get path
 road.get('/path', async (req:Request, res:Response) =>{
     try {
-        const pageSize = Number(req.query.pageSize)
-        const result = await getPaths(pageSize)
+        const result = await getPaths(req)
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500)
@@ -103,8 +100,7 @@ road.get('/path', async (req:Request, res:Response) =>{
 //Get cities
 road.get('/city', async (req:Request, res:Response) =>{
     try {
-        const pageSize = Number(req.query.pageSize)
-        const result = await getCities(pageSize)
+        const result = await getCities(req)
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500)
@@ -114,8 +110,7 @@ road.get('/city', async (req:Request, res:Response) =>{
 //Get departments
 road.get('/department', async (req:Request, res:Response) =>{
     try {
-        const pageSize = Number(req.query.pageSize)
-        const result = await getDepartments(pageSize)
+        const result = await getDepartments(req)
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500)

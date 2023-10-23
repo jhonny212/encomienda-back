@@ -31,6 +31,19 @@ paths:
       description: Get all job types
       tags:
         - JobType
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: Array of Job Types
@@ -64,6 +77,19 @@ paths:
       description: Obtiene un listado de trabajos (JobRequest).
       tags:
         - Job
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Lista de trabajos obtenida con éxito.
@@ -82,6 +108,19 @@ paths:
       description: Obtiene un listado de BranchOfficeRequest.
       tags:
         - BranchOfficeRequest
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Lista de BranchOfficeRequest obtenida con éxito.
@@ -142,6 +181,19 @@ paths:
       description: Obtiene un listado de RouteRequest.
       tags:
         - RouteRequest
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Lista de RouteRequest obtenida con éxito.
@@ -180,6 +232,19 @@ paths:
       description: Obtiene un listado de DepartmentRequest.
       tags:
         - DepartmentRequest
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Lista de DepartmentRequest obtenida con éxito.
@@ -198,6 +263,19 @@ paths:
       description: Obtiene un listado de CityRequest.
       tags:
         - CityRequest
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Lista de CityRequest obtenida con éxito.
@@ -216,6 +294,19 @@ paths:
       description: Obtiene un listado de PathRequest.
       tags:
         - PathRequest
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
       requestBody:
         content:
           application/json:

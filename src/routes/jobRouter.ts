@@ -14,9 +14,7 @@ routerJob.post('', async (req:Request, res:Response) => {
 
 routerJob.get('', async (req:Request, res:Response) => {
     try {
-        const pageSize = Number(req.query.pageSize)
-        const result = await getAllJobs(req,res,pageSize)
-        console.log(result);
+        const result = await getAllJobs(req,res)
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500)

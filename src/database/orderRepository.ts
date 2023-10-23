@@ -5,32 +5,50 @@ import { updateCleaner } from '../utils/crud';
 import {getRoutes} from './roadRepository'
 
 //Package crud
-export const getPackages = async (pageSize: number) => {
-    return prisma.package.findMany(paginator(pageSize))
+export const getPackages = async (req: Request) => {
+    return prisma.package.findMany(paginator(req))
 }
 
-export const getPackagesByOrder = async (pageSize: number, orderId: number) => {
+export const getPackagesByOrder = async (req: Request) => {
+    const orderId = req.query.orderId
     const whereClause = {
         where: {
             orderId
         }
     }
-    return prisma.package.findMany(paginator(pageSize,whereClause))
+    return prisma.package.findMany(paginator(req,whereClause))
 }
 
 
 //OrderCrud
-export const getOrderById =async (id: number) => {
+export const getOrderById =async (req: Request) => {
+    const id = req.query.id
     const whereClause = {
         where: {
             id
         }
     }
-    return prisma.order.findMany(paginator(0,whereClause))
+    return prisma.order.findMany({
+        ...paginator(req,whereClause),
+        include: {
+            brachOffice: true,
+            orderStatus: true,
+            Package: true,
+            route: true
+        }
+    })
 }
 
-export const getOrders = async (pageSize: number) => {
-    return prisma.order.findMany(paginator(pageSize))
+export const getOrders = async (req: Request) => {
+    return prisma.order.findMany({
+        ...paginator(req),
+        include: {
+            brachOffice: true,
+            orderStatus: true,
+            Package: true,
+            route: true
+        }
+    })
 }
 
 export const crearOrder = async (req:Request) => {
@@ -40,7 +58,7 @@ export const crearOrder = async (req:Request) => {
      * Get route for values to calculate prices
      */
     const route = (
-        await getRoutes(0,{
+        await getRoutes(req,{
             where: {id: order.routeId}
         })
     )[0]

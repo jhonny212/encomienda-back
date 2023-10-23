@@ -15,8 +15,8 @@ import { paginator } from '../utils/paginator';
  * the default value is set to 0.
  * @returns a promise that resolves to an array of job objects.
  */
-export const getAllJobs = async (req: Request, res: Response, pageSize: number = 0) => {
-    const options = paginator(pageSize)
+export const getAllJobs = async (req: Request, res: Response) => {
+    const options = paginator(req)
     return prisma.job.findMany({
         ...options,
         include: {

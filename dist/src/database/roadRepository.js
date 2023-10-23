@@ -19,24 +19,34 @@ const crud_1 = require("../utils/crud");
 /**
  * Get of models
  */
-const getBranches = (pageSize) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.branchOffice.findMany((0, paginator_1.paginator)(pageSize));
+const getBranches = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.branchOffice.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+            city: true,
+        } }));
 });
 exports.getBranches = getBranches;
-const getCities = (pageSize, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.city.findMany((0, paginator_1.paginator)(pageSize, filters));
+const getCities = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.city.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
+            department: true
+        } }));
 });
 exports.getCities = getCities;
-const getDepartments = (pageSize, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.department.findMany((0, paginator_1.paginator)(pageSize, filters));
+const getDepartments = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.department.findMany((0, paginator_1.paginator)(req, filters));
 });
 exports.getDepartments = getDepartments;
-const getPaths = (pageSize, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.path.findMany((0, paginator_1.paginator)(pageSize, filters));
+const getPaths = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.path.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
+            origin: true,
+            destination: true
+        } }));
 });
 exports.getPaths = getPaths;
-const getRoutes = (pageSize, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.route.findMany((0, paginator_1.paginator)(pageSize, filters));
+const getRoutes = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.route.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
+            origin: true,
+            destination: true
+        } }));
 });
 exports.getRoutes = getRoutes;
 /**

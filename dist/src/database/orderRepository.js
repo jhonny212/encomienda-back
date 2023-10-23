@@ -14,31 +14,43 @@ const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const roadRepository_1 = require("./roadRepository");
 //Package crud
-const getPackages = (pageSize) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.package.findMany((0, paginator_1.paginator)(pageSize));
+const getPackages = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.package.findMany((0, paginator_1.paginator)(req));
 });
 exports.getPackages = getPackages;
-const getPackagesByOrder = (pageSize, orderId) => __awaiter(void 0, void 0, void 0, function* () {
+const getPackagesByOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const orderId = req.query.orderId;
     const whereClause = {
         where: {
             orderId
         }
     };
-    return database_1.prisma.package.findMany((0, paginator_1.paginator)(pageSize, whereClause));
+    return database_1.prisma.package.findMany((0, paginator_1.paginator)(req, whereClause));
 });
 exports.getPackagesByOrder = getPackagesByOrder;
 //OrderCrud
-const getOrderById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const getOrderById = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.query.id;
     const whereClause = {
         where: {
             id
         }
     };
-    return database_1.prisma.order.findMany((0, paginator_1.paginator)(0, whereClause));
+    return database_1.prisma.order.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, whereClause)), { include: {
+            brachOffice: true,
+            orderStatus: true,
+            Package: true,
+            route: true
+        } }));
 });
 exports.getOrderById = getOrderById;
-const getOrders = (pageSize) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.order.findMany((0, paginator_1.paginator)(pageSize));
+const getOrders = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.order.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+            brachOffice: true,
+            orderStatus: true,
+            Package: true,
+            route: true
+        } }));
 });
 exports.getOrders = getOrders;
 const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,7 +58,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     /**
      * Get route for values to calculate prices
      */
-    const route = (yield (0, roadRepository_1.getRoutes)(0, {
+    const route = (yield (0, roadRepository_1.getRoutes)(req, {
         where: { id: order.routeId }
     }))[0];
     /**

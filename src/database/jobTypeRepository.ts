@@ -4,7 +4,7 @@ import { paginator } from '../utils/paginator';
 
 
 export const getAllTypeJobs = async (req: Request, res: Response, pageSize: number = 0) => {
-    return prisma.jobType.findMany(paginator(pageSize))
+    return prisma.jobType.findMany(paginator(req))
 }
 
 //Creates

@@ -4,8 +4,14 @@ import {paginator} from '../utils/paginator';
 import { updateCleaner } from '../utils/crud';
 
 //Employee CRUD
-export const getEmployees =async (pageSize: number) => {
-    return prisma.employee.findMany(paginator(pageSize))
+export const getEmployees =async (req: Request) => {
+    return prisma.employee.findMany({
+        ...paginator(req),
+        include: {
+            job: true,
+            branchOffice: true
+        }
+    })
 }
 
 export const createEmployee = async (req:Request) => {
@@ -27,8 +33,13 @@ export const updateEmployee = async (req:Request) => {
 }
 
 //User CRUD
-export const getUsers = async (pageSize: number) => {
-    return prisma.user.findMany(paginator(pageSize))
+export const getUsers = async (req: Request) => {
+    return prisma.user.findMany({
+        ...paginator(req),
+        include: {
+            employee: true
+        }
+    })
 }
 
 export const createUser = async (req:Request) => {

@@ -15,8 +15,7 @@ const road = (0, express_1.Router)();
 //Get Branches
 road.get('/branch', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pageSize = Number(req.query.pageSize);
-        const result = yield (0, roadRepository_1.getBranches)(pageSize);
+        const result = yield (0, roadRepository_1.getBranches)(req);
         return res.status(200).json(result);
     }
     catch (err) {
@@ -46,8 +45,7 @@ road.put('/branch', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 //Get routes
 road.get('/route', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pageSize = Number(req.query.pageSize);
-        const result = yield (0, roadRepository_1.getRoutes)(pageSize);
+        const result = yield (0, roadRepository_1.getRoutes)(req);
         return res.status(200).json(result);
     }
     catch (error) {
@@ -77,8 +75,7 @@ road.get('/route', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 //Get path
 road.get('/path', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pageSize = Number(req.query.pageSize);
-        const result = yield (0, roadRepository_1.getPaths)(pageSize);
+        const result = yield (0, roadRepository_1.getPaths)(req);
         return res.status(200).json(result);
     }
     catch (error) {
@@ -108,8 +105,7 @@ road.get('/path', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 //Get cities
 road.get('/city', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pageSize = Number(req.query.pageSize);
-        const result = yield (0, roadRepository_1.getCities)(pageSize);
+        const result = yield (0, roadRepository_1.getCities)(req);
         return res.status(200).json(result);
     }
     catch (error) {
@@ -119,8 +115,7 @@ road.get('/city', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 //Get departments
 road.get('/department', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pageSize = Number(req.query.pageSize);
-        const result = yield (0, roadRepository_1.getDepartments)(pageSize);
+        const result = yield (0, roadRepository_1.getDepartments)(req);
         return res.status(200).json(result);
     }
     catch (error) {
