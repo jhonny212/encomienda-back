@@ -9,22 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jobRouter = void 0;
+exports.pathRouter = void 0;
 const express_1 = require("express");
-const jobRepository_1 = require("../database/jobRepository");
-exports.jobRouter = (0, express_1.Router)();
-exports.jobRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const roadRepository_1 = require("../database/roadRepository");
+exports.pathRouter = (0, express_1.Router)();
+//Get path
+exports.pathRouter.get('/path', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, jobRepository_1.createJob)(req, res);
+        const result = yield (0, roadRepository_1.getPaths)(req);
         return res.status(200).json(result);
     }
     catch (error) {
         return res.status(500);
     }
 }));
-exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+//Create path
+exports.pathRouter.get('/path', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, jobRepository_1.getAllJobs)(req, res);
+        const result = yield (0, roadRepository_1.createPath)(req);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500);
+    }
+}));
+//Update route
+exports.pathRouter.get('/path', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, roadRepository_1.updatePath)(req);
         return res.status(200).json(result);
     }
     catch (error) {

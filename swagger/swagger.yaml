@@ -175,12 +175,12 @@ paths:
         "404":
           description: Branchoffice no encontrada.
 
-  /api/route:
+  /api/road:
     get:
       summary: Obtener listado de RouteRequest
       description: Obtiene un listado de RouteRequest.
       tags:
-        - RouteRequest
+        - Road
       parameters:
         - name: pageSize
           in: query
@@ -209,7 +209,7 @@ paths:
       summary: Crear una nueva route
       description: Crea una nueva route.
       tags:
-        - RouteRequest
+        - Road
       requestBody:
         required: true
         content:
@@ -226,12 +226,12 @@ paths:
         "400":
           description: Solicitud incorrecta.
 
-  /api/department:
+  /api/road/department:
     get:
       summary: Obtener listado de DepartmentRequest
       description: Obtiene un listado de DepartmentRequest.
       tags:
-        - DepartmentRequest
+        - Road
       parameters:
         - name: pageSize
           in: query
@@ -257,12 +257,12 @@ paths:
         "404":
           description: No se encontraron DepartmentRequest.
 
-  /api/city:
+  /api/road/city:
     get:
       summary: Obtener listado de CityRequest
       description: Obtiene un listado de CityRequest.
       tags:
-        - CityRequest
+        - Road
       parameters:
         - name: pageSize
           in: query
@@ -365,6 +365,112 @@ paths:
           description: Solicitud incorrecta.
         '404':
           description: Path no encontrado.
+
+  /api/package/{order}:
+    get:
+      summary: Paquete filtrado por numero de orden
+      description: Paquete filtrado por numero de orden.
+      tags:
+        - Package
+      parameters:
+        - name: order
+          in: path
+          description: Numero de orden
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Paquete filtrado por numero de orden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PackageRequest"
+        "404":
+          description: No se encontraron paquetes
+
+  /api/package:
+    get:
+      summary: Obtener listado de Paquetes
+      description: Obtiene un listado de Paquetes.
+      tags:
+        - Package
+      responses:
+        "200":
+          description: Lista de paquetes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PackageRequest"
+        "404":
+          description: No se encontraron paquetes
+
+  /api/order/{id}:
+    get:
+      summary: Orden filtrada por id
+      description: Orden filtrada por id
+      tags:
+        - Order
+      parameters:
+        - name: order
+          in: path
+          description: Numero de orden
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Orden filtrada por id
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/OrderRequest"
+        "404":
+          description: No se encontraron paquetes
+  
+  /api/order:
+    get:
+      summary: Lista de ordenes
+      description: Lista de ordenes
+      tags:
+        - Order
+      responses:
+        "200":
+          description: Lista de ordenes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderRequest"
+        "404":
+          description: No se encontraron ordenes
+    post:
+      summary: Crear un nueva orden tomar en cuenta que se debe mandar un array de package (package request model)
+      description: Crea un nueva orden tomar en cuenta que se debe mandar un array de package (package request model)
+      tags:
+        - Order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '201':
+          description: Path creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderRequest'
+        '400':
+          description: Solicitud incorrecta.
 
 components:
   schemas:
@@ -534,3 +640,20 @@ components:
           $ref: '#/components/schemas/BranchOfficeRequest'
         isActive:
           type: boolean
+    
+    VehicleTypeRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+    VehicleRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        vehicleType:
+          $ref: '#/components/schemas/VehicleTypeRequest'

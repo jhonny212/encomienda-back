@@ -4,11 +4,10 @@ import swaggerApp from './swagger'
 import cors from 'cors';
 
 //ROUTERS
-import jobTypeRoute from './src/routes/jobTypeRouter'
-import jobRoute from './src/routes/jobRouter'
 
-
-
+import {
+    jobRouter,jobTypeRouter,orderRouter,packageRouter,
+    roadRouter,branchRouter,pathRouter,vehicleRouter} from './src/routes'
 
 dotenv.config();
 
@@ -24,12 +23,21 @@ const allowedOrigins = ['http://localhost:3000'];
 const options: cors.CorsOptions = {
   origin: allowedOrigins
 };
-// Then pass these options to cors:
+
+
 app.use(cors(options));
 app.use(express.json());
 app.use(swaggerApp)
-app.use("/api/jobType",jobTypeRoute);
-app.use("/api/job",jobRoute);
+app.use("/api/jobType",jobTypeRouter);
+app.use("/api/job",jobRouter);
+app.use("/api/road",roadRouter);
+app.use("/api/branch",branchRouter);
+app.use("/api/path",pathRouter);
+
+app.use("/api/package",packageRouter);
+app.use("/api/order",orderRouter);
+app.use("/api/vehicle",vehicleRouter);
+
 
 
 

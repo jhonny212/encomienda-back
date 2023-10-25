@@ -80,10 +80,10 @@ model Order {
     description String
 
     //relations
-    orderStatus   OrderStatus  @relation(fields: [orderStatusId], references: [id])
+    orderStatus   OrderStatus   @relation(fields: [orderStatusId], references: [id])
     orderStatusId Int
     Package       Package[]
-    route         Route        @relation(fields: [routeId], references: [id])
+    route         Route         @relation(fields: [routeId], references: [id])
     routeId       Int
     brachOffice   BranchOffice? @relation(fields: [brachOfficeId], references: [id])
     brachOfficeId Int?
@@ -158,4 +158,20 @@ model Route {
     isActive      Boolean
     Path          Path[]
     Order         Order[]
+}
+
+//-------------------------vehicle---------------
+model VehicleType {
+    id      Int       @id @default(autoincrement())
+    name    String
+    vehicle Vehicle[]
+}
+
+model Vehicle {
+    id            Int    @id @default(autoincrement())
+    vehicleTypeId Int
+    name          String
+
+    // FK
+    vehicleType VehicleType @relation(fields: [vehicleTypeId], references: [id])
 }

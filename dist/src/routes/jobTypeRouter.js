@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.jobTypeRouter = void 0;
 const express_1 = require("express");
 const jobTypeRepository_1 = require("../database/jobTypeRepository");
-const routerJobType = (0, express_1.Router)();
-routerJobType.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.jobTypeRouter = (0, express_1.Router)();
+exports.jobTypeRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, jobTypeRepository_1.createJobType)(req, res);
         return res.status(200).json(result);
@@ -21,7 +22,7 @@ routerJobType.post('', (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(500);
     }
 }));
-routerJobType.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.jobTypeRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, jobTypeRepository_1.getAllTypeJobs)(req, res);
         return res.status(200).json(result);
@@ -30,4 +31,4 @@ routerJobType.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return res.status(500);
     }
 }));
-exports.default = routerJobType;
+exports.default = exports.jobTypeRouter;

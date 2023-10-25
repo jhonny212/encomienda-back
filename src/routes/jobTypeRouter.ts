@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
 import {createJobType,getAllTypeJobs} from '../database/jobTypeRepository'
 
-const routerJobType = Router();
+export const jobTypeRouter = Router();
 
-routerJobType.post('', async (req:Request, res:Response) => {
+jobTypeRouter.post('', async (req:Request, res:Response) => {
     try {
         const result = await createJobType(req,res);
         return res.status(200).json(result);
@@ -12,7 +12,7 @@ routerJobType.post('', async (req:Request, res:Response) => {
     }
 })
 
-routerJobType.get('', async (req:Request, res:Response) => {
+jobTypeRouter.get('', async (req:Request, res:Response) => {
     try {
         const result = await getAllTypeJobs(req,res)
         return res.status(200).json(result)
@@ -21,4 +21,4 @@ routerJobType.get('', async (req:Request, res:Response) => {
     }
 })
 
-export default routerJobType;
+export default jobTypeRouter;

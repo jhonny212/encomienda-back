@@ -113,3 +113,13 @@ interface UserRequest {
     isActive: boolean;
   }
   
+  interface VehicleTypeRequest {
+    id?: number;
+    name: string;
+  }
+
+  interface VehicleRequest {
+    id?: number;
+    name: string;
+    vehicleTypeId: number;
+  }

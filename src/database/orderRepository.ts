@@ -9,8 +9,7 @@ export const getPackages = async (req: Request) => {
     return prisma.package.findMany(paginator(req))
 }
 
-export const getPackagesByOrder = async (req: Request) => {
-    const orderId = req.query.orderId
+export const getPackagesByOrder = async (req: Request,orderId: number) => {
     const whereClause = {
         where: {
             orderId
@@ -21,8 +20,7 @@ export const getPackagesByOrder = async (req: Request) => {
 
 
 //OrderCrud
-export const getOrderById =async (req: Request) => {
-    const id = req.query.id
+export const getOrderById =async (req: Request,id: number) => {
     const whereClause = {
         where: {
             id

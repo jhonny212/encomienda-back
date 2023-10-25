@@ -9,54 +9,58 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roadRouter = void 0;
+exports.vehicleRouter = void 0;
 const express_1 = require("express");
-const roadRepository_1 = require("../database/roadRepository");
-exports.roadRouter = (0, express_1.Router)();
-//Get routes
-exports.roadRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const vehicleRepository_1 = require("../database/vehicleRepository");
+exports.vehicleRouter = (0, express_1.Router)();
+exports.vehicleRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, roadRepository_1.getRoutes)(req);
+        const result = yield (0, vehicleRepository_1.getVehicles)(req);
         return res.status(200).json(result);
     }
     catch (error) {
         return res.status(500);
     }
 }));
-//Create route
-exports.roadRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vehicleRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, roadRepository_1.createRoute)(req);
+        const result = yield (0, vehicleRepository_1.createVehicle)(req);
         return res.status(200).json(result);
     }
     catch (error) {
         return res.status(500);
     }
 }));
-//Update route
-exports.roadRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vehicleRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, roadRepository_1.updateRoute)(req);
+        const result = yield (0, vehicleRepository_1.updateVehicle)(req);
         return res.status(200).json(result);
     }
     catch (error) {
         return res.status(500);
     }
 }));
-//Get cities
-exports.roadRouter.get('/city', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vehicleRouter.get('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, roadRepository_1.getCities)(req);
+        const result = yield (0, vehicleRepository_1.getVehicleTypes)(req);
         return res.status(200).json(result);
     }
     catch (error) {
         return res.status(500);
     }
 }));
-//Get departments
-exports.roadRouter.get('/department', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.vehicleRouter.post('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, roadRepository_1.getDepartments)(req);
+        const result = yield (0, vehicleRepository_1.createVehicleType)(req);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500);
+    }
+}));
+exports.vehicleRouter.put('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, vehicleRepository_1.updateVehicleType)(req);
         return res.status(200).json(result);
     }
     catch (error) {

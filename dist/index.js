@@ -8,8 +8,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const swagger_1 = __importDefault(require("./swagger"));
 const cors_1 = __importDefault(require("cors"));
 //ROUTERS
-const jobTypeRouter_1 = __importDefault(require("./src/routes/jobTypeRouter"));
-const jobRouter_1 = __importDefault(require("./src/routes/jobRouter"));
+const routes_1 = require("./src/routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -20,12 +19,17 @@ const allowedOrigins = ['http://localhost:3000'];
 const options = {
     origin: allowedOrigins
 };
-// Then pass these options to cors:
 app.use((0, cors_1.default)(options));
 app.use(express_1.default.json());
 app.use(swagger_1.default);
-app.use("/api/jobType", jobTypeRouter_1.default);
-app.use("/api/job", jobRouter_1.default);
+app.use("/api/jobType", routes_1.jobTypeRouter);
+app.use("/api/job", routes_1.jobRouter);
+app.use("/api/road", routes_1.roadRouter);
+app.use("/api/branch", routes_1.branchRouter);
+app.use("/api/path", routes_1.pathRouter);
+app.use("/api/package", routes_1.packageRouter);
+app.use("/api/order", routes_1.orderRouter);
+app.use("/api/vehicle", routes_1.vehicleRouter);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

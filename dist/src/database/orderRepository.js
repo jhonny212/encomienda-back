@@ -18,8 +18,7 @@ const getPackages = (req) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.package.findMany((0, paginator_1.paginator)(req));
 });
 exports.getPackages = getPackages;
-const getPackagesByOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    const orderId = req.query.orderId;
+const getPackagesByOrder = (req, orderId) => __awaiter(void 0, void 0, void 0, function* () {
     const whereClause = {
         where: {
             orderId
@@ -29,8 +28,7 @@ const getPackagesByOrder = (req) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.getPackagesByOrder = getPackagesByOrder;
 //OrderCrud
-const getOrderById = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.query.id;
+const getOrderById = (req, id) => __awaiter(void 0, void 0, void 0, function* () {
     const whereClause = {
         where: {
             id

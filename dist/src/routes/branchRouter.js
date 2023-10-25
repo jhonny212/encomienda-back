@@ -9,25 +9,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jobRouter = void 0;
+exports.branchRouter = void 0;
 const express_1 = require("express");
-const jobRepository_1 = require("../database/jobRepository");
-exports.jobRouter = (0, express_1.Router)();
-exports.jobRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const roadRepository_1 = require("../database/roadRepository");
+exports.branchRouter = (0, express_1.Router)();
+//Get Branches
+exports.branchRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, jobRepository_1.createJob)(req, res);
+        const result = yield (0, roadRepository_1.getBranches)(req);
         return res.status(200).json(result);
     }
-    catch (error) {
+    catch (err) {
         return res.status(500);
     }
 }));
-exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+//Create Branch
+exports.branchRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, jobRepository_1.getAllJobs)(req, res);
+        const result = yield (0, roadRepository_1.createBranch)(req);
         return res.status(200).json(result);
     }
-    catch (error) {
+    catch (err) {
+        return res.status(500);
+    }
+}));
+//Update Branch
+exports.branchRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, roadRepository_1.updateBranch)(req);
+        return res.status(200).json(result);
+    }
+    catch (err) {
         return res.status(500);
     }
 }));
