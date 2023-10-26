@@ -3,6 +3,8 @@ import {
     getBranches,getCities,getDepartments,getPaths,getRoutes,
     createBranch,createPath,createRoute,updateBranch,updateRoute,updatePath
 } from '../database/roadRepository'
+import { GetResponsePaginated } from '../utils/crud';
+import { prisma } from '../models/database';
 
 export const roadRouter = Router();
 
@@ -11,14 +13,14 @@ export const roadRouter = Router();
 roadRouter.get('', async (req:Request, res:Response) =>{
     try {
         const result = await getRoutes(req)
-        return res.status(200).json(result)
+        return res.status(200).json(await GetResponsePaginated(prisma.route,result))
     } catch (error) {
         return res.status(500)
     }
 })
 
 //Create route
-roadRouter.get('', async (req:Request, res:Response) =>{
+roadRouter.post('', async (req:Request, res:Response) =>{
     try {
         const result = await createRoute(req)
         return res.status(200).json(result)
@@ -28,7 +30,7 @@ roadRouter.get('', async (req:Request, res:Response) =>{
 })
 
 //Update route
-roadRouter.get('', async (req:Request, res:Response) =>{
+roadRouter.put('', async (req:Request, res:Response) =>{
     try {
         const result = await updateRoute(req)
         return res.status(200).json(result)
@@ -44,7 +46,7 @@ roadRouter.get('', async (req:Request, res:Response) =>{
 roadRouter.get('/city', async (req:Request, res:Response) =>{
     try {
         const result = await getCities(req)
-        return res.status(200).json(result)
+        return res.status(200).json(await GetResponsePaginated(prisma.city,result))
     } catch (error) {
         return res.status(500)
     }
@@ -54,7 +56,7 @@ roadRouter.get('/city', async (req:Request, res:Response) =>{
 roadRouter.get('/department', async (req:Request, res:Response) =>{
     try {
         const result = await getDepartments(req)
-        return res.status(200).json(result)
+        return res.status(200).json(await GetResponsePaginated(prisma.department,result))
     } catch (error) {
         return res.status(500)
     }

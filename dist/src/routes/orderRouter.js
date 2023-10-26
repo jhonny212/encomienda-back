@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderRouter = void 0;
 const express_1 = require("express");
 const orderRepository_1 = require("../database/orderRepository");
+const database_1 = require("../models/database");
+const crud_1 = require("../utils/crud");
 exports.orderRouter = (0, express_1.Router)();
 //Orders
 exports.orderRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,7 +29,7 @@ exports.orderRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
 exports.orderRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, orderRepository_1.getOrders)(req);
-        return res.status(200).json(result);
+        return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.order, result));
     }
     catch (error) {
         return res.status(500);

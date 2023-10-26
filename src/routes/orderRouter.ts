@@ -3,6 +3,8 @@ import {
     getOrderById,getOrders,
     crearOrder
 } from '../database/orderRepository'
+import { prisma } from '../models/database';
+import { GetResponsePaginated } from '../utils/crud';
 
 export const orderRouter = Router();
 
@@ -20,7 +22,7 @@ orderRouter.get('/:id',async (req:Request, res: Response) => {
 orderRouter.get('',async (req:Request, res: Response) => {
     try {
         const result = await getOrders(req)
-        return res.status(200).json(result)
+        return res.status(200).json(await GetResponsePaginated(prisma.order,result))
     } catch (error) {
         return res.status(500)
     }

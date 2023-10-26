@@ -26,7 +26,7 @@ export const getOrderById =async (req: Request,id: number) => {
             id
         }
     }
-    return prisma.order.findMany({
+    return prisma.order.findFirst({
         ...paginator(req,whereClause),
         include: {
             brachOffice: true,

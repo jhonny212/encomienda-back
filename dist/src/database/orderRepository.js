@@ -34,7 +34,7 @@ const getOrderById = (req, id) => __awaiter(void 0, void 0, void 0, function* ()
             id
         }
     };
-    return database_1.prisma.order.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, whereClause)), { include: {
+    return database_1.prisma.order.findFirst(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, whereClause)), { include: {
             brachOffice: true,
             orderStatus: true,
             Package: true,

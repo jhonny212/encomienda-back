@@ -12,11 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.vehicleRouter = void 0;
 const express_1 = require("express");
 const vehicleRepository_1 = require("../database/vehicleRepository");
+const database_1 = require("../models/database");
+const crud_1 = require("../utils/crud");
 exports.vehicleRouter = (0, express_1.Router)();
 exports.vehicleRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, vehicleRepository_1.getVehicles)(req);
-        return res.status(200).json(result);
+        return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.vehicle, result));
     }
     catch (error) {
         return res.status(500);
@@ -43,7 +45,7 @@ exports.vehicleRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.vehicleRouter.get('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, vehicleRepository_1.getVehicleTypes)(req);
-        return res.status(200).json(result);
+        return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.vehicleType, result));
     }
     catch (error) {
         return res.status(500);

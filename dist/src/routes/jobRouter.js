@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.jobRouter = void 0;
 const express_1 = require("express");
 const jobRepository_1 = require("../database/jobRepository");
+const database_1 = require("../models/database");
+const crud_1 = require("../utils/crud");
 exports.jobRouter = (0, express_1.Router)();
 exports.jobRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -25,7 +27,7 @@ exports.jobRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, jobRepository_1.getAllJobs)(req, res);
-        return res.status(200).json(result);
+        return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.job, result));
     }
     catch (error) {
         return res.status(500);

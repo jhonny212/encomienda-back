@@ -14,7 +14,6 @@ const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, paginator_1.paginator)(req);
-    console.log(options);
     return database_1.prisma.job.findMany(Object.assign(Object.assign({}, options), { include: {
             jobType: true
         } }));

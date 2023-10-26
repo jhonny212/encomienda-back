@@ -3,6 +3,8 @@ import {
     getBranches,
     createBranch,updateBranch
 } from '../database/roadRepository'
+import { GetResponsePaginated } from '../utils/crud';
+import { prisma } from '../models/database';
 
 export const branchRouter = Router();
 
@@ -10,7 +12,7 @@ export const branchRouter = Router();
 branchRouter.get('', async (req:Request, res:Response) => {
     try{
         const result = await getBranches(req)
-        return res.status(200).json(result)
+        return res.status(200).json(await GetResponsePaginated(prisma.branchOffice,result))
     }catch(err){
         return res.status(500)
     }

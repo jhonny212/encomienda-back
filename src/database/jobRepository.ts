@@ -6,8 +6,6 @@ import { paginator } from '../utils/paginator';
 
 export const getAllJobs = async (req: Request, res: Response) => {
     const options = paginator(req)
-    console.log(options);
-    
     return prisma.job.findMany({
         ...options,
         include: {
