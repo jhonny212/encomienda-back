@@ -472,6 +472,164 @@ paths:
         '400':
           description: Solicitud incorrecta.
 
+  /api/vehicle:
+    get:
+      summary: Lista de vehiculos
+      description: Lista de vehiculos
+      tags:
+        - Vehicle
+      responses:
+        "200":
+          description: Lista de vehiculos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VehicleRequest"
+    post:
+      summary: Registrar un nuevo vehiculo
+      description: Registrar un nuevo vehiculo
+      tags:
+        - Vehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleRequest'
+      responses:
+        '201':
+          description: Vehiculo creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleRequest'
+
+  /api/vehicle/type:
+    get:
+      summary: Lista de tipos de vehiculos
+      description: Lista de tipos de vehiculos
+      tags:
+        - Vehicle
+      responses:
+        "200":
+          description: Lista de tipos de vehiculos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VehicleTypeRequest"
+    post:
+      summary: Registrar un nuevo tipo de vehiculo
+      description: Registrar un nuevo tipo de vehiculo
+      tags:
+        - Vehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleTypeRequest'
+      responses:
+        '201':
+          description: Vehiculo creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleTypeRequest'
+
+  /api/cost/{branchOffice}:
+    get:
+      summary: Costos filtrada por Sucursal
+      description: costos filtrada por Sucursal
+      tags:
+        - Cost
+      parameters:
+        - name: branchOffice
+          in: path
+          description: Sucursal
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Costo filtrada por sucursal
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CostRequest"
+  /api/cost:
+    get:
+      summary: Lista de costos
+      description: Lista de costos
+      tags:
+        - Cost
+      responses:
+        "200":
+          description: Lista de costos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CostRequest"
+    post:
+      summary: Registrar un nuevo costo
+      description: Registrar un nuevo costo
+      tags:
+        - Cost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostRequest'
+      responses:
+        '201':
+          description: Costo registrado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostRequest'
+
+  /api/cost/type:
+    get:
+      summary: Lista de tipos de costo
+      description: Lista de tipos de costo
+      tags:
+        - Cost
+      responses:
+        "200":
+          description: Lista de tipos de costo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CostTypeRequest"
+    post:
+      summary: Registrar un nuevo tipo de costo
+      description: Registrar un nuevo tipo de costo
+      tags:
+        - Cost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostTypeRequest'
+      responses:
+        '201':
+          description: Costo creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostTypeRequest'
+
 components:
   schemas:
     UserRequest:
@@ -590,6 +748,8 @@ components:
           type: string
         isActive:
           type: boolean
+        capacity:
+          type: number
         city:
           $ref: '#/components/schemas/CityRequest'
 
@@ -655,5 +815,31 @@ components:
           type: number
         name:
           type: string
+        description:
+          type: string
+        branchoffice:
+          $ref: '#/components/schemas/BranchOfficeRequest'
         vehicleType:
           $ref: '#/components/schemas/VehicleTypeRequest'
+    CostTypeRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+    CostRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        description:
+          type: string
+        estimatedCost:
+          type: number
+        finalCost:
+          type: number
+        costType:
+          $ref: '#/components/schemas/CostTypeRequest'
+        branchoffice:
+          $ref: '#/components/schemas/BranchOfficeRequest'

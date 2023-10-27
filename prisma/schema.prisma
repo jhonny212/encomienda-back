@@ -110,13 +110,33 @@ model BranchOffice {
     Employee Employee[]
 
     //relations
-    Route1 Route[] @relation("ref_route1")
-    Route2 Route[] @relation("ref_route2")
-    Path1  Path[]  @relation("ref_route3")
-    Path2  Path[]  @relation("ref_route4")
-    city   City    @relation(fields: [cityId], references: [id])
-    cityId Int
-    Order  Order[]
+    Route1   Route[]   @relation("ref_route1")
+    Route2   Route[]   @relation("ref_route2")
+    Path1    Path[]    @relation("ref_route3")
+    Path2    Path[]    @relation("ref_route4")
+    city     City      @relation(fields: [cityId], references: [id])
+    cityId   Int
+    Order    Order[]
+    capacity Int
+    Vehicle  Vehicle[]
+    Cost     Cost[]
+}
+
+model CostType {
+    id   Int    @id @default(autoincrement())
+    name String
+    Cost Cost[]
+}
+
+model Cost {
+    id             Int          @id @default(autoincrement())
+    costTypeId     Int
+    costType       CostType     @relation(fields: [costTypeId], references: [id])
+    description    String
+    estimatedCost  Float
+    finalCost      Float
+    branchOfficeId Int
+    branchOffice   BranchOffice @relation(fields: [branchOfficeId], references: [id])
 }
 
 model City {
@@ -168,10 +188,13 @@ model VehicleType {
 }
 
 model Vehicle {
-    id            Int    @id @default(autoincrement())
-    vehicleTypeId Int
-    name          String
+    id             Int    @id @default(autoincrement())
+    vehicleTypeId  Int
+    name           String
+    description    String
+    branchOfficeId Int
 
     // FK
-    vehicleType VehicleType @relation(fields: [vehicleTypeId], references: [id])
+    vehicleType  VehicleType  @relation(fields: [vehicleTypeId], references: [id])
+    branchOffice BranchOffice @relation(fields: [branchOfficeId], references: [id])
 }

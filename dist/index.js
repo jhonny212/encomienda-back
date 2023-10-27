@@ -30,6 +30,7 @@ app.use("/api/path", routes_1.pathRouter);
 app.use("/api/package", routes_1.packageRouter);
 app.use("/api/order", routes_1.orderRouter);
 app.use("/api/vehicle", routes_1.vehicleRouter);
+app.use("/api/cost", routes_1.costRouter);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

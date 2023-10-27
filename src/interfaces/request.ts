@@ -82,6 +82,7 @@ interface UserRequest {
     address: string;
     isActive: boolean;
     cityId: number;
+    capacity: number
   }
   
   interface CityRequest {
@@ -122,4 +123,20 @@ interface UserRequest {
     id?: number;
     name: string;
     vehicleTypeId: number;
+    description: string;
+    branchOfficeId: number;
+  }
+
+  interface CostTypeRequest {
+    id?: number;
+    name: string;
+  }
+
+  interface CostRequest{
+    id?: number;
+    costTypeId: number;
+    description: string;
+    estimatedCost: number;
+    finalCost: number;
+    branchOfficeId: number;
   }

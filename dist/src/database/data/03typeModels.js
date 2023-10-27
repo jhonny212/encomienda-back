@@ -9,18 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetResponsePaginated = exports.updateCleaner = void 0;
-const updateCleaner = (data, key) => {
-    const pk = data[key];
-    delete data[key];
-    return [pk, data];
-};
-exports.updateCleaner = updateCleaner;
-const GetResponsePaginated = (entity, data) => __awaiter(void 0, void 0, void 0, function* () {
-    const totalSize = yield entity.count();
-    return {
-        data,
-        totalSize
-    };
-});
-exports.GetResponsePaginated = GetResponsePaginated;
+const database_1 = require("../../models/database");
+function seedOrderStatus() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const orderStatusData = [
+            { description: 'Se ha creado la orden con los paquetes', name: 'Orden Generada' },
+            { description: 'Se ha cancelado el envio de la orden', name: 'Orden Cancelada' },
+            { description: 'La orden se encuentra en ruta', name: 'Orden Enviada' },
+            { description: 'La orden ha sido entregada', name: 'Orden Entregada' },
+        ];
+        yield database_1.prisma.orderStatus.createMany({
+            data: orderStatusData
+        });
+        yield database_1.prisma.$disconnect();
+    });
+}
+seedOrderStatus();
