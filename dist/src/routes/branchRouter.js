@@ -38,7 +38,9 @@ exports.branchRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fu
 //Update Branch
 exports.branchRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("ENTRO ACA");
         const result = yield (0, roadRepository_1.updateBranch)(req);
+        console.log(result);
         return res.status(200).json(result);
     }
     catch (err) {

@@ -79,6 +79,7 @@ exports.createRoute = createRoute;
 const updateBranch = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const [pk, newdata] = (0, crud_1.updateCleaner)(req, "id");
     const data = newdata;
+    console.log(data);
     return database_1.prisma.branchOffice.update({
         data,
         where: {

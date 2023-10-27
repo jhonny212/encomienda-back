@@ -88,6 +88,8 @@ export const createRoute = async  (req: Request) => {
 export const updateBranch = async  (req: Request) =>{
     const [pk, newdata ]= updateCleaner(req,"id")
     const data = newdata as BranchOfficeRequest
+    console.log(data);
+    
     return prisma.branchOffice.update({
         data,
         where: {

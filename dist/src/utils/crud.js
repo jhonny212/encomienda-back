@@ -10,7 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetResponsePaginated = exports.updateCleaner = void 0;
-const updateCleaner = (data, key) => {
+const updateCleaner = (req, key) => {
+    const data = req.body;
     const pk = data[key];
     delete data[key];
     return [pk, data];

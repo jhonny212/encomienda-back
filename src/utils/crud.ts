@@ -1,4 +1,6 @@
-export const updateCleaner = (data: any, key: string) => {
+import { Request, Response } from 'express';
+export const updateCleaner = (req:Request, key: string) => {
+    const data = req.body
     const pk = data[key];
     delete data[key];
     return [pk,data]

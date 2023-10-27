@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import {prisma} from '../models/database'
 import {paginator} from '../utils/paginator';
-import { updateCleaner } from '../utils/crud';
 import {getRoutes} from './roadRepository'
 
 //Package crud
@@ -85,7 +84,7 @@ export const crearOrder = async (req:Request) => {
     const orderInstance = await prisma.order.create({
         data: {
             ...order,
-            orderStatusId: 0,
+            orderStatusId: OrderStatus.PENDING,
             routeId: route.id,
             total,
             cost

@@ -75,7 +75,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
      */
     delete order["id"];
     const orderInstance = yield database_1.prisma.order.create({
-        data: Object.assign(Object.assign({}, order), { orderStatusId: 0, routeId: route.id, total,
+        data: Object.assign(Object.assign({}, order), { orderStatusId: OrderStatus.PENDING, routeId: route.id, total,
             cost })
     });
     /**
