@@ -21,6 +21,7 @@ exports.costRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.cost, result));
     }
     catch (error) {
+        return res.status(500);
     }
 }));
 exports.costRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

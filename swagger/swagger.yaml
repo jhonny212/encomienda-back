@@ -841,5 +841,5 @@ components:
           type: number
         costType:
           $ref: '#/components/schemas/CostTypeRequest'
-        branchoffice:
+        branchOffice:
           $ref: '#/components/schemas/BranchOfficeRequest'
