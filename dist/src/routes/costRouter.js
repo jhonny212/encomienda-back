@@ -21,7 +21,7 @@ exports.costRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.cost, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.costRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,7 +30,7 @@ exports.costRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, func
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.costRouter.get('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -39,7 +39,7 @@ exports.costRouter.get('/type', (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.costType, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.costRouter.post('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

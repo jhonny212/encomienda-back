@@ -22,17 +22,19 @@ exports.roadRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.route, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 //Create route
 exports.roadRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.body);
         const result = yield (0, roadRepository_1.createRoute)(req);
+        console.log(result);
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 //Update route
@@ -42,7 +44,7 @@ exports.roadRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 //Get cities
@@ -52,7 +54,7 @@ exports.roadRouter.get('/city', (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.city, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 //Get departments
@@ -62,6 +64,6 @@ exports.roadRouter.get('/department', (req, res) => __awaiter(void 0, void 0, vo
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.department, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));

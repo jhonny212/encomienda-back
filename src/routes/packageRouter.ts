@@ -14,7 +14,7 @@ packageRouter.get('/:order',async (req:Request, res: Response) => {
         const result = await getPackagesByOrder(req,id)
         return res.status(200).json(await GetResponsePaginated(prisma.package,result))
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -23,6 +23,6 @@ packageRouter.get('',async (req:Request, res: Response) => {
         const result = await getPackages(req)
         return res.status(200).json(await GetResponsePaginated(prisma.package,result))
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })

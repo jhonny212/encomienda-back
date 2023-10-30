@@ -37,7 +37,8 @@ export const getPaths= async  (req: Request, filters: {} = {})=>{
         ...paginator(req,filters),
         include: {
             origin: true,
-            destination: true
+            destination: true,
+            route: true,
         }
     })
 }

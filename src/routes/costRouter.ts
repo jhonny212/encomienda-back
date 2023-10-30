@@ -12,7 +12,7 @@ costRouter.get('',async (req:Request,res:Response) => {
         const result = await getAlllCost(req)
         return res.status(200).json(await GetResponsePaginated(prisma.cost,result));
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -21,7 +21,7 @@ costRouter.post('',async (req:Request,res:Response) => {
         const result = await createCost(req)
         return res.status(200).json(result);
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -30,7 +30,7 @@ costRouter.get('/type',async (req:Request,res:Response) => {
         const result = await getAlllCostType(req)
         return res.status(200).json(await GetResponsePaginated(prisma.costType,result));
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 

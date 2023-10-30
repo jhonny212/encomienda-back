@@ -51,7 +51,7 @@ interface UserRequest {
     phone: string;
     description: string;
     orderStatusId?: number | null;
-    packages: [PackageRequest]
+    packages?: [PackageRequest]
     routeId?: number
   }
   

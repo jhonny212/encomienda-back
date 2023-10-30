@@ -22,7 +22,7 @@ exports.pathRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.path, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 //Create path
@@ -32,7 +32,7 @@ exports.pathRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, func
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 //Update route
@@ -42,6 +42,6 @@ exports.pathRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));

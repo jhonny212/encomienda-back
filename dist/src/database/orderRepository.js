@@ -52,6 +52,7 @@ const getOrders = (req) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getOrders = getOrders;
 const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const order = req.body;
     /**
      * Get route for values to calculate prices
@@ -62,30 +63,32 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     /**
      * Set cost and price for each package
      */
-    let packages = order.packages.map((p) => {
+    let packages = (_a = order.packages) === null || _a === void 0 ? void 0 : _a.map((p) => {
         return Object.assign(Object.assign({}, p), { cost: p.weight * route.costWeight, total: p.weight * route.priceWeight });
     });
     /**
      * Get total cost and total price
      */
-    const total = packages.reduce((prev, curr) => prev + (curr.total || 0), 0);
-    const cost = packages.reduce((prev, curr) => prev + (curr.cost || 0), 0);
+    const total = packages === null || packages === void 0 ? void 0 : packages.reduce((prev, curr) => prev + (curr.total || 0), 0);
+    const cost = packages === null || packages === void 0 ? void 0 : packages.reduce((prev, curr) => prev + (curr.cost || 0), 0);
     /**
      * Create order
      */
     delete order["id"];
+    delete order["packages"];
+    const orderData = Object.assign(Object.assign({}, order), { orderStatusId: 1, routeId: route.id, total: total || 0, cost: cost || 0 });
     const orderInstance = yield database_1.prisma.order.create({
-        data: Object.assign(Object.assign({}, order), { orderStatusId: OrderStatus.PENDING, routeId: route.id, total,
-            cost })
+        data: orderData
     });
     /**
      * Create packages
      */
-    let data = packages.map((p) => {
+    let data = packages === null || packages === void 0 ? void 0 : packages.map((p) => {
         return Object.assign(Object.assign({}, p), { orderId: orderInstance.id });
     });
+    console.log(data);
     return database_1.prisma.package.createMany({
-        data
+        data: data || []
     });
 });
 exports.crearOrder = crearOrder;

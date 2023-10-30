@@ -23,7 +23,7 @@ exports.packageRouter.get('/:order', (req, res) => __awaiter(void 0, void 0, voi
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.package, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.packageRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,6 +32,6 @@ exports.packageRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, fu
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.package, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));

@@ -21,7 +21,7 @@ exports.vehicleRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, fu
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.vehicle, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.vehicleRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,7 +30,7 @@ exports.vehicleRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, f
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.vehicleRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -39,7 +39,7 @@ exports.vehicleRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, fu
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.vehicleRouter.get('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,7 +48,7 @@ exports.vehicleRouter.get('/type', (req, res) => __awaiter(void 0, void 0, void 
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.vehicleType, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.vehicleRouter.post('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,7 +57,7 @@ exports.vehicleRouter.post('/type', (req, res) => __awaiter(void 0, void 0, void
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.vehicleRouter.put('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -66,6 +66,6 @@ exports.vehicleRouter.put('/type', (req, res) => __awaiter(void 0, void 0, void 
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));

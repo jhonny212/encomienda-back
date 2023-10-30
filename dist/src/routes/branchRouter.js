@@ -22,7 +22,7 @@ exports.branchRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.branchOffice, result));
     }
     catch (err) {
-        return res.status(500);
+        return res.status(500).json(err);
     }
 }));
 //Create Branch
@@ -32,7 +32,7 @@ exports.branchRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fu
         return res.status(200).json(result);
     }
     catch (err) {
-        return res.status(500);
+        return res.status(500).json(err);
     }
 }));
 //Update Branch
@@ -44,6 +44,6 @@ exports.branchRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(result);
     }
     catch (err) {
-        return res.status(500);
+        return res.status(500).json(err);
     }
 }));

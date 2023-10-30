@@ -13,7 +13,7 @@ pathRouter.get('', async (req:Request, res:Response) =>{
         const result = await getPaths(req)
         return res.status(200).json(await GetResponsePaginated(prisma.path,result))
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -23,7 +23,7 @@ pathRouter.post('', async (req:Request, res:Response) =>{
         const result = await createPath(req)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -33,6 +33,6 @@ pathRouter.put('', async (req:Request, res:Response) =>{
         const result = await updatePath(req)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })

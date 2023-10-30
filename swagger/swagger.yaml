@@ -18,14 +18,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/JobTypeRequest'
+              $ref: "#components/schemas/JobTypeRequest"
       responses:
-        '200':    # status code
+        "200": # status code
           description: Model Job Type
           content:
             application/json:
-              schema: 
-                $ref: '#components/schemas/JobTypeRequest'
+              schema:
+                $ref: "#components/schemas/JobTypeRequest"
     get:
       summary: Get all job types
       description: Get all job types
@@ -45,15 +45,15 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Array of Job Types
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
-                  $ref: '#components/schemas/JobTypeRequest'
-  
+                  $ref: "#components/schemas/JobTypeRequest"
+
   /api/job:
     post:
       summary: Create a new job
@@ -333,15 +333,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PathRequest'
+              $ref: "#/components/schemas/PathRequest"
       responses:
-        '201':
+        "201":
           description: Path creado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PathRequest'
-        '400':
+                $ref: "#/components/schemas/PathRequest"
+        "400":
           description: Solicitud incorrecta.
     put:
       summary: Actualizar un path existente
@@ -353,17 +353,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PathRequest'
+              $ref: "#/components/schemas/PathRequest"
       responses:
-        '200':
+        "200":
           description: Path actualizado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PathRequest'
-        '400':
+                $ref: "#/components/schemas/PathRequest"
+        "400":
           description: Solicitud incorrecta.
-        '404':
+        "404":
           description: Path no encontrado.
 
   /api/package/{order}:
@@ -433,7 +433,7 @@ paths:
                   $ref: "#/components/schemas/OrderRequest"
         "404":
           description: No se encontraron paquetes
-  
+
   /api/order:
     get:
       summary: Lista de ordenes
@@ -461,15 +461,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderRequest'
+              $ref: "#/components/schemas/OrderRequest"
       responses:
-        '201':
+        "201":
           description: Path creado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrderRequest'
-        '400':
+                $ref: "#/components/schemas/OrderRequest"
+        "400":
           description: Solicitud incorrecta.
 
   /api/vehicle:
@@ -497,14 +497,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VehicleRequest'
+              $ref: "#/components/schemas/VehicleRequest"
       responses:
-        '201':
+        "201":
           description: Vehiculo creado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VehicleRequest'
+                $ref: "#/components/schemas/VehicleRequest"
 
   /api/vehicle/type:
     get:
@@ -531,14 +531,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VehicleTypeRequest'
+              $ref: "#/components/schemas/VehicleTypeRequest"
       responses:
-        '201':
+        "201":
           description: Vehiculo creado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VehicleTypeRequest'
+                $ref: "#/components/schemas/VehicleTypeRequest"
 
   /api/cost/{branchOffice}:
     get:
@@ -587,14 +587,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CostRequest'
+              $ref: "#/components/schemas/CostRequest"
       responses:
-        '201':
+        "201":
           description: Costo registrado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CostRequest'
+                $ref: "#/components/schemas/CostRequest"
 
   /api/cost/type:
     get:
@@ -621,14 +621,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CostTypeRequest'
+              $ref: "#/components/schemas/CostTypeRequest"
       responses:
-        '201':
+        "201":
           description: Costo creado con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CostTypeRequest'
+                $ref: "#/components/schemas/CostTypeRequest"
 
 components:
   schemas:
@@ -652,11 +652,11 @@ components:
         name:
           type: string
         user:
-          $ref: '#/components/schemas/UserRequest'
+          $ref: "#/components/schemas/UserRequest"
         job:
-          $ref: '#/components/schemas/JobRequest'
+          $ref: "#/components/schemas/JobRequest"
         branchOffice:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"
         salary:
           type: number
         isActive:
@@ -682,7 +682,7 @@ components:
         description:
           type: string
         jobType:
-          $ref: '#/components/schemas/JobTypeRequest'
+          $ref: "#/components/schemas/JobTypeRequest"
         baseSalary:
           type: number
 
@@ -716,8 +716,12 @@ components:
           type: string
         description:
           type: string
+        brachOffice:
+          $ref: "#/components/schemas/BrachOfficeRequest"
+        route:
+          $ref: "#/components/schemas/BrachOfficeRequest"
         orderStatus:
-          $ref: '#/components/schemas/OrderStatusRequest'
+          $ref: "#/components/schemas/OrderStatusRequest"
 
     PackageRequest:
       type: object
@@ -732,12 +736,12 @@ components:
           type: number
         total:
           type: number
-        hight:
+        height:
           type: number
         widht:
           type: number
         order:
-          $ref: '#/components/schemas/OrderRequest'
+          $ref: "#/components/schemas/OrderRequest"
 
     BranchOfficeRequest:
       type: object
@@ -751,7 +755,7 @@ components:
         capacity:
           type: number
         city:
-          $ref: '#/components/schemas/CityRequest'
+          $ref: "#/components/schemas/CityRequest"
 
     CityRequest:
       type: object
@@ -761,7 +765,7 @@ components:
         name:
           type: string
         department:
-          $ref: '#/components/schemas/DepartmentRequest'
+          $ref: "#/components/schemas/DepartmentRequest"
 
     DepartmentRequest:
       type: object
@@ -779,11 +783,11 @@ components:
         name:
           type: string
         route:
-          $ref: '#/components/schemas/RouteRequest'
+          $ref: "#/components/schemas/RouteRequest"
         origin:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"
         destination:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"
 
     RouteRequest:
       type: object
@@ -794,13 +798,15 @@ components:
           type: string
         priceWeight:
           type: number
+        costWeight:
+          type: number
         origin:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"
         destination:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"
         isActive:
           type: boolean
-    
+
     VehicleTypeRequest:
       type: object
       properties:
@@ -818,9 +824,9 @@ components:
         description:
           type: string
         branchoffice:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"
         vehicleType:
-          $ref: '#/components/schemas/VehicleTypeRequest'
+          $ref: "#/components/schemas/VehicleTypeRequest"
     CostTypeRequest:
       type: object
       properties:
@@ -840,6 +846,6 @@ components:
         finalCost:
           type: number
         costType:
-          $ref: '#/components/schemas/CostTypeRequest'
+          $ref: "#/components/schemas/CostTypeRequest"
         branchOffice:
-          $ref: '#/components/schemas/BranchOfficeRequest'
+          $ref: "#/components/schemas/BranchOfficeRequest"

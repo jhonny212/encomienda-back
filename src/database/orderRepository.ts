@@ -63,7 +63,7 @@ export const crearOrder = async (req:Request) => {
     /**
      * Set cost and price for each package
      */
-    let packages = order.packages.map((p)=>{
+    let packages = order.packages?.map((p)=>{
         return {
             ...p,
             cost: p.weight * route.costWeight,
@@ -74,34 +74,40 @@ export const crearOrder = async (req:Request) => {
     /**
      * Get total cost and total price
      */
-    const total = packages.reduce((prev, curr:PackageRequest) => prev + (curr.total || 0), 0);
-    const cost = packages.reduce((prev, curr:PackageRequest) => prev + (curr.cost || 0), 0);
+    const total = packages?.reduce((prev, curr:PackageRequest) => prev + (curr.total || 0), 0);
+    const cost = packages?.reduce((prev, curr:PackageRequest) => prev + (curr.cost || 0), 0);
 
     /**
      * Create order
      */
     delete order["id"]
+    delete order["packages"]
+    const orderData  = {
+        ...order,
+        orderStatusId: 1,
+        routeId: route.id,
+        total: total || 0,
+        cost: cost || 0,
+    }
+    
     const orderInstance = await prisma.order.create({
-        data: {
-            ...order,
-            orderStatusId: OrderStatus.PENDING,
-            routeId: route.id,
-            total,
-            cost
-        }
+        data: orderData
     })
 
     /**
      * Create packages
      */
-    let data = packages.map((p)=>{
+    let data = packages?.map((p)=>{
         return  {
             ...p,
             orderId: orderInstance.id
         } as any
     })
+
+    console.log(data);
+    
     return prisma.package.createMany({
-        data
+        data: data || []
     })
 }
 

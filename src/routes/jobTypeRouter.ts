@@ -10,7 +10,7 @@ jobTypeRouter.post('', async (req:Request, res:Response) => {
         const result = await createJobType(req,res);
         return res.status(200).json(result);
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -19,7 +19,7 @@ jobTypeRouter.get('', async (req:Request, res:Response) => {
         const result = await getAllTypeJobs(req,res)
         return res.status(200).json(await GetResponsePaginated(prisma.jobType,result))
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 

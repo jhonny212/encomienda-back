@@ -15,7 +15,7 @@ orderRouter.get('/:id',async (req:Request, res: Response) => {
         const result = await getOrderById(req,id)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -24,7 +24,7 @@ orderRouter.get('',async (req:Request, res: Response) => {
         const result = await getOrders(req)
         return res.status(200).json(await GetResponsePaginated(prisma.order,result))
     } catch (error) {
-        return res.status(500)
+        return res.status(500).json(error)
     }
 })
 
@@ -33,7 +33,9 @@ orderRouter.post('', async (req:Request, res: Response) => {
         const result = await crearOrder(req)
         return res.status(200).json(result)
     } catch (error) {
-        return res.status(500)
+        console.log(error);
+        
+        return res.status(500).json(error)
     }
 })
 

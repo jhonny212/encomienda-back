@@ -38,7 +38,8 @@ exports.getDepartments = getDepartments;
 const getPaths = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.path.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
             origin: true,
-            destination: true
+            destination: true,
+            route: true,
         } }));
 });
 exports.getPaths = getPaths;

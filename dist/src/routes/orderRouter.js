@@ -23,7 +23,7 @@ exports.orderRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.orderRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +32,7 @@ exports.orderRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, func
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.order, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.orderRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,6 +41,7 @@ exports.orderRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        console.log(error);
+        return res.status(500).json(error);
     }
 }));

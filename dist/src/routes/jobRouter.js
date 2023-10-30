@@ -21,7 +21,7 @@ exports.jobRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(result);
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));
 exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,6 +30,6 @@ exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, functi
         return res.status(200).json(yield (0, crud_1.GetResponsePaginated)(database_1.prisma.job, result));
     }
     catch (error) {
-        return res.status(500);
+        return res.status(500).json(error);
     }
 }));

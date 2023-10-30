@@ -14,7 +14,7 @@ branchRouter.get('', async (req:Request, res:Response) => {
         const result = await getBranches(req)
         return res.status(200).json(await GetResponsePaginated(prisma.branchOffice,result))
     }catch(err){
-        return res.status(500)
+        return res.status(500).json(err)
     }
 })
 
@@ -24,7 +24,7 @@ branchRouter.post('', async (req:Request, res:Response) => {
         const result = await createBranch(req)
         return res.status(200).json(result)
     }catch(err){
-        return res.status(500)
+        return res.status(500).json(err)
     }
 })
 
@@ -38,6 +38,6 @@ branchRouter.put('', async (req:Request, res:Response) => {
         
         return res.status(200).json(result)
     }catch(err){
-        return res.status(500)
+        return res.status(500).json(err)
     }
 })
