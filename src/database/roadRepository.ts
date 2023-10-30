@@ -45,7 +45,10 @@ export const getPaths= async  (req: Request, filters: {} = {})=>{
 
 export const getRoutes= async (req: Request, filters: {} = {})=>{
     return prisma.route.findMany({
-        ...paginator(req,filters),
+        ...paginator(req),
+        where: {
+          ...filters  
+        },
         include: {
             origin: true,
             destination: true

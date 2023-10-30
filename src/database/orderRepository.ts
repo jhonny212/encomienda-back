@@ -50,14 +50,12 @@ export const getOrders = async (req: Request) => {
 
 export const crearOrder = async (req:Request) => {
     const order = req.body as OrderRequest
-
+    
     /**
      * Get route for values to calculate prices
      */
     const route = (
-        await getRoutes(req,{
-            where: {id: order.routeId}
-        })
+        await getRoutes(req,{id: order.routeId})
     )[0]
 
     /**

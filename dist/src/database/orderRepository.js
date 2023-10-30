@@ -57,9 +57,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     /**
      * Get route for values to calculate prices
      */
-    const route = (yield (0, roadRepository_1.getRoutes)(req, {
-        where: { id: order.routeId }
-    }))[0];
+    const route = (yield (0, roadRepository_1.getRoutes)(req, { id: order.routeId }))[0];
     /**
      * Set cost and price for each package
      */

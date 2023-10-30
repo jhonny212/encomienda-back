@@ -44,7 +44,7 @@ const getPaths = (req, filters = {}) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.getPaths = getPaths;
 const getRoutes = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.route.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
+    return database_1.prisma.route.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: Object.assign({}, filters), include: {
             origin: true,
             destination: true
         } }));
