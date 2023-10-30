@@ -30,7 +30,8 @@ exports.updateVehicleType = updateVehicleType;
 //CRUD Vehicle
 const getVehicles = (req) => {
     return database_1.prisma.vehicle.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
-            vehicleType: true
+            vehicleType: true,
+            branchOffice: true
         } }));
 };
 exports.getVehicles = getVehicles;

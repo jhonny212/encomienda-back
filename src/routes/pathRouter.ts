@@ -8,7 +8,7 @@ import { GetResponsePaginated } from '../utils/crud';
 export const pathRouter = Router();
 
 //Get path
-pathRouter.get('/path', async (req:Request, res:Response) =>{
+pathRouter.get('', async (req:Request, res:Response) =>{
     try {
         const result = await getPaths(req)
         return res.status(200).json(await GetResponsePaginated(prisma.path,result))
@@ -18,7 +18,7 @@ pathRouter.get('/path', async (req:Request, res:Response) =>{
 })
 
 //Create path
-pathRouter.post('/path', async (req:Request, res:Response) =>{
+pathRouter.post('', async (req:Request, res:Response) =>{
     try {
         const result = await createPath(req)
         return res.status(200).json(result)
@@ -28,7 +28,7 @@ pathRouter.post('/path', async (req:Request, res:Response) =>{
 })
 
 //Update route
-pathRouter.put('/path', async (req:Request, res:Response) =>{
+pathRouter.put('', async (req:Request, res:Response) =>{
     try {
         const result = await updatePath(req)
         return res.status(200).json(result)

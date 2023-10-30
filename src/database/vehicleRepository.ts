@@ -36,7 +36,8 @@ export const getVehicles = (req: Request)=>{
     return prisma.vehicle.findMany({
         ...paginator(req),
         include: {
-            vehicleType: true
+            vehicleType: true,
+            branchOffice: true
         }
     })
 }
