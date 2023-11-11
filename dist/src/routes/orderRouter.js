@@ -45,3 +45,4 @@ exports.orderRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(500).json(error);
     }
 }));
+//# sourceMappingURL=orderRouter.js.map

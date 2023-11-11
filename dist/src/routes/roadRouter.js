@@ -67,3 +67,4 @@ exports.roadRouter.get('/department', (req, res) => __awaiter(void 0, void 0, vo
         return res.status(500).json(error);
     }
 }));
+//# sourceMappingURL=roadRouter.js.map

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {prisma} from '../models/database'
 import {paginator} from '../utils/paginator';
 import { updateCleaner } from '../utils/crud';
+import {getJobById} from '../database/jobRepository'
 
 //Employee CRUD
 export const getEmployees =async (req: Request) => {
@@ -16,9 +17,19 @@ export const getEmployees =async (req: Request) => {
 
 export const createEmployee = async (req:Request) => {
     const data = req.body as EmployeeRequest
-    return prisma.employee.create({
-        data
-    })
+    const salary = data.salary || (await getJobById(data.jobId))?.baseSalary
+    if(salary){
+        return prisma.employee.create({
+            data: {
+                ...data,
+                salary: salary
+            }
+            }
+        )
+    }else{
+        return {}
+    }
+    
 }
 
 export const updateEmployee = async (req:Request) => {
@@ -57,5 +68,24 @@ export const updateUser = async (req:Request) => {
             id: pk
         }
     })
+}
+
+export const login = async (req:Request) => {
+    const user = await prisma.user.findFirst({
+        where: {
+            password: req.body.password,
+            email: req.body.email
+        },
+        select: {
+            email: true,
+            employee: {
+                select: {
+                    jobId: true,
+                    name: true,
+                }
+            }
+        }
+    })
+    return user || {}
 }
 

@@ -61,3 +61,9 @@ export const updateVehicle = (req: Request)=>{
         }
     })
 }
+
+export const filterVehicle = (where = {}) => {
+    return prisma.vehicle.findMany({
+        where
+    })
+}

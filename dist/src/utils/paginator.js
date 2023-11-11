@@ -9,3 +9,4 @@ const paginator = (req, filters = {}) => {
     return Object.assign({ skip: page * pageSize, take: pageSize }, filters);
 };
 exports.paginator = paginator;
+//# sourceMappingURL=paginator.js.map

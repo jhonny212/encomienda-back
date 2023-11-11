@@ -8,6 +8,114 @@ servers:
     description: Optional server description, e.g. Main (production) server
 #basePath: /api
 paths:
+  /api/profile/employee:
+    post:
+      summary: Crear nuevo empleador.
+      description: Crear nuevo empleador.
+      tags:
+        - Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/EmployeeRequest"
+      responses:
+        "200": # status code
+          description: Model employee type
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/EmployeeRequest"
+    get:
+      summary: Get all workers
+      description: Get all workers
+      tags:
+        - Profile
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Array of Job Types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/EmployeeRequest"
+
+  /api/profile/user:
+    post:
+      summary: Crear nuevo usuario.
+      description: Crear nuevo usuario.
+      tags:
+        - Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/UserRequest"
+      responses:
+        "200": # status code
+          description: Model user type
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/UserRequest"
+    get:
+      summary: Get all users
+      description: Get all users
+      tags:
+        - Profile
+      parameters:
+        - name: pageSize
+          in: query
+          description: Tamaño de pagina
+          required: false
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagina
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Array of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/UserRequest"
+
+  /api/profile/login:
+    get:
+      summary: Log user
+      description: Log user
+      tags:
+        - Profile
+      responses:
+        "200":
+          description: User object with values of employe {jobId, name, email} or empty
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/UserRequest"
+
   /api/jobType:
     post:
       summary: Create a new job type.
@@ -288,84 +396,6 @@ paths:
         "404":
           description: No se encontraron CityRequest.
 
-  /api/path:
-    get:
-      summary: Obtener listado de PathRequest
-      description: Obtiene un listado de PathRequest.
-      tags:
-        - PathRequest
-      parameters:
-        - name: pageSize
-          in: query
-          description: Tamaño de pagina
-          required: false
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: Pagina
-          required: false
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PathRequest"
-      responses:
-        "200":
-          description: Lista de PathRequest obtenida con éxito.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PathRequest"
-        "404":
-          description: No se encontraron PathRequest
-    post:
-      summary: Crear un nuevo path
-      description: Crea un nuevo path.
-      tags:
-        - PathRequest
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PathRequest"
-      responses:
-        "201":
-          description: Path creado con éxito.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PathRequest"
-        "400":
-          description: Solicitud incorrecta.
-    put:
-      summary: Actualizar un path existente
-      description: Actualiza un path existente.
-      tags:
-        - PathRequest
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PathRequest"
-      responses:
-        "200":
-          description: Path actualizado con éxito.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PathRequest"
-        "400":
-          description: Solicitud incorrecta.
-        "404":
-          description: Path no encontrado.
-
   /api/package/{order}:
     get:
       summary: Paquete filtrado por numero de orden
@@ -643,7 +673,8 @@ components:
           type: string
         password:
           type: string
-
+        employee:
+          $ref: "#/components/schemas/EmployeeRequest"
     EmployeeRequest:
       type: object
       properties:
@@ -651,8 +682,6 @@ components:
           type: number
         name:
           type: string
-        user:
-          $ref: "#/components/schemas/UserRequest"
         job:
           $ref: "#/components/schemas/JobRequest"
         branchOffice:
@@ -661,7 +690,6 @@ components:
           type: number
         isActive:
           type: boolean
-
     JobTypeRequest:
       type: object
       properties:
@@ -704,6 +732,8 @@ components:
         date:
           type: string
           format: date-time
+        cost:
+          type: number
         total:
           type: number
         email:
@@ -740,6 +770,8 @@ components:
           type: number
         widht:
           type: number
+        description:
+          type: string
         order:
           $ref: "#/components/schemas/OrderRequest"
 
@@ -775,20 +807,6 @@ components:
         name:
           type: string
 
-    PathRequest:
-      type: object
-      properties:
-        id:
-          type: number
-        name:
-          type: string
-        route:
-          $ref: "#/components/schemas/RouteRequest"
-        origin:
-          $ref: "#/components/schemas/BranchOfficeRequest"
-        destination:
-          $ref: "#/components/schemas/BranchOfficeRequest"
-
     RouteRequest:
       type: object
       properties:
@@ -806,6 +824,8 @@ components:
           $ref: "#/components/schemas/BranchOfficeRequest"
         isActive:
           type: boolean
+        weight:
+          type: number
 
     VehicleTypeRequest:
       type: object
@@ -814,6 +834,7 @@ components:
           type: number
         name:
           type: string
+
     VehicleRequest:
       type: object
       properties:
@@ -823,6 +844,10 @@ components:
           type: string
         description:
           type: string
+        priceWeight:
+          type: number
+        maxWeight:
+          type: number
         branchoffice:
           $ref: "#/components/schemas/BranchOfficeRequest"
         vehicleType:

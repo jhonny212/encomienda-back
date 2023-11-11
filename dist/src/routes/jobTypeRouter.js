@@ -34,3 +34,4 @@ exports.jobTypeRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 }));
 exports.default = exports.jobTypeRouter;
+//# sourceMappingURL=jobTypeRouter.js.map

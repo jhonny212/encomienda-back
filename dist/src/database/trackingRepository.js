@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTracking = exports.generateQrCode = exports.updateStatusOrder = exports.moveOrder = exports.inital = void 0;
+exports.getPath = exports.getTracking = exports.generateQrCode = exports.updateStatusOrder = exports.moveOrder = exports.inital = void 0;
+const bestRoute_1 = require("../scripts/bestRoute");
 const inital = (req) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.inital = inital;
 const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () { });
@@ -20,3 +21,14 @@ const generateQrCode = (req) => __awaiter(void 0, void 0, void 0, function* () {
 exports.generateQrCode = generateQrCode;
 const getTracking = (req) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.getTracking = getTracking;
+const getPath = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const best = req.body.best;
+    if (best) {
+        return (0, bestRoute_1.getBestPath)(req.body.origin, req.body.destiny);
+    }
+    else {
+        return (0, bestRoute_1.getAllPaths)(req.body.origin, req.body.destiny);
+    }
+});
+exports.getPath = getPath;
+//# sourceMappingURL=trackingRepository.js.map

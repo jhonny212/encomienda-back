@@ -23,3 +23,11 @@ export const createJob = async (req: Request, res: Response) => {
         }
     })
 }
+
+export const getJobById = async (id:number) => {
+    return prisma.job.findFirst({
+        where: {
+            id
+        }
+    })
+}

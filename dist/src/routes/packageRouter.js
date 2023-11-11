@@ -35,3 +35,4 @@ exports.packageRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, fu
         return res.status(500).json(error);
     }
 }));
+//# sourceMappingURL=packageRouter.js.map

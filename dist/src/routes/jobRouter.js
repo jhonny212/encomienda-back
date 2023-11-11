@@ -33,3 +33,4 @@ exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, functi
         return res.status(500).json(error);
     }
 }));
+//# sourceMappingURL=jobRouter.js.map

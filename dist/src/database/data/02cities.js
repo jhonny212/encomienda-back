@@ -55,3 +55,4 @@ seedCities()
     .finally(() => {
     process.exit(0);
 });
+//# sourceMappingURL=02cities.js.map

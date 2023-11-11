@@ -32,16 +32,19 @@ export const getDepartments= async  (req: Request, filters: {} = {})=>{
     return prisma.department.findMany(paginator(req,filters))
 }
 
-export const getPaths= async  (req: Request, filters: {} = {})=>{
-    return prisma.path.findMany({
-        ...paginator(req,filters),
-        include: {
-            origin: true,
-            destination: true,
-            route: true,
-        }
-    })
-}
+/**NOT WORKING */
+// export const getPaths= async  (req: Request, filters: {} = {})=>{
+//     return prisma.path.findMany({
+//         ...paginator(req),
+//         where: {
+//             ...filters  
+//         },
+//         include: {
+//             origin: true,
+//             destination: true,
+//         }
+//     })
+// }
 
 export const getRoutes= async (req: Request, filters: {} = {})=>{
     return prisma.route.findMany({
@@ -69,14 +72,15 @@ export const createBranch = async  (req: Request) =>{
     })
 }
 
-export const createPath = async  (req: Request) => {
-    const body = req.body as PathRequest
-    return prisma.path.create({
-        data: {
-            ...body
-        }
-    })
-}
+/**NOT WORKING */
+// export const createPath = async  (req: Request) => {
+//     const body = req.body as PathRequest
+//     return prisma.path.create({
+//         data: {
+//             ...body
+//         }
+//     })
+// }
 
 export const createRoute = async  (req: Request) => {
     const body = req.body as RouteRequest
@@ -102,16 +106,16 @@ export const updateBranch = async  (req: Request) =>{
     })
 }
 
-export const updatePath = async  (req: Request) =>{
-    const [pk, newdata ]= updateCleaner(req,"id")
-    const data = newdata as PathRequest
-    return prisma.path.update({
-        data,
-        where: {
-            id: pk
-        }
-    })
-}
+// export const updatePath = async  (req: Request) =>{
+//     const [pk, newdata ]= updateCleaner(req,"id")
+//     const data = newdata as PathRequest
+//     return prisma.path.update({
+//         data,
+//         where: {
+//             id: pk
+//         }
+//     })
+// }
 
 export const updateRoute = async  (req: Request) =>{
     const [pk, newdata ]= updateCleaner(req,"id")

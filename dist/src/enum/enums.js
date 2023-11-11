@@ -6,3 +6,4 @@ var OrderStatus;
     OrderStatus[OrderStatus["INROAD"] = 2] = "INROAD";
     OrderStatus[OrderStatus["DELIVERED"] = 3] = "DELIVERED";
 })(OrderStatus || (OrderStatus = {}));
+//# sourceMappingURL=enums.js.map

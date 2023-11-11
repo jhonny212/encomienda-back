@@ -35,11 +35,11 @@ const getDepartments = (req, filters = {}) => __awaiter(void 0, void 0, void 0, 
     return database_1.prisma.department.findMany((0, paginator_1.paginator)(req, filters));
 });
 exports.getDepartments = getDepartments;
+/**NOT WORKING */
 const getPaths = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.path.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
+    return database_1.prisma.path.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: Object.assign({}, filters), include: {
             origin: true,
             destination: true,
-            route: true,
         } }));
 });
 exports.getPaths = getPaths;
@@ -60,6 +60,7 @@ const createBranch = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createBranch = createBranch;
+/**NOT WORKING */
 const createPath = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     return database_1.prisma.path.create({
@@ -111,3 +112,4 @@ const updateRoute = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.updateRoute = updateRoute;
+//# sourceMappingURL=roadRepository.js.map

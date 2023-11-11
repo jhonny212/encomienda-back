@@ -16,3 +16,4 @@ myArray.push([1, 2, 3]);
 myArray.push([1, 5, 3]);
 myArray.push([2, 1, 3]);
 fun(myArray);
+//# sourceMappingURL=test.js.map

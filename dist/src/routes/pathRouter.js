@@ -45,3 +45,4 @@ exports.pathRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(500).json(error);
     }
 }));
+//# sourceMappingURL=pathRouter.js.map

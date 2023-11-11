@@ -50,3 +50,4 @@ exports.costRouter.post('/type', (req, res) => __awaiter(void 0, void 0, void 0,
     catch (error) {
     }
 }));
+//# sourceMappingURL=costRouter.js.map

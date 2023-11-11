@@ -69,3 +69,4 @@ exports.vehicleRouter.put('/type', (req, res) => __awaiter(void 0, void 0, void 
         return res.status(500).json(error);
     }
 }));
+//# sourceMappingURL=vehicleRouter.js.map

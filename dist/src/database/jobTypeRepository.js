@@ -24,3 +24,4 @@ const createJobType = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 exports.createJobType = createJobType;
+//# sourceMappingURL=jobTypeRepository.js.map

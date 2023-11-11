@@ -47,3 +47,4 @@ exports.branchRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(500).json(err);
     }
 }));
+//# sourceMappingURL=branchRouter.js.map

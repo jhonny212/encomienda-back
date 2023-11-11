@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import {
-    getBranches,getCities,getDepartments,getPaths,getRoutes,
-    createBranch,createPath,createRoute,updateBranch,updateRoute,updatePath
+    getCities,getDepartments,getRoutes,
+    createRoute,updateRoute
 } from '../database/roadRepository'
 import { GetResponsePaginated } from '../utils/crud';
 import { prisma } from '../models/database';
@@ -22,11 +22,7 @@ roadRouter.get('', async (req:Request, res:Response) =>{
 //Create route
 roadRouter.post('', async (req:Request, res:Response) =>{
     try {
-        console.log(req.body);
-        
         const result = await createRoute(req)
-        console.log(result);
-        
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500).json(error)

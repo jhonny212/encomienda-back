@@ -9,12 +9,12 @@ interface UserRequest {
     email: string;
     name?: string | null;
     password: string;
+    employeeId: number;
   }
   
   interface EmployeeRequest {
     id?: number;
     name: string;
-    userId: number
     jobId: number;
     branchOfficeId: number;
     salary: number;
@@ -52,7 +52,8 @@ interface UserRequest {
     description: string;
     orderStatusId?: number | null;
     packages?: [PackageRequest]
-    routeId?: number
+    brachOfficeId?: number
+    route?: RouteRequest[] 
   }
   
   interface PackageRequest {
@@ -102,6 +103,7 @@ interface UserRequest {
     routeId: number;
     originId: number;
     destinationId: number;
+    weight: number;
   }
   
   interface RouteRequest {
@@ -112,6 +114,7 @@ interface UserRequest {
     originId: number;
     destinationId: number;
     isActive: boolean;
+    weight: number;
   }
   
   interface VehicleTypeRequest {
@@ -125,6 +128,8 @@ interface UserRequest {
     vehicleTypeId: number;
     description: string;
     branchOfficeId: number;
+    costWeight: number;
+    maxWeight: number;
   }
 
   interface CostTypeRequest {

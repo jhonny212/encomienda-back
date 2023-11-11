@@ -53,3 +53,4 @@ const updateVehicle = (req) => {
     });
 };
 exports.updateVehicle = updateVehicle;
+//# sourceMappingURL=vehicleRepository.js.map

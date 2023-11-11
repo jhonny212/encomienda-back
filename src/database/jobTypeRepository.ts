@@ -16,3 +16,11 @@ export const createJobType = async (req: Request, res: Response) => {
         }
     })
 }
+
+export const getJobTypeById = async (id:number) => {
+    return prisma.jobType.findFirst({
+        where: {
+            id
+        }
+    })
+}

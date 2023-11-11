@@ -13,13 +13,12 @@ datasource db {
 
 // ----------------------------Job -------------------------
 model User {
-    id       Int     @id @default(autoincrement())
-    email    String  @unique
-    name     String?
-    password String
-
-    //Relations
-    employee Employee[]
+    id         Int      @id @default(autoincrement())
+    email      String   @unique
+    name       String?
+    password   String
+    employee   Employee @relation(fields: [employeeId], references: [id])
+    employeeId Int
 }
 
 model Employee {
@@ -27,14 +26,13 @@ model Employee {
     name String
 
     //Relations
-    user           User         @relation(fields: [userId], references: [id])
-    userId         Int
     job            Job          @relation(fields: [jobId], references: [id])
     jobId          Int
     branchOffice   BranchOffice @relation(fields: [branchOfficeId], references: [id])
     branchOfficeId Int
     salary         Float
     isActive       Boolean
+    User           User[]
 }
 
 // ----------------------------Job -------------------------
@@ -83,22 +81,24 @@ model Order {
     orderStatus   OrderStatus   @relation(fields: [orderStatusId], references: [id])
     orderStatusId Int
     Package       Package[]
-    route         Route         @relation(fields: [routeId], references: [id])
-    routeId       Int
+    route         Route?        @relation(fields: [routeId], references: [id])
+    routeId       Int?
     brachOffice   BranchOffice? @relation(fields: [brachOfficeId], references: [id])
     brachOfficeId Int?
+    Tracking      Tracking[]
 }
 
 model Package {
-    id      Int    @id @default(autoincrement())
-    name    String
-    weight  Float
-    cost    Float
-    total   Float
-    height  Float
-    widht   Float
-    order   Order  @relation(fields: [orderId], references: [id])
-    orderId Int
+    id          Int    @id @default(autoincrement())
+    name        String
+    weight      Float
+    cost        Float
+    total       Float
+    height      Float
+    widht       Float
+    order       Order  @relation(fields: [orderId], references: [id])
+    orderId     Int
+    description String
 }
 
 // ----------------------------Road -------------------------
@@ -112,8 +112,8 @@ model BranchOffice {
     //relations
     Route1   Route[]   @relation("ref_route1")
     Route2   Route[]   @relation("ref_route2")
-    Path1    Path[]    @relation("ref_route3")
-    Path2    Path[]    @relation("ref_route4")
+    //Path1    Path[]    @relation("ref_route3")
+    //Path2    Path[]    @relation("ref_route4")
     city     City      @relation(fields: [cityId], references: [id])
     cityId   Int
     Order    Order[]
@@ -153,17 +153,22 @@ model Department {
     City City[]
 }
 
-model Path {
-    id      Int    @id @default(autoincrement())
-    name    String
-    route   Route  @relation(fields: [routeId], references: [id])
-    routeId Int
+model Tracking {
+    id   Int      @id @default(autoincrement())
+    date DateTime @default(now())
 
     //relations
-    origin        BranchOffice @relation("ref_route3", fields: [originId], references: [id])
-    originId      Int
-    destination   BranchOffice @relation("ref_route4", fields: [destinationId], references: [id])
-    destinationId Int
+    track         Route   @relation(fields: [trackId], references: [id])
+    trackId       Int
+    order         Order   @relation(fields: [orderId], references: [id])
+    orderId       Int
+    cost          Float
+    total         Float
+    passed        Boolean @default(false)
+    vehicle       Vehicle @relation(fields: [vehicleId], references: [id])
+    vehicleId     Int
+    vechicleCost  Float
+    vechiclePrice Float
 }
 
 model Route {
@@ -176,8 +181,10 @@ model Route {
     destination   BranchOffice @relation("ref_route2", fields: [destinationId], references: [id])
     destinationId Int
     isActive      Boolean
-    Path          Path[]
+    // Path          Path[]
     Order         Order[]
+    weight        Int
+    Tracking      Tracking[]
 }
 
 //-------------------------vehicle---------------
@@ -193,8 +200,11 @@ model Vehicle {
     name           String
     description    String
     branchOfficeId Int
+    priceWeight    Float
+    maxWeight      Float
 
     // FK
     vehicleType  VehicleType  @relation(fields: [vehicleTypeId], references: [id])
     branchOffice BranchOffice @relation(fields: [branchOfficeId], references: [id])
+    Tracking     Tracking[]
 }

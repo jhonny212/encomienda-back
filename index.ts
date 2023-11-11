@@ -7,7 +7,7 @@ import cors from 'cors';
 
 import {
     jobRouter,jobTypeRouter,orderRouter,packageRouter,
-    roadRouter,branchRouter,pathRouter,vehicleRouter,costRouter} from './src/routes'
+    roadRouter,branchRouter,profileRouter,vehicleRouter,costRouter} from './src/routes'
 
 dotenv.config();
 
@@ -32,13 +32,14 @@ app.use("/api/jobType",jobTypeRouter);
 app.use("/api/job",jobRouter);
 app.use("/api/road",roadRouter);
 app.use("/api/branch",branchRouter);
-app.use("/api/path",pathRouter);
+
+//app.use("/api/path",pathRouter);
 
 app.use("/api/package",packageRouter);
 app.use("/api/order",orderRouter);
 app.use("/api/vehicle",vehicleRouter);
 app.use("/api/cost",costRouter);
-
+app.use('/api/profile',profileRouter)
 
 
 

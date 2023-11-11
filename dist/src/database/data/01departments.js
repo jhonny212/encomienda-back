@@ -53,3 +53,4 @@ seedDepartments()
     .finally(() => {
     process.exit(0);
 });
+//# sourceMappingURL=01departments.js.map

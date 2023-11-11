@@ -57,7 +57,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     /**
      * Get route for values to calculate prices
      */
-    const route = (yield (0, roadRepository_1.getRoutes)(req, { id: order.routeId }))[0];
+    const destinyOffice = (yield (0, roadRepository_1.getRoutes)(req, { id: order.routeId }))[0];
     /**
      * Set cost and price for each package
      */
@@ -74,7 +74,9 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
      */
     delete order["id"];
     delete order["packages"];
-    const orderData = Object.assign(Object.assign({}, order), { orderStatusId: 1, routeId: route.id, total: total || 0, cost: cost || 0 });
+    const orderData = Object.assign(Object.assign({}, order), { orderStatusId: 1, brachOfficeId: order.brachOfficeId, 
+        //routeId: route.id,
+        total: total || 0, cost: cost || 0 });
     const orderInstance = yield database_1.prisma.order.create({
         data: orderData
     });
@@ -90,3 +92,4 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.crearOrder = crearOrder;
+//# sourceMappingURL=orderRepository.js.map

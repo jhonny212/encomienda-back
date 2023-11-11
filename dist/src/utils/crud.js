@@ -25,3 +25,4 @@ const GetResponsePaginated = (entity, data) => __awaiter(void 0, void 0, void 0,
     };
 });
 exports.GetResponsePaginated = GetResponsePaginated;
+//# sourceMappingURL=crud.js.map
