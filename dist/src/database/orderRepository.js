@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.crearOrder = exports.getOrders = exports.getOrderById = exports.getPackagesByOrder = exports.getPackages = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
-const roadRepository_1 = require("./roadRepository");
 //Package crud
 const getPackages = (req) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.package.findMany((0, paginator_1.paginator)(req));
@@ -52,17 +51,42 @@ const getOrders = (req) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getOrders = getOrders;
 const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b, _c, _d;
     const order = req.body;
     /**
-     * Get route for values to calculate prices
+     * Get costs and prices based on the selected route
      */
-    const destinyOffice = (yield (0, roadRepository_1.getRoutes)(req, { id: order.routeId }))[0];
+    const routeCost = (_a = order.route) === null || _a === void 0 ? void 0 : _a.reduce((prev, curr) => prev + (curr.costWeight || 0), 0);
+    const priceCost = (_b = order.route) === null || _b === void 0 ? void 0 : _b.reduce((prev, curr) => prev + (curr.priceWeight || 0), 0);
+    /**
+     * Get costs and prices based on a avg of vehicles
+     */
+    const branchOffices = (_c = order.route) === null || _c === void 0 ? void 0 : _c.map(el => el.originId);
+    const vehicles = yield database_1.prisma.vehicle.groupBy({
+        by: ['vehicleTypeId', 'branchOfficeId'],
+        _avg: {
+            priceWeight: true
+        },
+        where: {
+            branchOfficeId: {
+                in: branchOffices
+            }
+        }
+    });
+    const groupedVehicles = {};
+    const vehiclePrice = vehicles.forEach(el => {
+        if (groupedVehicles[el.branchOfficeId] !== undefined) {
+            groupedVehicles[el.branchOfficeId] += el._avg;
+        }
+        else {
+            groupedVehicles[el.branchOfficeId] = el._avg;
+        }
+    });
     /**
      * Set cost and price for each package
      */
-    let packages = (_a = order.packages) === null || _a === void 0 ? void 0 : _a.map((p) => {
-        return Object.assign(Object.assign({}, p), { cost: p.weight * route.costWeight, total: p.weight * route.priceWeight });
+    let packages = (_d = order.packages) === null || _d === void 0 ? void 0 : _d.map((p) => {
+        return Object.assign(Object.assign({}, p), { cost: p.weight * (routeCost || 0), total: p.weight * (priceCost || 0) });
     });
     /**
      * Get total cost and total price
@@ -78,7 +102,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         //routeId: route.id,
         total: total || 0, cost: cost || 0 });
     const orderInstance = yield database_1.prisma.order.create({
-        data: orderData
+        data: Object.assign({}, orderData)
     });
     /**
      * Create packages

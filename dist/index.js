@@ -26,11 +26,12 @@ app.use("/api/jobType", routes_1.jobTypeRouter);
 app.use("/api/job", routes_1.jobRouter);
 app.use("/api/road", routes_1.roadRouter);
 app.use("/api/branch", routes_1.branchRouter);
-app.use("/api/path", routes_1.pathRouter);
+//app.use("/api/path",pathRouter);
 app.use("/api/package", routes_1.packageRouter);
 app.use("/api/order", routes_1.orderRouter);
 app.use("/api/vehicle", routes_1.vehicleRouter);
 app.use("/api/cost", routes_1.costRouter);
+app.use('/api/profile', routes_1.profileRouter);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

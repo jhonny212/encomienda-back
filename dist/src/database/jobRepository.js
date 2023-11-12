@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createJob = exports.getAllJobs = void 0;
+exports.getJobById = exports.createJob = exports.getAllJobs = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,4 +27,12 @@ const createJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createJob = createJob;
+const getJobById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.job.findFirst({
+        where: {
+            id
+        }
+    });
+});
+exports.getJobById = getJobById;
 //# sourceMappingURL=jobRepository.js.map

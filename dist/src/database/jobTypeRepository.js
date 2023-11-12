@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createJobType = exports.getAllTypeJobs = void 0;
+exports.getJobTypeById = exports.createJobType = exports.getAllTypeJobs = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const getAllTypeJobs = (req, res, pageSize = 0) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,4 +24,12 @@ const createJobType = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 exports.createJobType = createJobType;
+const getJobTypeById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.jobType.findFirst({
+        where: {
+            id
+        }
+    });
+});
+exports.getJobTypeById = getJobTypeById;
 //# sourceMappingURL=jobTypeRepository.js.map

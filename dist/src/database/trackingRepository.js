@@ -9,12 +9,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPath = exports.getTracking = exports.generateQrCode = exports.updateStatusOrder = exports.moveOrder = exports.inital = void 0;
+exports.getPath = exports.getTracking = exports.generateQrCode = exports.updateStatusOrder = exports.assignVehicle = exports.moveOrder = void 0;
+const database_1 = require("../models/database");
 const bestRoute_1 = require("../scripts/bestRoute");
-const inital = (req) => __awaiter(void 0, void 0, void 0, function* () { });
-exports.inital = inital;
-const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () { });
+const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const getTrack = (id, passed) => {
+        return database_1.prisma.tracking.findFirst({
+            where: {
+                id,
+                passed
+            },
+            orderBy: {
+                id: 'asc'
+            },
+            select: {
+                track: true,
+                id: true,
+                passed: true
+            }
+        });
+    };
+    const { id } = req.body;
+    const actualTrack = yield getTrack(id, true);
+    const nextTrack = yield getTrack(id, false);
+    if ((nextTrack === null || nextTrack === void 0 ? void 0 : nextTrack.track.isActive) && (actualTrack === null || actualTrack === void 0 ? void 0 : actualTrack.passed)) {
+        const result = yield database_1.prisma.tracking.update({
+            data: {
+                passed: true
+            },
+            where: {
+                id: nextTrack === null || nextTrack === void 0 ? void 0 : nextTrack.id
+            }
+        });
+        return result;
+    }
+    return {};
+});
 exports.moveOrder = moveOrder;
+const assignVehicle = (routeId) => __awaiter(void 0, void 0, void 0, function* () {
+    const vehicleAmount = database_1.prisma.tracking.count({
+        where: {
+            trackId: routeId,
+        }
+    });
+});
+exports.assignVehicle = assignVehicle;
 const updateStatusOrder = (req) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.updateStatusOrder = updateStatusOrder;
 const generateQrCode = (req) => __awaiter(void 0, void 0, void 0, function* () { });

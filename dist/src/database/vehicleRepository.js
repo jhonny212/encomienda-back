@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateVehicle = exports.createVehicle = exports.getVehicles = exports.updateVehicleType = exports.createVehicleType = exports.getVehicleTypes = void 0;
+exports.filterVehicle = exports.updateVehicle = exports.createVehicle = exports.getVehicles = exports.updateVehicleType = exports.createVehicleType = exports.getVehicleTypes = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
@@ -53,4 +53,10 @@ const updateVehicle = (req) => {
     });
 };
 exports.updateVehicle = updateVehicle;
+const filterVehicle = (where = {}) => {
+    return database_1.prisma.vehicle.findMany({
+        where
+    });
+};
+exports.filterVehicle = filterVehicle;
 //# sourceMappingURL=vehicleRepository.js.map

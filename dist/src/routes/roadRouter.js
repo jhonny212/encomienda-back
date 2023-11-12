@@ -28,9 +28,7 @@ exports.roadRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, funct
 //Create route
 exports.roadRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body);
         const result = yield (0, roadRepository_1.createRoute)(req);
-        console.log(result);
         return res.status(200).json(result);
     }
     catch (error) {

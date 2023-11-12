@@ -101,11 +101,18 @@ paths:
                   $ref: "#components/schemas/UserRequest"
 
   /api/profile/login:
-    get:
+    post:
       summary: Log user
       description: Log user
       tags:
         - Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                email: string
+                password: string
       responses:
         "200":
           description: User object with values of employe {jobId, name, email} or empty

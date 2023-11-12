@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBestPath = exports.getAllPaths = void 0;
+exports.getBestPath = exports.getAllRoutes = void 0;
 const database_1 = require("../models/database");
-function getAllPaths(start, end) {
+function getAllRoutes(start, end) {
     return __awaiter(this, void 0, void 0, function* () {
         const routes = [];
         function getBestPath(idSearch) {
@@ -49,7 +49,7 @@ function getAllPaths(start, end) {
                 return tmp;
             });
         };
-        function findPaths(start, end, visited = new Set(), path = []) {
+        function findRoutes(start, end, visited = new Set(), path = []) {
             return __awaiter(this, void 0, void 0, function* () {
                 visited.add(start);
                 path.push(start);
@@ -57,10 +57,10 @@ function getAllPaths(start, end) {
                     routes.push(yield createResponse(path));
                 }
                 else {
-                    const paths = (yield getBestPath(start));
-                    for (const nextPath of paths) {
+                    const Routes = (yield getBestPath(start));
+                    for (const nextPath of Routes) {
                         if (!visited.has(nextPath.destinationId)) {
-                            yield findPaths(nextPath.destinationId, end, visited, [...path]);
+                            yield findRoutes(nextPath.destinationId, end, visited, [...path]);
                         }
                     }
                 }
@@ -68,20 +68,20 @@ function getAllPaths(start, end) {
                 path.pop();
             });
         }
-        yield findPaths(start, end);
+        yield findRoutes(start, end);
         return routes;
     });
 }
-exports.getAllPaths = getAllPaths;
+exports.getAllRoutes = getAllRoutes;
 function getBestPath(start, end) {
     return __awaiter(this, void 0, void 0, function* () {
-        const paths = yield getAllPaths(start, end);
-        const weights = paths.map((path) => {
+        const Routes = yield getAllRoutes(start, end);
+        const weights = Routes.map((path) => {
             return path.reduce((acum, el) => acum + el.weight, 0);
         });
         const minValue = Math.min(...weights);
         const indexMinValue = weights.indexOf(minValue);
-        return paths[indexMinValue];
+        return Routes[indexMinValue];
     });
 }
 exports.getBestPath = getBestPath;

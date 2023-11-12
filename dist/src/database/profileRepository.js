@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.createUser = exports.getUsers = exports.updateEmployee = exports.createEmployee = exports.getEmployees = void 0;
+exports.login = exports.updateUser = exports.createUser = exports.getUsers = exports.updateEmployee = exports.createEmployee = exports.getEmployees = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
+const jobRepository_1 = require("../database/jobRepository");
 //Employee CRUD
 const getEmployees = (req) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.employee.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
@@ -22,10 +23,17 @@ const getEmployees = (req) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getEmployees = getEmployees;
 const createEmployee = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const data = req.body;
-    return database_1.prisma.employee.create({
-        data
-    });
+    const salary = data.salary || ((_a = (yield (0, jobRepository_1.getJobById)(data.jobId))) === null || _a === void 0 ? void 0 : _a.baseSalary);
+    if (salary) {
+        return database_1.prisma.employee.create({
+            data: Object.assign(Object.assign({}, data), { salary: salary })
+        });
+    }
+    else {
+        return {};
+    }
 });
 exports.createEmployee = createEmployee;
 const updateEmployee = (req) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,4 +72,23 @@ const updateUser = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.updateUser = updateUser;
+const login = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield database_1.prisma.user.findFirst({
+        where: {
+            password: req.body.password,
+            email: req.body.email
+        },
+        select: {
+            email: true,
+            employee: {
+                select: {
+                    jobId: true,
+                    name: true,
+                }
+            }
+        }
+    });
+    return user || {};
+});
+exports.login = login;
 //# sourceMappingURL=profileRepository.js.map
