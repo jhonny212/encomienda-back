@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import {prisma} from '../models/database'
 import {paginator} from '../utils/paginator';
 import { updateCleaner } from '../utils/crud';
-import {getAllPaths,getBestPath} from '../scripts/bestRoute'
+import {getAllRoutes,getBestPath} from '../scripts/bestRoute'
 
 export const moveOrder =async (req:Request) => {
 
@@ -64,6 +64,6 @@ export const getPath =async (req:Request) => {
     if(best){
         return getBestPath(req.body.origin,req.body.destiny)
     }else{
-        return getAllPaths(req.body.origin,req.body.destiny)
+        return getAllRoutes(req.body.origin,req.body.destiny)
     }
 }

@@ -14,18 +14,21 @@ async function fillRoutes(size: number = 10) {
         if(!(index + 1 === branches.length)){
             for (let index2 = index + 1; index2 < branches.length; index2++) {
                 const branch2 = branches[index2]
-                const tmp = {
+                const tmp: RouteRequest = {
                     name: "branch",
                     originId: branch.id,
                     destinationId: branch2.id,
-                    weight: generateRandomNumber(1,6)
+                    weight: generateRandomNumber(1,6),
+                    costWeight: 0,
+                    isActive:true,
+                    priceWeight: 0,
                 }
                 paths.push(tmp)
             }
         }
     }
 
-    const result = await prisma.path.createMany({
+    const result = await prisma.route.createMany({
         data: paths
     })
 }

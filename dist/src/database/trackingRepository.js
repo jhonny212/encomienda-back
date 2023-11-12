@@ -66,7 +66,7 @@ const getPath = (req) => __awaiter(void 0, void 0, void 0, function* () {
         return (0, bestRoute_1.getBestPath)(req.body.origin, req.body.destiny);
     }
     else {
-        return (0, bestRoute_1.getAllPaths)(req.body.origin, req.body.destiny);
+        return (0, bestRoute_1.getAllRoutes)(req.body.origin, req.body.destiny);
     }
 });
 exports.getPath = getPath;

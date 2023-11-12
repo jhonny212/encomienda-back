@@ -20,7 +20,6 @@ __exportStar(require("./orderRouter"), exports);
 __exportStar(require("./packageRouter"), exports);
 __exportStar(require("./roadRouter"), exports);
 __exportStar(require("./branchRouter"), exports);
-__exportStar(require("./pathRouter"), exports);
 __exportStar(require("./vehicleRouter"), exports);
 __exportStar(require("./costRouter"), exports);
 __exportStar(require("./profileRouter"), exports);

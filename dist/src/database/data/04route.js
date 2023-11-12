@@ -27,13 +27,16 @@ function fillRoutes(size = 10) {
                         name: "branch",
                         originId: branch.id,
                         destinationId: branch2.id,
-                        weight: generateRandomNumber(1, 6)
+                        weight: generateRandomNumber(1, 6),
+                        costWeight: 0,
+                        isActive: true,
+                        priceWeight: 0,
                     };
                     paths.push(tmp);
                 }
             }
         }
-        const result = yield database_1.prisma.path.createMany({
+        const result = yield database_1.prisma.route.createMany({
             data: paths
         });
     });

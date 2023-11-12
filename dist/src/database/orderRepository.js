@@ -101,19 +101,24 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const orderData = Object.assign(Object.assign({}, order), { orderStatusId: 1, brachOfficeId: order.brachOfficeId, 
         //routeId: route.id,
         total: total || 0, cost: cost || 0 });
-    const orderInstance = yield database_1.prisma.order.create({
-        data: Object.assign({}, orderData)
-    });
-    /**
-     * Create packages
-     */
-    let data = packages === null || packages === void 0 ? void 0 : packages.map((p) => {
-        return Object.assign(Object.assign({}, p), { orderId: orderInstance.id });
-    });
-    console.log(data);
-    return database_1.prisma.package.createMany({
-        data: data || []
-    });
+    // const orderInstance = await prisma.order.create({
+    //     data: {
+    //         ...orderData,
+    //     }
+    // })
+    // /**
+    //  * Create packages
+    //  */
+    // let data = packages?.map((p) => {
+    //     return {
+    //         ...p,
+    //         orderId: orderInstance.id
+    //     } as any
+    // })
+    // console.log(data);
+    // return prisma.package.createMany({
+    //     data: data || []
+    // })
 });
 exports.crearOrder = crearOrder;
 //# sourceMappingURL=orderRepository.js.map

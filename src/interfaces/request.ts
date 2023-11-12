@@ -128,7 +128,7 @@ interface UserRequest {
     vehicleTypeId: number;
     description: string;
     branchOfficeId: number;
-    costWeight: number;
+    priceWeight: number;
     maxWeight: number;
   }
 

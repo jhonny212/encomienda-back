@@ -117,26 +117,26 @@ export const crearOrder = async (req: Request) => {
     }
 
 
-    const orderInstance = await prisma.order.create({
-        data: {
-            ...orderData,
-        }
-    })
+    // const orderInstance = await prisma.order.create({
+    //     data: {
+    //         ...orderData,
+    //     }
+    // })
 
-    /**
-     * Create packages
-     */
-    let data = packages?.map((p) => {
-        return {
-            ...p,
-            orderId: orderInstance.id
-        } as any
-    })
+    // /**
+    //  * Create packages
+    //  */
+    // let data = packages?.map((p) => {
+    //     return {
+    //         ...p,
+    //         orderId: orderInstance.id
+    //     } as any
+    // })
 
-    console.log(data);
+    // console.log(data);
 
-    return prisma.package.createMany({
-        data: data || []
-    })
+    // return prisma.package.createMany({
+    //     data: data || []
+    // })
 }
 
