@@ -44,7 +44,7 @@ interface UserRequest {
   interface OrderRequest {
     id?: number;
     date?: Date;
-    total: number;
+    total?: number;
     email: string;
     client: string;
     address: string;

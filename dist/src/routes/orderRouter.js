@@ -45,4 +45,13 @@ exports.orderRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(500).json(error);
     }
 }));
+exports.orderRouter.post('/estimate', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, orderRepository_1.estimateVehicleCost)(req.body);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
+}));
 //# sourceMappingURL=orderRouter.js.map

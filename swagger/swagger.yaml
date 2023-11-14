@@ -489,8 +489,8 @@ paths:
         "404":
           description: No se encontraron ordenes
     post:
-      summary: Crear un nueva orden tomar en cuenta que se debe mandar un array de package (package request model)
-      description: Crea un nueva orden tomar en cuenta que se debe mandar un array de package (package request model)
+      summary: crear orden no agregar el orderId en packages
+      description: crear orden no agregar el orderId en packages
       tags:
         - Order
       requestBody:
@@ -498,16 +498,59 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OrderRequest"
+              type: object
+              properties:
+                email:
+                  type: string
+                client:
+                  type: string
+                address:
+                  type: string
+                phone:
+                  type: string
+                description:
+                  type: string
+                route:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/RouteRequest'
+                packages:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PackageRequest'
       responses:
         "201":
           description: Path creado con éxito.
           content:
             application/json:
               schema:
+                type: array
                 $ref: "#/components/schemas/OrderRequest"
         "400":
           description: Solicitud incorrecta.
+
+  /api/order/estimate:
+    post:
+      summary: Estimar costo de vehiculo
+      description: Estimar costo de vehiculo
+      tags:
+        - Order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RouteRequest"
+      responses:
+        "201":
+          description: Vehiculo creado con éxito.
+          content:
+            application/json:
+              schema:
+                example:
+
+              
+              
 
   /api/vehicle:
     get:
@@ -599,6 +642,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CostRequest"
+
   /api/cost:
     get:
       summary: Lista de costos
@@ -667,6 +711,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/CostTypeRequest"
 
+  /api/tracking/bestRoute:
+    post:
+      summary: Lista de tipos de costo
+      description: Lista de tipos de costo
+      tags:
+        - Tracking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                origin: string
+                destiny: string
+                type: string
+      responses:
+        "200":
+          description: Lista de tipos de costo
+          content:
+            application/json:
+              schema:
+                type: array
+                
 components:
   schemas:
     UserRequest:
