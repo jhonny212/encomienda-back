@@ -22,4 +22,31 @@ exports.trackingRouter.post('/bestRoute', (req, res) => __awaiter(void 0, void 0
         return res.status(500).json(err);
     }
 }));
+exports.trackingRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, trackingRepository_1.moveOrder)(req);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
+}));
+exports.trackingRouter.get('/qr/:orderId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, trackingRepository_1.generateQRCode)(req);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
+}));
+exports.trackingRouter.get('/tracking/qr/:orderId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, trackingRepository_1.trackQr)(req);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
+}));
 //# sourceMappingURL=trackingRouter.js.map

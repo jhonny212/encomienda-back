@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.crearOrder = exports.estimateVehicleCost = exports.getOrders = exports.getOrderById = exports.getPackagesByOrder = exports.getPackages = void 0;
+exports.crearOrder = exports.estimateVehicleCost = exports.updateOrder = exports.getOrders = exports.getOrderById = exports.getPackagesByOrder = exports.getPackages = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const trackingRepository_1 = require("./trackingRepository");
@@ -51,6 +51,15 @@ const getOrders = (req) => __awaiter(void 0, void 0, void 0, function* () {
         } }));
 });
 exports.getOrders = getOrders;
+const updateOrder = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.order.update({
+        data: Object.assign({}, data),
+        where: {
+            id
+        }
+    });
+});
+exports.updateOrder = updateOrder;
 //Order Logic
 const estimateVehicleCost = (route) => __awaiter(void 0, void 0, void 0, function* () {
     const branchOffices = route === null || route === void 0 ? void 0 : route.map(el => el.originId);
@@ -123,7 +132,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         phone,
         description,
         //Auto info
-        orderStatusId: 1,
+        orderStatusId: OrderStatus.PENDING,
         brachOfficeId: destiny,
         routeId,
         total: total || 0,

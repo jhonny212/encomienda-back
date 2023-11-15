@@ -8,10 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assignVehicle = exports.moveOrder = exports.createTracking = exports.getPath = void 0;
+exports.trackQr = exports.generateQRCode = exports.moveOrder = exports.updateTracking = exports.createTracking = exports.getPath = void 0;
 const database_1 = require("../models/database");
 const bestRoute_1 = require("../scripts/bestRoute");
+const orderRepository_1 = require("./orderRepository");
+const logRepository_1 = require("./logRepository");
+const dotenv_1 = __importDefault(require("dotenv"));
+const QRCode = require('qrcode');
 const getPath = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const { origin, destiny, type } = req.body;
     if (Number(type) == 1) {
@@ -33,55 +40,176 @@ const createTracking = (routes, orderId, vehicles) => __awaiter(void 0, void 0, 
             cost: route.costWeight,
             price: route.priceWeight,
             orderId,
-            vechicleCost: vehicles[route.originId].total
+            vehicleCost: vehicles[route.originId].total
         };
         bulkTracking.push(el);
     });
-    database_1.prisma.tracking.createMany({
+    const result = yield database_1.prisma.tracking.createMany({
         data: bulkTracking
     });
 });
 exports.createTracking = createTracking;
+const updateTracking = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.tracking.update({
+        data,
+        where: {
+            id
+        }
+    });
+});
+exports.updateTracking = updateTracking;
+const forceTracking = (newRoute, order) => __awaiter(void 0, void 0, void 0, function* () {
+    const vehicle = yield database_1.prisma.vehicle.findFirst({
+        where: {
+            branchOfficeId: newRoute.originId,
+        }
+    });
+    const totalWeight = yield database_1.prisma.package.aggregate({
+        _sum: {
+            weight: true
+        },
+        where: {
+            orderId: order
+        }
+    });
+    const log = {
+        orderId: order,
+        passed: true,
+        routeId: newRoute.id || 0,
+        //Calculate
+        cost: newRoute.costWeight * (totalWeight._sum.weight || 0),
+        total: newRoute.priceWeight * (totalWeight._sum.weight || 0),
+        vehicleCost: ((vehicle === null || vehicle === void 0 ? void 0 : vehicle.priceWeight) || 0) * (totalWeight._sum.weight || 0),
+        vehicleId: (vehicle === null || vehicle === void 0 ? void 0 : vehicle.id) || 0
+    };
+    return log;
+});
 const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    const getTrack = (id, passed) => {
-        return database_1.prisma.tracking.findFirst({
+    const response = {
+        message: "",
+        completed: false
+    };
+    //Get tracking
+    const getTrack = (orderId, passed, take) => {
+        return database_1.prisma.tracking.findMany({
             where: {
-                id,
+                orderId,
                 passed
             },
             orderBy: {
                 id: 'asc'
             },
             select: {
-                //track: true,
                 id: true,
-                passed: true
-            }
+                passed: true,
+                route: true
+            },
+            take
         });
     };
-    const { id } = req.body;
-    const actualTrack = yield getTrack(id, true);
-    const nextTrack = yield getTrack(id, false);
-    // if(nextTrack?.track.isActive && actualTrack?.passed){
-    //     const result = await prisma.tracking.update({
-    //         data: {
-    //             passed: true
-    //         },
-    //         where: {
-    //             id: nextTrack?.id
-    //         }
-    //     })
-    //     return result
-    // }
-    return {};
+    const { order, force, newRoute } = req.body;
+    const paths = yield getTrack(order, false, 2);
+    const orderInfo = yield database_1.prisma.order.findFirst({
+        where: {
+            id: order
+        },
+    });
+    if (!orderInfo) {
+        response.message = "No se encontro la orden";
+        return response;
+    }
+    if (orderInfo.orderStatusId == OrderStatus.DELIVERED) {
+        response.message = "La orden ya ha sido entregada";
+        return response;
+    }
+    if (orderInfo.orderStatusId == OrderStatus.CANCELED) {
+        response.message = "La orden fue cancelada";
+        return response;
+    }
+    const logs = yield (0, logRepository_1.getLogsByOrder)(order, { type: 'desc' }, 1);
+    const validLog = logs.length == 0 || logs[1].route.originId == paths[0].route.originId;
+    let logResult = { cost: 0, orderId: 0, passed: true, routeId: 0, total: 0, vehicleCost: 0, vehicleId: 0 };
+    //Check if theres actual and next tracking
+    if (paths.length > 1 && validLog) {
+        const actualTrack = paths[0];
+        const nextTrack = paths[1];
+        //Get next branch
+        const nextBranch = yield database_1.prisma.branchOffice.findFirst({
+            where: {
+                id: nextTrack.route.originId,
+                isActive: true
+            }
+        });
+        if (nextBranch && !force) {
+            const result = yield (0, exports.updateTracking)({ passed: true }, actualTrack.id);
+            //await updateOrder({ orderStatusId: OrderStatus.INROAD }, order)
+            if (result.passed) {
+                const log = yield forceTracking(actualTrack.route, order);
+                logResult = yield (0, logRepository_1.createNewLog)(log);
+            }
+        }
+        else if (force) {
+            //Force logic
+            const result = yield (0, exports.updateTracking)({ passed: true }, actualTrack.id);
+            if (result.passed) {
+                const log = yield forceTracking(newRoute, order);
+                logResult = yield (0, logRepository_1.createNewLog)(log);
+            }
+            else {
+                response.message = "Error al mover a nueva ruta, intente de nuevo.";
+            }
+        }
+    }
+    else if (!validLog) {
+        //Froce logic with logs and no tracking
+        const log = yield forceTracking(newRoute, order);
+        logResult = yield (0, logRepository_1.createNewLog)(log);
+    }
+    else {
+        //FINAL BRANCH
+        const finalTrack = paths[0];
+        const result = yield (0, exports.updateTracking)({ passed: true }, finalTrack.id);
+        if (result.passed) {
+            const log = yield forceTracking(finalTrack.route, order);
+            logResult = yield (0, logRepository_1.createNewLog)(log);
+        }
+    }
+    if (logResult.id) {
+        const finalRoute = yield database_1.prisma.route.findFirst({
+            where: {
+                id: logResult.routeId
+            }
+        });
+        if (orderInfo.brachOfficeId == (finalRoute === null || finalRoute === void 0 ? void 0 : finalRoute.destinationId)) {
+            response.message = "La orden ha sido entregada a la sucursal final";
+            yield (0, orderRepository_1.updateOrder)({ orderStatusId: OrderStatus.DELIVERED }, order);
+        }
+        else {
+            response.message = "Orden actualizada";
+            yield (0, orderRepository_1.updateOrder)({ orderStatusId: OrderStatus.INROAD }, order);
+        }
+        response.completed = true;
+    }
+    return response;
 });
 exports.moveOrder = moveOrder;
-const assignVehicle = (routeId) => __awaiter(void 0, void 0, void 0, function* () {
-    const vehicleAmount = database_1.prisma.tracking.count({
-        where: {
-        //trackId: routeId,
+const generateQRCode = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    dotenv_1.default.config();
+    const port = process.env.PORT;
+    const host = process.env.HOST;
+    const url = yield QRCode.toDataURL(`${host}${port}/tracking/qr/${orderId}`);
+    return { url };
+});
+exports.generateQRCode = generateQRCode;
+const trackQr = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    return database_1.prisma.log.findMany({
+        where: { orderId: Number(orderId) },
+        orderBy: {
+            id: 'asc'
         }
     });
 });
-exports.assignVehicle = assignVehicle;
+exports.trackQr = trackQr;
 //# sourceMappingURL=trackingRepository.js.map

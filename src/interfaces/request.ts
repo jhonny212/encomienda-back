@@ -145,3 +145,15 @@ interface UserRequest {
     finalCost: number;
     branchOfficeId: number;
   }
+
+  interface LogRequest {
+    id?: number;
+    date?: Date;
+    routeId: number;
+    orderId: number;
+    cost: number;
+    total: number;
+    passed: boolean;
+    vehicleId: number;
+    vehicleCost: number;
+  }

@@ -48,6 +48,16 @@ export const getOrders = async (req: Request) => {
     })
 }
 
+export const updateOrder = async (data: {}, id: number) => {
+    return prisma.order.update({
+        data:{
+            ...data,
+        },
+        where: {
+            id
+        }
+    })
+}
 
 //Order Logic
 export const estimateVehicleCost = async (route:RouteRequest[]) => {
@@ -135,7 +145,7 @@ export const crearOrder = async (req: Request) => {
         description,
 
         //Auto info
-        orderStatusId: 1,
+        orderStatusId: OrderStatus.PENDING,
         brachOfficeId: destiny,
         
         routeId,

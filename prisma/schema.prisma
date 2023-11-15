@@ -158,14 +158,14 @@ model Tracking {
     id Int @id @default(autoincrement())
 
     //relations
-    route        Route   @relation(fields: [routeId], references: [id])
-    routeId      Int
-    order        Order   @relation(fields: [orderId], references: [id])
-    orderId      Int
-    cost         Float
-    price        Float
-    vechicleCost Float
-    passed       Boolean @default(false)
+    route       Route   @relation(fields: [routeId], references: [id])
+    routeId     Int
+    order       Order   @relation(fields: [orderId], references: [id])
+    orderId     Int
+    cost        Float
+    price       Float
+    vehicleCost Float
+    passed      Boolean @default(false)
 }
 
 model Log {
@@ -173,17 +173,16 @@ model Log {
     date DateTime @default(now())
 
     //relations
-    route         Route   @relation(fields: [routeId], references: [id])
-    routeId       Int
-    order         Order   @relation(fields: [orderId], references: [id])
-    orderId       Int
-    cost          Float
-    total         Float
-    passed        Boolean @default(false)
-    vehicle       Vehicle @relation(fields: [vehicleId], references: [id])
-    vehicleId     Int
-    vechicleCost  Float
-    vechiclePrice Float
+    route        Route   @relation(fields: [routeId], references: [id])
+    routeId      Int
+    order        Order   @relation(fields: [orderId], references: [id])
+    orderId      Int
+    cost         Float
+    total        Float
+    passed       Boolean @default(false)
+    vehicle      Vehicle @relation(fields: [vehicleId], references: [id])
+    vehicleId    Int
+    vehicleCost  Float
 }
 
 model Route {

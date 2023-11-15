@@ -43,7 +43,6 @@ app.use('/api/profile',profileRouter)
 app.use('/api/tracking',trackingRouter)
 
 
-
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
