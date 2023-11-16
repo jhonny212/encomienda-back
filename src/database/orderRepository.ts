@@ -104,24 +104,22 @@ export const estimateVehicleCost = async (route: RouteRequest[]) => {
     return { estimated, groupedVehicles };
 }
 
-export const crearOrder = async (req: Request) => {
-    const order = req.body as OrderRequest
-
+export const estimateOrderCost =async (route: RouteRequest[], packagesData: PackageRequest[]) => {
     /**
      * Get costs and prices based on the selected route
      */
-    const routeCost = order.route?.reduce((prev, curr: RouteRequest) => prev + (curr.costWeight || 0), 0);
-    const priceCost = order.route?.reduce((prev, curr: RouteRequest) => prev + (curr.priceWeight || 0), 0);
+    const routeCost = route?.reduce((prev, curr: RouteRequest) => prev + (curr.costWeight || 0), 0);
+    const priceCost = route?.reduce((prev, curr: RouteRequest) => prev + (curr.priceWeight || 0), 0);
 
     /**
      * Get costs and prices based on a avg of vehicles
      */
-    const { estimated, groupedVehicles } = await estimateVehicleCost(order.route || [])
+    const { estimated, groupedVehicles } = await estimateVehicleCost(route || [])
 
     /**
      * Set cost and price for each package
      */
-    let packages = order.packages?.map((p) => {
+    let packages = packagesData?.map((p) => {
         return {
             ...p,
             cost: (p.weight * (routeCost || 0)) + estimated * p.weight,
@@ -134,6 +132,17 @@ export const crearOrder = async (req: Request) => {
      */
     const total = packages?.reduce((prev, curr: PackageRequest) => prev + (curr.total || 0), 0);
     const cost = packages?.reduce((prev, curr: PackageRequest) => prev + (curr.cost || 0), 0);
+
+    return {total,cost,packages,estimated,priceCost,groupedVehicles}
+}
+
+export const crearOrder = async (req: Request) => {
+    const order = req.body as OrderRequest
+
+    /**
+     * Get costs
+     */
+    const {cost,total,packages,estimated,groupedVehicles,priceCost} = await estimateOrderCost(order.route || [], order.packages || [])
 
     /**
      * Create order

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import {
     getOrderById,getOrders,
-    crearOrder,estimateVehicleCost,deleteOrder
+    crearOrder,estimateVehicleCost,deleteOrder, estimateOrderCost
 } from '../database/orderRepository'
 import { prisma } from '../models/database';
 import { GetResponsePaginated } from '../utils/crud';
@@ -39,7 +39,7 @@ orderRouter.post('', async (req:Request, res: Response) => {
 
 orderRouter.post('/estimate', async (req:Request, res: Response) => {
     try {
-        const result = await estimateVehicleCost(req.body as RouteRequest[])
+        const result = await estimateOrderCost(req.body.route as RouteRequest[],req.body.packages as PackageRequest[])
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500).json(error)
