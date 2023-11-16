@@ -1,12 +1,22 @@
 import { Router, Request, Response } from 'express';
 import {
     createVehicle,updateVehicle,getVehicles,
-    createVehicleType,updateVehicleType,getVehicleTypes
+    createVehicleType,updateVehicleType,getVehicleTypes,
+    deleteVehicle,deleteVehicleType
 } from '../database/vehicleRepository'
 import { prisma } from '../models/database';
 import { GetResponsePaginated } from '../utils/crud';
 
 export const vehicleRouter = Router();
+
+vehicleRouter.delete('', async (req:Request, res:Response) =>{
+    try{
+        const result = await deleteVehicle(req,res)
+        return res.status(200).json(result)
+    }catch(err){
+        return res.status(500).json(err)
+    }
+})
 
 vehicleRouter.get('',async (req:Request, res:Response) => {
     try {
@@ -60,5 +70,14 @@ vehicleRouter.put('/type',async (req:Request, res:Response)=>{
         return res.status(200).json(result)
     } catch (error) {
         return res.status(500).json(error)
+    }
+})
+
+vehicleRouter.delete('/type', async (req:Request, res:Response) =>{
+    try{
+        const result = await deleteVehicle(req,res)
+        return res.status(200).json(result)
+    }catch(err){
+        return res.status(500).json(err)
     }
 })

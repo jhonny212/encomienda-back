@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import {
     getOrderById,getOrders,
-    crearOrder,estimateVehicleCost
+    crearOrder,estimateVehicleCost,deleteOrder
 } from '../database/orderRepository'
 import { prisma } from '../models/database';
 import { GetResponsePaginated } from '../utils/crud';
@@ -46,3 +46,11 @@ orderRouter.post('/estimate', async (req:Request, res: Response) => {
     }
 })
 
+orderRouter.delete('', async (req:Request, res:Response) =>{
+    try{
+        const result = await deleteOrder(req,res)
+        return res.status(200).json(result)
+    }catch(err){
+        return res.status(500).json(err)
+    }
+})

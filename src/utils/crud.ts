@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { prisma } from '../models/database';
 export const updateCleaner = (req:Request, key: string) => {
     const data = req.body
     const pk = data[key];
@@ -12,4 +13,21 @@ export const GetResponsePaginated = async (entity: any, data: any) =>{
         data,
         totalSize
     }
+}
+
+export const removeEntity = async (entity: any, id:number) =>{
+    return entity.update({
+        data: {
+            isActive: false
+        },
+        where: {
+            id
+        }
+    })
+}
+
+export const deleteEntity = async (entity: any, id:number) =>{
+    return prisma.city.delete({
+        where: {id}
+    })
 }

@@ -3,6 +3,7 @@ import { prisma } from '../models/database'
 import { paginator } from '../utils/paginator';
 import { getRoutes } from './roadRepository'
 import { createTracking } from './trackingRepository';
+import { removeEntity } from '../utils/crud';
 
 //Package crud
 export const getPackages = async (req: Request) => {
@@ -50,7 +51,7 @@ export const getOrders = async (req: Request) => {
 
 export const updateOrder = async (data: {}, id: number) => {
     return prisma.order.update({
-        data:{
+        data: {
             ...data,
         },
         where: {
@@ -59,12 +60,17 @@ export const updateOrder = async (data: {}, id: number) => {
     })
 }
 
+export const deleteOrder = async (req: Request, res: Response) => {
+    return updateOrder({ orderStatusId: OrderStatus.CANCELED }, req.body.id)
+}
+
+
 //Order Logic
-export const estimateVehicleCost = async (route:RouteRequest[]) => {
+export const estimateVehicleCost = async (route: RouteRequest[]) => {
     const branchOffices = route?.map(el => el.originId)
     const vehicles = await prisma.vehicle.groupBy(
         {
-            by: ['vehicleTypeId','branchOfficeId'],
+            by: ['vehicleTypeId', 'branchOfficeId'],
             _avg: {
                 priceWeight: true,
             },
@@ -78,24 +84,24 @@ export const estimateVehicleCost = async (route:RouteRequest[]) => {
     )
 
     const groupedVehicles: any = {}
-    vehicles.forEach(el=>{
-        if(groupedVehicles[el.branchOfficeId] !== undefined){
+    vehicles.forEach(el => {
+        if (groupedVehicles[el.branchOfficeId] !== undefined) {
             groupedVehicles[el.branchOfficeId].amount += 1
             groupedVehicles[el.branchOfficeId].total += el._avg.priceWeight
-            
-        }else{
+
+        } else {
             groupedVehicles[el.branchOfficeId] = {
                 amount: 1,
                 total: el._avg.priceWeight
             }
         }
     })
-    let estimated= 0
-    for (const key in groupedVehicles){
+    let estimated = 0
+    for (const key in groupedVehicles) {
         const vehicle = groupedVehicles[key]
         estimated += vehicle.total / vehicle.amount
     }
-    return {estimated, groupedVehicles};
+    return { estimated, groupedVehicles };
 }
 
 export const crearOrder = async (req: Request) => {
@@ -110,7 +116,7 @@ export const crearOrder = async (req: Request) => {
     /**
      * Get costs and prices based on a avg of vehicles
      */
-    const {estimated,groupedVehicles} = await estimateVehicleCost(order.route || [])
+    const { estimated, groupedVehicles } = await estimateVehicleCost(order.route || [])
 
     /**
      * Set cost and price for each package
@@ -133,8 +139,8 @@ export const crearOrder = async (req: Request) => {
      * Create order
      */
 
-    const {email,client,address,phone,description} = order
-    const routeId = order.route ? order.route[0].id: 0
+    const { email, client, address, phone, description } = order
+    const routeId = order.route ? order.route[0].id : 0
     const destiny = order.route ? order.route[order.route.length - 1].destinationId : 0
     const orderData = {
         //Basic info
@@ -147,7 +153,7 @@ export const crearOrder = async (req: Request) => {
         //Auto info
         orderStatusId: OrderStatus.PENDING,
         brachOfficeId: destiny,
-        
+
         routeId,
         total: total || 0,
         cost: cost || 0,
@@ -173,8 +179,8 @@ export const crearOrder = async (req: Request) => {
     await prisma.package.createMany({
         data: data || []
     })
-    
-    createTracking(order?.route || [],orderInstance.id, groupedVehicles)
+
+    createTracking(order?.route || [], orderInstance.id, groupedVehicles)
     return {
         data,
         vehiclePriceByWeight: estimated,

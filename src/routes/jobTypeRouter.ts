@@ -1,9 +1,18 @@
 import { Router, Request, Response } from 'express';
-import {createJobType,getAllTypeJobs} from '../database/jobTypeRepository'
+import {createJobType,getAllTypeJobs,deleteJobType} from '../database/jobTypeRepository'
 import { GetResponsePaginated } from '../utils/crud';
 import { prisma } from '../models/database';
 
 export const jobTypeRouter = Router();
+
+jobTypeRouter.delete('', async (req:Request, res:Response) =>{
+    try{
+        const result = await deleteJobType(req,res)
+        return res.status(200).json(result)
+    }catch(err){
+        return res.status(500).json(err)
+    }
+})
 
 jobTypeRouter.post('', async (req:Request, res:Response) => {
     try {

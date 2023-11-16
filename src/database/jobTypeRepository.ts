@@ -1,10 +1,17 @@
 import { Request, Response } from 'express';
 import {prisma} from '../models/database'
 import { paginator } from '../utils/paginator';
+import { removeEntity } from '../utils/crud';
 
 
 export const getAllTypeJobs = async (req: Request, res: Response, pageSize: number = 0) => {
-    return prisma.jobType.findMany(paginator(req))
+    const options = paginator(req)
+    return prisma.jobType.findMany({
+        ...options,
+        where: {
+            isActive: true
+        }
+    })
 }
 
 //Creates
@@ -23,4 +30,9 @@ export const getJobTypeById = async (id:number) => {
             id
         }
     })
+}
+
+export const deleteJobType = async (req: Request, res: Response) => {
+    const { id } = req.body
+    return removeEntity(prisma.jobType,id) 
 }

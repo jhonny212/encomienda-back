@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import {prisma} from '../models/database'
 import {paginator} from '../utils/paginator';
-import { updateCleaner } from '../utils/crud';
+import { removeEntity, updateCleaner } from '../utils/crud';
 
 
 //CRUD VehicleType
 export const getVehicleTypes = (req: Request)=>{
     return prisma.vehicleType.findMany({
-        ...paginator(req)
+        ...paginator(req),
+        where: {
+            isActive: true
+        }
     })
 }
 
@@ -31,6 +34,11 @@ export const updateVehicleType = (req: Request)=>{
     })
 }
 
+export const deleteVehicleType = async (req: Request, res: Response) => {
+    const { id } = req.body
+    return removeEntity(prisma.vehicleType,id) 
+}
+
 //CRUD Vehicle
 export const getVehicles = (req: Request)=>{
     return prisma.vehicle.findMany({
@@ -38,6 +46,12 @@ export const getVehicles = (req: Request)=>{
         include: {
             vehicleType: true,
             branchOffice: true
+        },
+        where: {
+            isActive: true,
+            vehicleType: {
+                isActive: true
+            }
         }
     })
 }
@@ -61,6 +75,12 @@ export const updateVehicle = (req: Request)=>{
         }
     })
 }
+
+export const deleteVehicle = async (req: Request, res: Response) => {
+    const { id } = req.body
+    return removeEntity(prisma.vehicle,id) 
+}
+
 
 export const filterVehicle = (where = {}) => {
     return prisma.vehicle.findMany({

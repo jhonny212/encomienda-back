@@ -144,6 +144,7 @@ interface UserRequest {
     estimatedCost: number;
     finalCost: number;
     branchOfficeId: number;
+    date: Date;
   }
 
   interface LogRequest {

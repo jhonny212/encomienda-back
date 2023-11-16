@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetResponsePaginated = exports.updateCleaner = void 0;
+exports.deleteEntity = exports.removeEntity = exports.GetResponsePaginated = exports.updateCleaner = void 0;
+const database_1 = require("../models/database");
 const updateCleaner = (req, key) => {
     const data = req.body;
     const pk = data[key];
@@ -25,4 +26,21 @@ const GetResponsePaginated = (entity, data) => __awaiter(void 0, void 0, void 0,
     };
 });
 exports.GetResponsePaginated = GetResponsePaginated;
+const removeEntity = (entity, id) => __awaiter(void 0, void 0, void 0, function* () {
+    return entity.update({
+        data: {
+            isActive: false
+        },
+        where: {
+            id
+        }
+    });
+});
+exports.removeEntity = removeEntity;
+const deleteEntity = (entity, id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.city.delete({
+        where: { id }
+    });
+});
+exports.deleteEntity = deleteEntity;
 //# sourceMappingURL=crud.js.map

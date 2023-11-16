@@ -38,9 +38,10 @@ model Employee {
 // ----------------------------Job -------------------------
 
 model JobType {
-    id          Int    @id @default(autoincrement())
+    id          Int     @id @default(autoincrement())
     name        String
     description String
+    isActive    Boolean @default(true)
 
     //Relations
     Job Job[]
@@ -124,9 +125,10 @@ model BranchOffice {
 }
 
 model CostType {
-    id   Int    @id @default(autoincrement())
-    name String
-    Cost Cost[]
+    id       Int     @id @default(autoincrement())
+    name     String
+    Cost     Cost[]
+    isActive Boolean @default(true)
 }
 
 model Cost {
@@ -138,6 +140,7 @@ model Cost {
     finalCost      Float
     branchOfficeId Int
     branchOffice   BranchOffice @relation(fields: [branchOfficeId], references: [id])
+    date           DateTime     @default(now())
 }
 
 model City {
@@ -146,12 +149,14 @@ model City {
     department   Department     @relation(fields: [departmentId], references: [id])
     departmentId Int
     BranchOffice BranchOffice[]
+    isActive     Boolean        @default(true)
 }
 
 model Department {
-    id   Int    @id @default(autoincrement())
-    name String
-    City City[]
+    id       Int     @id @default(autoincrement())
+    name     String
+    isActive Boolean @default(true)
+    City     City[]
 }
 
 model Tracking {
@@ -173,16 +178,16 @@ model Log {
     date DateTime @default(now())
 
     //relations
-    route        Route   @relation(fields: [routeId], references: [id])
-    routeId      Int
-    order        Order   @relation(fields: [orderId], references: [id])
-    orderId      Int
-    cost         Float
-    total        Float
-    passed       Boolean @default(false)
-    vehicle      Vehicle @relation(fields: [vehicleId], references: [id])
-    vehicleId    Int
-    vehicleCost  Float
+    route       Route   @relation(fields: [routeId], references: [id])
+    routeId     Int
+    order       Order   @relation(fields: [orderId], references: [id])
+    orderId     Int
+    cost        Float
+    total       Float
+    passed      Boolean @default(false)
+    vehicle     Vehicle @relation(fields: [vehicleId], references: [id])
+    vehicleId   Int
+    vehicleCost Float
 }
 
 model Route {
@@ -205,19 +210,21 @@ model Route {
 
 //-------------------------vehicle---------------
 model VehicleType {
-    id      Int       @id @default(autoincrement())
-    name    String
-    vehicle Vehicle[]
+    id       Int       @id @default(autoincrement())
+    name     String
+    vehicle  Vehicle[]
+    isActive Boolean   @default(true)
 }
 
 model Vehicle {
-    id             Int    @id @default(autoincrement())
+    id             Int     @id @default(autoincrement())
     vehicleTypeId  Int
     name           String
     description    String
     branchOfficeId Int
     priceWeight    Float
     maxWeight      Float
+    isActive       Boolean @default(true)
 
     // FK
     vehicleType  VehicleType  @relation(fields: [vehicleTypeId], references: [id])

@@ -9,12 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCost = exports.getAlllCost = exports.createCostType = exports.getAlllCostType = void 0;
+exports.deleteCost = exports.createCost = exports.getAlllCost = exports.deleteCostType = exports.createCostType = exports.getAlllCostType = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
+const crud_1 = require("../utils/crud");
 const getAlllCostType = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, paginator_1.paginator)(req);
-    return database_1.prisma.costType.findMany(Object.assign({}, options));
+    return database_1.prisma.costType.findMany(Object.assign(Object.assign({}, options), { where: {
+            isActive: true
+        } }));
 });
 exports.getAlllCostType = getAlllCostType;
 const createCostType = (req) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,9 +27,18 @@ const createCostType = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createCostType = createCostType;
+const deleteCostType = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.costType, id);
+});
+exports.deleteCostType = deleteCostType;
 const getAlllCost = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, paginator_1.paginator)(req);
-    return database_1.prisma.cost.findMany(Object.assign(Object.assign({}, options), { include: {
+    return database_1.prisma.cost.findMany(Object.assign(Object.assign({ where: {
+            costType: {
+                isActive: true
+            }
+        } }, options), { include: {
             costType: true,
             branchOffice: true
         } }));
@@ -39,4 +51,9 @@ const createCost = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createCost = createCost;
+const deleteCost = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.cost, id);
+});
+exports.deleteCost = deleteCost;
 //# sourceMappingURL=costRepository.js.map

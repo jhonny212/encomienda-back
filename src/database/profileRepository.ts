@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import {prisma} from '../models/database'
 import {paginator} from '../utils/paginator';
-import { updateCleaner } from '../utils/crud';
+import { removeEntity, updateCleaner } from '../utils/crud';
 import {getJobById} from '../database/jobRepository'
 
 //Employee CRUD
 export const getEmployees =async (req: Request) => {
     return prisma.employee.findMany({
         ...paginator(req),
+        where: {
+            isActive: true
+        },
         include: {
             job: true,
             branchOffice: true
@@ -43,10 +46,21 @@ export const updateEmployee = async (req:Request) => {
     })
 }
 
+export const deleteEmployee = async (req: Request, res: Response) => {
+    const { id } = req.body
+    return removeEntity(prisma.employee,id) 
+}
+
+
 //User CRUD
 export const getUsers = async (req: Request) => {
     return prisma.user.findMany({
         ...paginator(req),
+        where: {
+            employee: {
+                isActive: true
+            }
+        },
         include: {
             employee: true
         }
@@ -74,7 +88,10 @@ export const login = async (req:Request) => {
     const user = await prisma.user.findFirst({
         where: {
             password: req.body.password,
-            email: req.body.email
+            email: req.body.email,
+            employee: {
+                isActive: true
+            }
         },
         select: {
             email: true,
