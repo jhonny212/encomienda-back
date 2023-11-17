@@ -537,6 +537,45 @@ paths:
         "400":
           description: Solicitud incorrecta.
 
+  /api/tracking:
+    put:
+      summary: Mover orden
+      description: Mover orden
+      tags:
+        - Tracking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order:
+                  type: number
+                force:
+                  type: boolean
+                newRoute:
+                  type: object
+                  $ref: '#/components/schemas/RouteRequest'
+      responses:
+        "201":
+          description: Path creado con éxito.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  route:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OrderRequest"
+                  packages:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OrderRequest"
+        "400":
+          description: Solicitud incorrecta.
+
   /api/order/estimate:
     post:
       summary: Estimar costo de vehiculo

@@ -150,7 +150,6 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         total: total || 0,
         cost: cost || 0,
     };
-    console.log(orderData);
     const orderInstance = yield database_1.prisma.order.create({
         data: Object.assign({}, orderData)
     });

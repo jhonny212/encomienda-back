@@ -4,11 +4,12 @@ import { paginator } from '../utils/paginator';
 
 
 
-export const getLogsByOrder = async (orderId: number, order: orderType, take: number) => {
+export const getLogsByOrder = async (orderId: number, order: orderType, take: number,passed:boolean = false) => {
     return prisma.log.findMany({
         take,
         where: {
             orderId,
+            passed
         },
         orderBy: {
             id: order.type
@@ -20,6 +21,10 @@ export const getLogsByOrder = async (orderId: number, order: orderType, take: nu
 }
 
 export const createNewLog = async (log: LogRequest) => {
+    console.log("INTENTANDO CREAR");
+    console.log(log);
+    
+    
     return prisma.log.create({
         data: log
     })

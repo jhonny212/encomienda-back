@@ -71,7 +71,6 @@ const forceTracking = async (newRoute: RouteRequest, order: number) => {
         }
     })
 
-
     const log: LogRequest = {
         orderId: order,
         passed: true,
@@ -134,10 +133,11 @@ export const moveOrder = async (req: Request) => {
         return response
     }
 
-    const logs = await getLogsByOrder(order, { type: 'desc' }, 1)
-    const validLog = logs.length == 0 || logs[1].route.originId == paths[0].route.originId
+    const logs = await getLogsByOrder(order, { type: 'desc' }, 1,false)
+    const validLog = logs.length == 0 || logs[0].route.originId == paths[0].route.originId
+    
     let logResult: LogRequest = { cost: 0, orderId: 0, passed: true, routeId: 0, total: 0, vehicleCost: 0, vehicleId: 0 };
-
+    
     //Check if theres actual and next tracking
     if (paths.length > 1 && validLog) {
         const actualTrack = paths[0]
@@ -153,7 +153,6 @@ export const moveOrder = async (req: Request) => {
 
         if (nextBranch && !force) {
             const result = await updateTracking({ passed: true }, actualTrack.id)
-            //await updateOrder({ orderStatusId: OrderStatus.INROAD }, order)
 
             if (result.passed) {
                 const log = await forceTracking(actualTrack.route, order)
@@ -180,6 +179,7 @@ export const moveOrder = async (req: Request) => {
         const finalTrack = paths[0]
         const result = await updateTracking({ passed: true }, finalTrack.id)
         if (result.passed) {
+            console.log("4");
             const log = await forceTracking(finalTrack.route, order)
             logResult = await createNewLog(log)
         }

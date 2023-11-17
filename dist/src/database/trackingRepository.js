@@ -127,8 +127,8 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         response.message = "La orden fue cancelada";
         return response;
     }
-    const logs = yield (0, logRepository_1.getLogsByOrder)(order, { type: 'desc' }, 1);
-    const validLog = logs.length == 0 || logs[1].route.originId == paths[0].route.originId;
+    const logs = yield (0, logRepository_1.getLogsByOrder)(order, { type: 'desc' }, 1, false);
+    const validLog = logs.length == 0 || logs[0].route.originId == paths[0].route.originId;
     let logResult = { cost: 0, orderId: 0, passed: true, routeId: 0, total: 0, vehicleCost: 0, vehicleId: 0 };
     //Check if theres actual and next tracking
     if (paths.length > 1 && validLog) {
@@ -143,7 +143,6 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         });
         if (nextBranch && !force) {
             const result = yield (0, exports.updateTracking)({ passed: true }, actualTrack.id);
-            //await updateOrder({ orderStatusId: OrderStatus.INROAD }, order)
             if (result.passed) {
                 const log = yield forceTracking(actualTrack.route, order);
                 logResult = yield (0, logRepository_1.createNewLog)(log);
@@ -171,6 +170,7 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         const finalTrack = paths[0];
         const result = yield (0, exports.updateTracking)({ passed: true }, finalTrack.id);
         if (result.passed) {
+            console.log("4");
             const log = yield forceTracking(finalTrack.route, order);
             logResult = yield (0, logRepository_1.createNewLog)(log);
         }

@@ -169,8 +169,6 @@ export const crearOrder = async (req: Request) => {
         cost: cost || 0,
     }
 
-    console.log(orderData);
-    
     const orderInstance = await prisma.order.create({
         data: {
             ...orderData,

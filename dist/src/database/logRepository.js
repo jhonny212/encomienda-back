@@ -11,11 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCosts = exports.createNewLog = exports.getLogsByOrder = void 0;
 const database_1 = require("../models/database");
-const getLogsByOrder = (orderId, order, take) => __awaiter(void 0, void 0, void 0, function* () {
+const getLogsByOrder = (orderId, order, take, passed = false) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.log.findMany({
         take,
         where: {
             orderId,
+            passed
         },
         orderBy: {
             id: order.type
@@ -27,6 +28,8 @@ const getLogsByOrder = (orderId, order, take) => __awaiter(void 0, void 0, void 
 });
 exports.getLogsByOrder = getLogsByOrder;
 const createNewLog = (log) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("INTENTANDO CREAR");
+    console.log(log);
     return database_1.prisma.log.create({
         data: log
     });
