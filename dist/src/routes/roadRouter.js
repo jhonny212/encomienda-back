@@ -45,6 +45,15 @@ exports.roadRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(500).json(error);
     }
 }));
+exports.roadRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, roadRepository_1.deleteRoute)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 //Get cities
 exports.roadRouter.get('/city', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -55,6 +64,15 @@ exports.roadRouter.get('/city', (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(500).json(error);
     }
 }));
+exports.roadRouter.delete('/city', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, roadRepository_1.deleteCity)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 //Get departments
 exports.roadRouter.get('/department', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -63,6 +81,15 @@ exports.roadRouter.get('/department', (req, res) => __awaiter(void 0, void 0, vo
     }
     catch (error) {
         return res.status(500).json(error);
+    }
+}));
+exports.roadRouter.delete('/department', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, roadRepository_1.deleteDepartment)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
     }
 }));
 //# sourceMappingURL=roadRouter.js.map

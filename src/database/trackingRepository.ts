@@ -6,6 +6,7 @@ import { getAllRoutes, getBestPath } from '../scripts/bestRoute'
 import { estimateVehicleCost, updateOrder } from './orderRepository';
 import { createNewLog, getLogsByOrder } from './logRepository';
 import dotenv from 'dotenv';
+import { OrderStatus } from '../enum/enums';
 
 const QRCode = require('qrcode')
 

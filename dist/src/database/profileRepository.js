@@ -9,14 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.updateUser = exports.createUser = exports.getUsers = exports.updateEmployee = exports.createEmployee = exports.getEmployees = void 0;
+exports.login = exports.updateUser = exports.createUser = exports.getUsers = exports.deleteEmployee = exports.updateEmployee = exports.createEmployee = exports.getEmployees = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
 const jobRepository_1 = require("../database/jobRepository");
 //Employee CRUD
 const getEmployees = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.employee.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+    return database_1.prisma.employee.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: {
+            isActive: true
+        }, include: {
             job: true,
             branchOffice: true
         } }));
@@ -47,9 +49,18 @@ const updateEmployee = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.updateEmployee = updateEmployee;
+const deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.employee, id);
+});
+exports.deleteEmployee = deleteEmployee;
 //User CRUD
 const getUsers = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.user.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+    return database_1.prisma.user.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: {
+            employee: {
+                isActive: true
+            }
+        }, include: {
             employee: true
         } }));
 });
@@ -76,7 +87,10 @@ const login = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield database_1.prisma.user.findFirst({
         where: {
             password: req.body.password,
-            email: req.body.email
+            email: req.body.email,
+            employee: {
+                isActive: true
+            }
         },
         select: {
             email: true,

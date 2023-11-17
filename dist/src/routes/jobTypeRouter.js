@@ -15,6 +15,15 @@ const jobTypeRepository_1 = require("../database/jobTypeRepository");
 const crud_1 = require("../utils/crud");
 const database_1 = require("../models/database");
 exports.jobTypeRouter = (0, express_1.Router)();
+exports.jobTypeRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, jobTypeRepository_1.deleteJobType)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 exports.jobTypeRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, jobTypeRepository_1.createJobType)(req, res);

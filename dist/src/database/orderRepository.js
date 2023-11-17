@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.crearOrder = exports.estimateVehicleCost = exports.updateOrder = exports.getOrders = exports.getOrderById = exports.getPackagesByOrder = exports.getPackages = void 0;
+exports.crearOrder = exports.estimateOrderCost = exports.estimateVehicleCost = exports.deleteOrder = exports.updateOrder = exports.getOrders = exports.getOrderById = exports.getPackagesByOrder = exports.getPackages = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const trackingRepository_1 = require("./trackingRepository");
+const enums_1 = require("../enum/enums");
 //Package crud
 const getPackages = (req) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.package.findMany((0, paginator_1.paginator)(req));
@@ -60,6 +61,10 @@ const updateOrder = (data, id) => __awaiter(void 0, void 0, void 0, function* ()
     });
 });
 exports.updateOrder = updateOrder;
+const deleteOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return (0, exports.updateOrder)({ orderStatusId: enums_1.OrderStatus.CANCELED }, req.body.id);
+});
+exports.deleteOrder = deleteOrder;
 //Order Logic
 const estimateVehicleCost = (route) => __awaiter(void 0, void 0, void 0, function* () {
     const branchOffices = route === null || route === void 0 ? void 0 : route.map(el => el.originId);
@@ -95,22 +100,20 @@ const estimateVehicleCost = (route) => __awaiter(void 0, void 0, void 0, functio
     return { estimated, groupedVehicles };
 });
 exports.estimateVehicleCost = estimateVehicleCost;
-const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c;
-    const order = req.body;
+const estimateOrderCost = (route, packagesData) => __awaiter(void 0, void 0, void 0, function* () {
     /**
      * Get costs and prices based on the selected route
      */
-    const routeCost = (_a = order.route) === null || _a === void 0 ? void 0 : _a.reduce((prev, curr) => prev + (curr.costWeight || 0), 0);
-    const priceCost = (_b = order.route) === null || _b === void 0 ? void 0 : _b.reduce((prev, curr) => prev + (curr.priceWeight || 0), 0);
+    const routeCost = route === null || route === void 0 ? void 0 : route.reduce((prev, curr) => prev + (curr.costWeight || 0), 0);
+    const priceCost = route === null || route === void 0 ? void 0 : route.reduce((prev, curr) => prev + (curr.priceWeight || 0), 0);
     /**
      * Get costs and prices based on a avg of vehicles
      */
-    const { estimated, groupedVehicles } = yield (0, exports.estimateVehicleCost)(order.route || []);
+    const { estimated, groupedVehicles } = yield (0, exports.estimateVehicleCost)(route || []);
     /**
      * Set cost and price for each package
      */
-    let packages = (_c = order.packages) === null || _c === void 0 ? void 0 : _c.map((p) => {
+    let packages = packagesData === null || packagesData === void 0 ? void 0 : packagesData.map((p) => {
         return Object.assign(Object.assign({}, p), { cost: (p.weight * (routeCost || 0)) + estimated * p.weight, total: (p.weight * (priceCost || 0)) + estimated * p.weight });
     });
     /**
@@ -118,6 +121,15 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
      */
     const total = packages === null || packages === void 0 ? void 0 : packages.reduce((prev, curr) => prev + (curr.total || 0), 0);
     const cost = packages === null || packages === void 0 ? void 0 : packages.reduce((prev, curr) => prev + (curr.cost || 0), 0);
+    return { total, cost, packages, estimated, priceCost, groupedVehicles };
+});
+exports.estimateOrderCost = estimateOrderCost;
+const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const order = req.body;
+    /**
+     * Get costs
+     */
+    const { cost, total, packages, estimated, groupedVehicles, priceCost } = yield (0, exports.estimateOrderCost)(order.route || [], order.packages || []);
     /**
      * Create order
      */
@@ -132,15 +144,17 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         phone,
         description,
         //Auto info
-        orderStatusId: OrderStatus.PENDING,
+        orderStatusId: enums_1.OrderStatus.PENDING,
         brachOfficeId: destiny,
         routeId,
         total: total || 0,
         cost: cost || 0,
     };
+    console.log(orderData);
     const orderInstance = yield database_1.prisma.order.create({
         data: Object.assign({}, orderData)
     });
+    console.log(orderInstance, "->");
     /**
      * Create packages
      */

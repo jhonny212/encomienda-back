@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewLog = exports.getLogsByOrder = void 0;
+exports.getCosts = exports.createNewLog = exports.getLogsByOrder = void 0;
 const database_1 = require("../models/database");
 const getLogsByOrder = (orderId, order, take) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.log.findMany({
@@ -32,4 +32,16 @@ const createNewLog = (log) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createNewLog = createNewLog;
+const getCosts = () => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.$queryRaw `SELECT
+        o.branchId,
+        SUM(l.cost) AS totalCost
+    FROM
+        "Order" o
+    JOIN
+        "Log" l ON o.id = l.orderId
+    GROUP BY
+        o.branchId, o.brachOfficeId;`;
+});
+exports.getCosts = getCosts;
 //# sourceMappingURL=logRepository.js.map

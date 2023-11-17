@@ -39,6 +39,7 @@ function fillRoutes(size = 10) {
         const result = yield database_1.prisma.route.createMany({
             data: paths
         });
+        console.log(paths);
     });
 }
 fillRoutes();

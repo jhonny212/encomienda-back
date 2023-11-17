@@ -24,6 +24,15 @@ exports.jobRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(500).json(error);
     }
 }));
+exports.jobRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, jobRepository_1.deleteJob)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 exports.jobRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, jobRepository_1.getAllJobs)(req, res);

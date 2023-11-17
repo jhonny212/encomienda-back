@@ -41,16 +41,26 @@ exports.orderRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(result);
     }
     catch (error) {
+        console.log(error);
         return res.status(500).json(error);
     }
 }));
 exports.orderRouter.post('/estimate', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, orderRepository_1.estimateVehicleCost)(req.body);
+        const result = yield (0, orderRepository_1.estimateOrderCost)(req.body.route, req.body.packages);
         return res.status(200).json(result);
     }
     catch (error) {
         return res.status(500).json(error);
+    }
+}));
+exports.orderRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, orderRepository_1.deleteOrder)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
     }
 }));
 //# sourceMappingURL=orderRouter.js.map

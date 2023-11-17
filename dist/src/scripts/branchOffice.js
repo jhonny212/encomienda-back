@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.gainMetric = void 0;
+const logRepository_1 = require("../database/logRepository");
 const database_1 = require("../models/database");
 const metric = {
     ganancia: 1,
@@ -16,17 +18,22 @@ const metric = {
     viabilidad: 3
 };
 const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
-    const orders1 = database_1.prisma.order.findMany({
-        orderBy: {
-            total: 'asc'
-        },
-        select: {
-            id: true,
-            cost: true,
+    return database_1.prisma.order.groupBy({
+        by: ['brachOfficeId', 'routeId'],
+        _sum: {
             total: true,
-            brachOfficeId: true,
-            routeId: true
-        }
+        },
+        orderBy: {
+            _sum: {
+                total: 'desc'
+            }
+        },
     });
 });
+const gainMetric = () => __awaiter(void 0, void 0, void 0, function* () {
+    const income = yield getOrders();
+    const costs = yield (0, logRepository_1.getCosts)();
+    console.log(costs);
+});
+exports.gainMetric = gainMetric;
 //# sourceMappingURL=branchOffice.js.map

@@ -25,6 +25,16 @@ exports.branchRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(500).json(err);
     }
 }));
+//Delete Branch
+exports.branchRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, roadRepository_1.deleteBranch)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 //Create Branch
 exports.branchRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -38,7 +48,6 @@ exports.branchRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fu
 //Update Branch
 exports.branchRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("ENTRO ACA");
         const result = yield (0, roadRepository_1.updateBranch)(req);
         console.log(result);
         return res.status(200).json(result);

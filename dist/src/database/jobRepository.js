@@ -9,12 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobById = exports.createJob = exports.getAllJobs = void 0;
+exports.deleteJob = exports.getJobById = exports.createJob = exports.getAllJobs = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
+const crud_1 = require("../utils/crud");
 const getAllJobs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, paginator_1.paginator)(req);
-    return database_1.prisma.job.findMany(Object.assign(Object.assign({}, options), { include: {
+    return database_1.prisma.job.findMany(Object.assign(Object.assign({}, options), { where: {
+            jobType: {
+                isActive: true
+            }
+        }, include: {
             jobType: true
         } }));
 });
@@ -35,4 +40,9 @@ const getJobById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.getJobById = getJobById;
+const deleteJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.job, id);
+});
+exports.deleteJob = deleteJob;
 //# sourceMappingURL=jobRepository.js.map

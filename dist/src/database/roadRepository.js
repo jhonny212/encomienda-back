@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRoute = exports.updateBranch = exports.createRoute = exports.createBranch = exports.getRoutes = exports.getDepartments = exports.getCities = exports.getBranches = void 0;
+exports.updateRoute = exports.updateBranch = exports.deleteRoute = exports.createRoute = exports.deleteBranch = exports.createBranch = exports.getRoutes = exports.deleteDepartment = exports.getDepartments = exports.deleteCity = exports.getCities = exports.getBranches = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
@@ -20,36 +20,39 @@ const crud_1 = require("../utils/crud");
  * Get of models
  */
 const getBranches = (req) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.branchOffice.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { include: {
+    return database_1.prisma.branchOffice.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: {
+            isActive: true
+        }, include: {
             city: true,
         } }));
 });
 exports.getBranches = getBranches;
-const getCities = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.city.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, filters)), { include: {
+const getCities = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.city.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: {
+            isActive: true
+        }, include: {
             department: true
         } }));
 });
 exports.getCities = getCities;
-const getDepartments = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.department.findMany((0, paginator_1.paginator)(req, filters));
+const deleteCity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.city, id);
+});
+exports.deleteCity = deleteCity;
+const getDepartments = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.department.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: {
+            isActive: true,
+        } }));
 });
 exports.getDepartments = getDepartments;
-/**NOT WORKING */
-// export const getPaths= async  (req: Request, filters: {} = {})=>{
-//     return prisma.path.findMany({
-//         ...paginator(req),
-//         where: {
-//             ...filters  
-//         },
-//         include: {
-//             origin: true,
-//             destination: true,
-//         }
-//     })
-// }
+const deleteDepartment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.department, id);
+});
+exports.deleteDepartment = deleteDepartment;
 const getRoutes = (req, filters = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.route.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: Object.assign({}, filters), include: {
+    return database_1.prisma.route.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: Object.assign(Object.assign({}, filters), { isActive: true }), include: {
             origin: true,
             destination: true
         } }));
@@ -65,15 +68,11 @@ const createBranch = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createBranch = createBranch;
-/**NOT WORKING */
-// export const createPath = async  (req: Request) => {
-//     const body = req.body as PathRequest
-//     return prisma.path.create({
-//         data: {
-//             ...body
-//         }
-//     })
-// }
+const deleteBranch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.branchOffice, id);
+});
+exports.deleteBranch = deleteBranch;
 const createRoute = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     return database_1.prisma.route.create({
@@ -81,13 +80,17 @@ const createRoute = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.createRoute = createRoute;
+const deleteRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    return (0, crud_1.removeEntity)(database_1.prisma.route, id);
+});
+exports.deleteRoute = deleteRoute;
 /**
  * update models
  */
 const updateBranch = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const [pk, newdata] = (0, crud_1.updateCleaner)(req, "id");
     const data = newdata;
-    console.log(data);
     return database_1.prisma.branchOffice.update({
         data,
         where: {
@@ -96,16 +99,6 @@ const updateBranch = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.updateBranch = updateBranch;
-// export const updatePath = async  (req: Request) =>{
-//     const [pk, newdata ]= updateCleaner(req,"id")
-//     const data = newdata as PathRequest
-//     return prisma.path.update({
-//         data,
-//         where: {
-//             id: pk
-//         }
-//     })
-// }
 const updateRoute = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const [pk, newdata] = (0, crud_1.updateCleaner)(req, "id");
     const data = newdata;

@@ -4,6 +4,7 @@ import { paginator } from '../utils/paginator';
 import { getRoutes } from './roadRepository'
 import { createTracking } from './trackingRepository';
 import { removeEntity } from '../utils/crud';
+import { OrderStatus } from '../enum/enums';
 
 //Package crud
 export const getPackages = async (req: Request) => {
@@ -168,12 +169,16 @@ export const crearOrder = async (req: Request) => {
         cost: cost || 0,
     }
 
-
+    console.log(orderData);
+    
     const orderInstance = await prisma.order.create({
         data: {
             ...orderData,
         }
     })
+
+    console.log(orderInstance,"->");
+    
 
     /**
      * Create packages

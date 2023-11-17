@@ -53,6 +53,15 @@ exports.profileRouter.post('/employee', (req, res) => __awaiter(void 0, void 0, 
         return res.status(500).json(error);
     }
 }));
+exports.profileRouter.delete('/employee', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, profileRepository_1.deleteEmployee)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 exports.profileRouter.put('/user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, profileRepository_1.updateUser)(req);

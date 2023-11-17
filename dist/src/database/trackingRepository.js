@@ -18,6 +18,7 @@ const bestRoute_1 = require("../scripts/bestRoute");
 const orderRepository_1 = require("./orderRepository");
 const logRepository_1 = require("./logRepository");
 const dotenv_1 = __importDefault(require("dotenv"));
+const enums_1 = require("../enum/enums");
 const QRCode = require('qrcode');
 const getPath = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const { origin, destiny, type } = req.body;
@@ -118,11 +119,11 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         response.message = "No se encontro la orden";
         return response;
     }
-    if (orderInfo.orderStatusId == OrderStatus.DELIVERED) {
+    if (orderInfo.orderStatusId == enums_1.OrderStatus.DELIVERED) {
         response.message = "La orden ya ha sido entregada";
         return response;
     }
-    if (orderInfo.orderStatusId == OrderStatus.CANCELED) {
+    if (orderInfo.orderStatusId == enums_1.OrderStatus.CANCELED) {
         response.message = "La orden fue cancelada";
         return response;
     }
@@ -182,11 +183,11 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         });
         if (orderInfo.brachOfficeId == (finalRoute === null || finalRoute === void 0 ? void 0 : finalRoute.destinationId)) {
             response.message = "La orden ha sido entregada a la sucursal final";
-            yield (0, orderRepository_1.updateOrder)({ orderStatusId: OrderStatus.DELIVERED }, order);
+            yield (0, orderRepository_1.updateOrder)({ orderStatusId: enums_1.OrderStatus.DELIVERED }, order);
         }
         else {
             response.message = "Orden actualizada";
-            yield (0, orderRepository_1.updateOrder)({ orderStatusId: OrderStatus.INROAD }, order);
+            yield (0, orderRepository_1.updateOrder)({ orderStatusId: enums_1.OrderStatus.INROAD }, order);
         }
         response.completed = true;
     }

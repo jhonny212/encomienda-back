@@ -15,6 +15,15 @@ const vehicleRepository_1 = require("../database/vehicleRepository");
 const database_1 = require("../models/database");
 const crud_1 = require("../utils/crud");
 exports.vehicleRouter = (0, express_1.Router)();
+exports.vehicleRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, vehicleRepository_1.deleteVehicle)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 exports.vehicleRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, vehicleRepository_1.getVehicles)(req);
@@ -67,6 +76,15 @@ exports.vehicleRouter.put('/type', (req, res) => __awaiter(void 0, void 0, void 
     }
     catch (error) {
         return res.status(500).json(error);
+    }
+}));
+exports.vehicleRouter.delete('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, vehicleRepository_1.deleteVehicle)(req, res);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
     }
 }));
 //# sourceMappingURL=vehicleRouter.js.map

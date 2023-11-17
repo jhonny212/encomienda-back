@@ -33,6 +33,8 @@ orderRouter.post('', async (req:Request, res: Response) => {
         const result = await crearOrder(req)
         return res.status(200).json(result)
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json(error)
     }
 })

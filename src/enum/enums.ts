@@ -1,4 +1,4 @@
-enum OrderStatus{
+export enum OrderStatus{
     EMPTY,
     PENDING,
     CANCELED,

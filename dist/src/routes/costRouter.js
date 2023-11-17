@@ -15,6 +15,15 @@ const costRepository_1 = require("../database/costRepository");
 const database_1 = require("../models/database");
 const crud_1 = require("../utils/crud");
 exports.costRouter = (0, express_1.Router)();
+exports.costRouter.delete('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, costRepository_1.deleteCost)(req);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}));
 exports.costRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, costRepository_1.getAlllCost)(req);
@@ -48,6 +57,15 @@ exports.costRouter.post('/type', (req, res) => __awaiter(void 0, void 0, void 0,
         return res.status(200).json(result);
     }
     catch (error) {
+    }
+}));
+exports.costRouter.delete('/type', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, costRepository_1.deleteCostType)(req);
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        return res.status(500).json(err);
     }
 }));
 //# sourceMappingURL=costRouter.js.map
