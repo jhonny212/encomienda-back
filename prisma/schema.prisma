@@ -86,8 +86,12 @@ model Order {
     routeId       Int?
     brachOffice   BranchOffice? @relation(fields: [brachOfficeId], references: [id])
     brachOfficeId Int?
+
+    originId      Int?
+
     Tracking      Tracking[]
     TrackingReal  Log[]
+    deliveredDate DateTime   @default(now())
 }
 
 model Package {

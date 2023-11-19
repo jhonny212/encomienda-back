@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gainMetric = void 0;
-const logRepository_1 = require("../database/logRepository");
-const enums_1 = require("../enum/enums");
-const database_1 = require("../models/database");
+const logRepository_1 = require("../../database/logRepository");
+const enums_1 = require("../../enum/enums");
+const database_1 = require("../../models/database");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const success_rate = Number(process.env.SUCCESS_RATE);

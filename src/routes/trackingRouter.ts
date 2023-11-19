@@ -1,20 +1,21 @@
 import { Router, Request, Response } from 'express';
-import { getPath,moveOrder,generateQRCode, trackQr } from '../database/trackingRepository'
+import { getPath, moveOrder, generateQRCode, trackQr } from '../database/trackingRepository'
 import { prisma } from '../models/database';
 import { GetResponsePaginated } from '../utils/crud';
+import dotenv from 'dotenv';
 
 export const trackingRouter = Router();
 
-trackingRouter.post('/bestRoute',async (req:Request, res:Response) => {
-    try{
+trackingRouter.post('/bestRoute', async (req: Request, res: Response) => {
+    try {
         const result = await getPath(req)
         return res.status(200).json(result)
-    }catch(err){
+    } catch (err) {
         return res.status(500).json(err)
     }
 })
 
-trackingRouter.put('',async (req:Request, res:Response) => {
+trackingRouter.put('', async (req: Request, res: Response) => {
     try {
         const result = await moveOrder(req)
         return res.status(200).json(result)
@@ -24,7 +25,7 @@ trackingRouter.put('',async (req:Request, res:Response) => {
     }
 })
 
-trackingRouter.get('/qr/:orderId',async (req:Request, res:Response) => {
+trackingRouter.get('/qr/:orderId', async (req: Request, res: Response) => {
     try {
         const result = await generateQRCode(req)
         return res.status(200).json(result)
@@ -33,7 +34,7 @@ trackingRouter.get('/qr/:orderId',async (req:Request, res:Response) => {
     }
 })
 
-trackingRouter.get('/tracking/qr/:orderId',async (req:Request, res:Response) => {
+trackingRouter.get('/tracking/qr/:orderId', async (req: Request, res: Response) => {
     try {
         const result = await trackQr(req)
         return res.status(200).json(result)

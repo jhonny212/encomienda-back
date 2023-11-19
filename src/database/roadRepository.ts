@@ -127,3 +127,11 @@ export const updateRoute = async  (req: Request) =>{
         }
     })
 }
+
+export const getOrdersByBranch = async (req: Request) => {
+    return prisma.order.findMany({
+        where: {
+            brachOfficeId: Number(req.params.brach)
+        }
+    })
+}  

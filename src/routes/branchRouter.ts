@@ -6,6 +6,7 @@ import {
 } from '../database/roadRepository'
 import { GetResponsePaginated } from '../utils/crud';
 import { prisma } from '../models/database';
+import { gainMetric } from '../scripts/metrics/gain';
 
 export const branchRouter = Router();
 
@@ -47,6 +48,17 @@ branchRouter.put('', async (req:Request, res:Response) => {
         
         return res.status(200).json(result)
     }catch(err){
+        return res.status(500).json(err)
+    }
+})
+
+
+branchRouter.get('/:metric', async (req:Request, res:Response) => {
+    try{
+        const result = await gainMetric()
+        return res.status(200).json(result)
+    }catch(err){
+        console.log(err);
         return res.status(500).json(err)
     }
 })

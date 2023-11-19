@@ -13,27 +13,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gainMetric = void 0;
-const logRepository_1 = require("../database/logRepository");
-const enums_1 = require("../enum/enums");
-const database_1 = require("../models/database");
+const logRepository_1 = require("../../database/logRepository");
+const enums_1 = require("../../enum/enums");
+const database_1 = require("../../models/database");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const success_rate = Number(process.env.SUCCESS_RATE);
-const metric = {
-    ganancia: 1,
-    paquetes: 2,
-    viabilidad: 3
-};
 const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.order.groupBy({
-        by: ['brachOfficeId', 'routeId'],
+        by: ['brachOfficeId', "originId"],
         _sum: {
             total: true,
             cost: true,
         },
         orderBy: [
             { brachOfficeId: 'asc' },
-            { routeId: 'asc' }
+            { originId: 'asc' }
         ],
         where: {
             orderStatusId: enums_1.OrderStatus.DELIVERED,
@@ -61,4 +56,4 @@ const gainMetric = () => __awaiter(void 0, void 0, void 0, function* () {
     return newData.filter(el => el.rate > success_rate);
 });
 exports.gainMetric = gainMetric;
-//# sourceMappingURL=branchOffice.js.map
+//# sourceMappingURL=gain.js.map

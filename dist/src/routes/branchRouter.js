@@ -14,6 +14,7 @@ const express_1 = require("express");
 const roadRepository_1 = require("../database/roadRepository");
 const crud_1 = require("../utils/crud");
 const database_1 = require("../models/database");
+const gain_1 = require("../scripts/metrics/gain");
 exports.branchRouter = (0, express_1.Router)();
 //Get Branches
 exports.branchRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,6 +54,16 @@ exports.branchRouter.put('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(result);
     }
     catch (err) {
+        return res.status(500).json(err);
+    }
+}));
+exports.branchRouter.get('/:metric', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, gain_1.gainMetric)();
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        console.log(err);
         return res.status(500).json(err);
     }
 }));

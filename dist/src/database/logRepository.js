@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCosts = exports.createNewLog = exports.getLogsByOrder = void 0;
 const database_1 = require("../models/database");
+const enums_1 = require("../enum/enums");
 const getLogsByOrder = (orderId, order, take, passed = false) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.log.findMany({
         take,
@@ -22,29 +23,37 @@ const getLogsByOrder = (orderId, order, take, passed = false) => __awaiter(void 
             id: order.type
         },
         select: {
-            route: true
+            route: true,
+            id: true
         }
     });
 });
 exports.getLogsByOrder = getLogsByOrder;
 const createNewLog = (log) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("INTENTANDO CREAR");
-    console.log(log);
     return database_1.prisma.log.create({
         data: log
     });
 });
 exports.createNewLog = createNewLog;
-const getCosts = () => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.$queryRaw `SELECT
-        o.branchId,
-        SUM(l.cost) AS totalCost
-    FROM
-        "Order" o
-    JOIN
-        "Log" l ON o.id = l.orderId
-    GROUP BY
-        o.branchId, o.brachOfficeId;`;
+const getCosts = (incomeFiltered = []) => __awaiter(void 0, void 0, void 0, function* () {
+    const branches = "(" + incomeFiltered.map(e => e.brachOfficeId).join(", ") + ")";
+    const routes = "(" + incomeFiltered.map(e => e.routeId).join(", ") + ")";
+    const sql = `SELECT
+        o."brachOfficeId" , o."routeId",
+        SUM(l."vehicleCost" + l."cost") AS totalCost
+        FROM
+            "Order" o
+        JOIN
+            "Log" l ON o.id = l."orderId"
+        WHERE o."orderStatusId"=${enums_1.OrderStatus.DELIVERED}
+        AND o."brachOfficeId" IN ${branches}
+        AND o."routeId" IN ${routes}
+        GROUP BY
+            o."brachOfficeId", o."routeId"
+        ORDER BY  o."brachOfficeId" ASC, o."routeId" ASC
+            `;
+    const data = yield database_1.prisma.$queryRawUnsafe(sql);
+    return data;
 });
 exports.getCosts = getCosts;
 //# sourceMappingURL=logRepository.js.map

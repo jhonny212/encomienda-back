@@ -26,6 +26,16 @@ exports.orderRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(500).json(error);
     }
 }));
+exports.orderRouter.get('/branch/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = Number(req.params.id);
+        const result = yield (0, orderRepository_1.getOrdersByBranch)(id);
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
+}));
 exports.orderRouter.get('', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, orderRepository_1.getOrders)(req);
@@ -41,6 +51,7 @@ exports.orderRouter.post('', (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(result);
     }
     catch (error) {
+        console.log(error);
         return res.status(500).json(error);
     }
 }));

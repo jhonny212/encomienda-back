@@ -55,6 +55,15 @@ export const updateTracking = async (data: {}, id: number) => {
     })
 }
 
+export const updateLog = async ( id: number) => {
+    return prisma.tracking.update({
+        data: {passed: true},
+        where: {
+            id
+        }
+    })
+}
+
 const forceTracking = async (newRoute: RouteRequest, order: number) => {
     const vehicle = await prisma.vehicle.findFirst({
         where: {
@@ -73,7 +82,7 @@ const forceTracking = async (newRoute: RouteRequest, order: number) => {
 
     const log: LogRequest = {
         orderId: order,
-        passed: true,
+        passed: false,
         routeId: newRoute.id || 0,
 
         //Calculate
@@ -179,13 +188,15 @@ export const moveOrder = async (req: Request) => {
         const finalTrack = paths[0]
         const result = await updateTracking({ passed: true }, finalTrack.id)
         if (result.passed) {
-            console.log("4");
             const log = await forceTracking(finalTrack.route, order)
             logResult = await createNewLog(log)
         }
     }
 
     if (logResult.id) {
+        if(logs.length){
+            updateLog(logs[0].id)
+        }
         const finalRoute = await prisma.route.findFirst({
             where: {
                 id: logResult.routeId
@@ -193,12 +204,14 @@ export const moveOrder = async (req: Request) => {
         })
         if (orderInfo.brachOfficeId == finalRoute?.destinationId) {
             response.message = "La orden ha sido entregada a la sucursal final"
-            await updateOrder({ orderStatusId: OrderStatus.DELIVERED }, order)
+            await updateOrder({ orderStatusId: OrderStatus.DELIVERED, deliveredDate: new Date() }, order)
         } else {
             response.message = "Orden actualizada"
             await updateOrder({ orderStatusId: OrderStatus.INROAD }, order)
         }
         response.completed = true
+    }else{ 
+        response.message = "Error al actualizar"
     }
 
     return response
@@ -208,9 +221,9 @@ export const moveOrder = async (req: Request) => {
 export const generateQRCode = async (req: Request) => {
     const { orderId } = req.params
     dotenv.config();
-    const port = process.env.PORT;
-    const host = process.env.HOST;
-    const url =  await QRCode.toDataURL(`${host}${port}/tracking/qr/${orderId}`)
+    const port = process.env.PORT_FRONT;
+    const host = process.env.HOST_FRONT;
+    const url =  await QRCode.toDataURL(`${host}${port}/tracking/${orderId}`)
     return {url}
 }
 

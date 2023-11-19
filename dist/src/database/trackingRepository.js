@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trackQr = exports.generateQRCode = exports.moveOrder = exports.updateTracking = exports.createTracking = exports.getPath = void 0;
+exports.trackQr = exports.generateQRCode = exports.moveOrder = exports.updateLog = exports.updateTracking = exports.createTracking = exports.getPath = void 0;
 const database_1 = require("../models/database");
 const bestRoute_1 = require("../scripts/bestRoute");
 const orderRepository_1 = require("./orderRepository");
@@ -59,6 +59,15 @@ const updateTracking = (data, id) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.updateTracking = updateTracking;
+const updateLog = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.tracking.update({
+        data: { passed: true },
+        where: {
+            id
+        }
+    });
+});
+exports.updateLog = updateLog;
 const forceTracking = (newRoute, order) => __awaiter(void 0, void 0, void 0, function* () {
     const vehicle = yield database_1.prisma.vehicle.findFirst({
         where: {
@@ -75,7 +84,7 @@ const forceTracking = (newRoute, order) => __awaiter(void 0, void 0, void 0, fun
     });
     const log = {
         orderId: order,
-        passed: true,
+        passed: false,
         routeId: newRoute.id || 0,
         //Calculate
         cost: newRoute.costWeight * (totalWeight._sum.weight || 0),
@@ -170,12 +179,14 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         const finalTrack = paths[0];
         const result = yield (0, exports.updateTracking)({ passed: true }, finalTrack.id);
         if (result.passed) {
-            console.log("4");
             const log = yield forceTracking(finalTrack.route, order);
             logResult = yield (0, logRepository_1.createNewLog)(log);
         }
     }
     if (logResult.id) {
+        if (logs.length) {
+            (0, exports.updateLog)(logs[0].id);
+        }
         const finalRoute = yield database_1.prisma.route.findFirst({
             where: {
                 id: logResult.routeId
@@ -183,7 +194,7 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         });
         if (orderInfo.brachOfficeId == (finalRoute === null || finalRoute === void 0 ? void 0 : finalRoute.destinationId)) {
             response.message = "La orden ha sido entregada a la sucursal final";
-            yield (0, orderRepository_1.updateOrder)({ orderStatusId: enums_1.OrderStatus.DELIVERED }, order);
+            yield (0, orderRepository_1.updateOrder)({ orderStatusId: enums_1.OrderStatus.DELIVERED, deliveredDate: new Date() }, order);
         }
         else {
             response.message = "Orden actualizada";
@@ -191,15 +202,18 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         }
         response.completed = true;
     }
+    else {
+        response.message = "Error al actualizar";
+    }
     return response;
 });
 exports.moveOrder = moveOrder;
 const generateQRCode = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const { orderId } = req.params;
     dotenv_1.default.config();
-    const port = process.env.PORT;
-    const host = process.env.HOST;
-    const url = yield QRCode.toDataURL(`${host}${port}/tracking/qr/${orderId}`);
+    const port = process.env.PORT_FRONT;
+    const host = process.env.HOST_FRONT;
+    const url = yield QRCode.toDataURL(`${host}${port}/tracking/${orderId}`);
     return { url };
 });
 exports.generateQRCode = generateQRCode;

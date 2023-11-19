@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import {
     getOrderById,getOrders,
-    crearOrder,estimateVehicleCost,deleteOrder, estimateOrderCost
+    crearOrder,getOrdersByBranch,deleteOrder, estimateOrderCost
 } from '../database/orderRepository'
 import { prisma } from '../models/database';
 import { GetResponsePaginated } from '../utils/crud';
@@ -19,6 +19,17 @@ orderRouter.get('/:id',async (req:Request, res: Response) => {
     }
 })
 
+orderRouter.get('/branch/:id',async (req:Request, res: Response) => {
+    try {
+        const id = Number(req.params.id)
+        const result = await getOrdersByBranch(id)
+        return res.status(200).json(result)
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
+
+
 orderRouter.get('',async (req:Request, res: Response) => {
     try {
         const result = await getOrders(req)
@@ -33,6 +44,8 @@ orderRouter.post('', async (req:Request, res: Response) => {
         const result = await crearOrder(req)
         return res.status(200).json(result)
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json(error)
     }
 })

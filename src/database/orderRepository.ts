@@ -168,7 +168,7 @@ export const crearOrder = async (req: Request) => {
         total: total || 0,
         cost: cost || 0,
     }
-
+    
     const orderInstance = await prisma.order.create({
         data: {
             ...orderData,
@@ -200,3 +200,16 @@ export const crearOrder = async (req: Request) => {
     }
 }
 
+export const getOrdersByBranch = (brachOfficeId: number) => {
+    return prisma.log.findMany({
+        where: {
+            order: {
+                brachOfficeId,
+            },
+            passed: false
+        },
+        select: {
+            order: true
+        }
+    })
+}

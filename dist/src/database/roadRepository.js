@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRoute = exports.updateBranch = exports.deleteRoute = exports.createRoute = exports.deleteBranch = exports.createBranch = exports.getRoutes = exports.deleteDepartment = exports.getDepartments = exports.deleteCity = exports.getCities = exports.getBranches = void 0;
+exports.getOrdersByBranch = exports.updateRoute = exports.updateBranch = exports.deleteRoute = exports.createRoute = exports.deleteBranch = exports.createBranch = exports.getRoutes = exports.deleteDepartment = exports.getDepartments = exports.deleteCity = exports.getCities = exports.getBranches = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
@@ -110,4 +110,12 @@ const updateRoute = (req) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.updateRoute = updateRoute;
+const getOrdersByBranch = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.order.findMany({
+        where: {
+            brachOfficeId: Number(req.params.brach)
+        }
+    });
+});
+exports.getOrdersByBranch = getOrdersByBranch;
 //# sourceMappingURL=roadRepository.js.map
