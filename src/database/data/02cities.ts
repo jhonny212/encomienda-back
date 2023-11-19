@@ -48,3 +48,4 @@ seedCities()
   .finally(() => {
     process.exit(0);
   });
+  

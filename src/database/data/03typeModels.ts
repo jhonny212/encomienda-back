@@ -90,7 +90,7 @@ async function seedJobType() {
         data: jobTypeSeedData
     })
 }
-
+  
 seedOrderStatus()
 seedCostType()
 seedJobType()
