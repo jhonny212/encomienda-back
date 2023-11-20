@@ -9,6 +9,7 @@ const swagger_1 = __importDefault(require("./swagger"));
 const cors_1 = __importDefault(require("cors"));
 //ROUTERS
 const routes_1 = require("./src/routes");
+const reportRouter_1 = require("./src/routes/reportRouter");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -34,6 +35,7 @@ app.use("/api/cost", routes_1.costRouter);
 app.use('/api/profile', routes_1.profileRouter);
 app.use('/api/tracking', routes_1.trackingRouter);
 app.use('/api/metric', routes_1.metricRouter);
+app.use('/api/report', reportRouter_1.reportRouter);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

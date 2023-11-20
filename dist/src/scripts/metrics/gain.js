@@ -58,13 +58,13 @@ const gainMetric = () => __awaiter(void 0, void 0, void 0, function* () {
         const rate = getRate(el);
         return Object.assign(Object.assign({}, el), { rate });
     });
-    const filteredIncome = income.filter(el => el.rate > success_rate);
+    const filteredIncome = income.filter(el => el.rate < success_rate);
     const costs = yield (0, logRepository_1.getCosts)(filteredIncome);
     const newData = filteredIncome.map((el, index) => {
         el._sum.cost = costs[index].totalcost;
         const rate = getRate(el);
         return Object.assign(Object.assign({}, el), { rate });
-    }).filter(el => el.rate > success_rate);
+    }).filter(el => el.rate < success_rate);
     const dataX = yield getDataX(newData);
     const dataY = newData.map(el => el.rate);
     return {

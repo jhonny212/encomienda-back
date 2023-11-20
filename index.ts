@@ -10,6 +10,7 @@ import {
     roadRouter,branchRouter,profileRouter,vehicleRouter,costRouter, trackingRouter,
     metricRouter
   } from './src/routes'
+import { reportRouter } from './src/routes/reportRouter';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use("/api/cost",costRouter);
 app.use('/api/profile',profileRouter)
 app.use('/api/tracking',trackingRouter)
 app.use('/api/metric',metricRouter)
+app.use('/api/report',reportRouter)
 
 
 

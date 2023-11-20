@@ -49,7 +49,7 @@ export const gainMetric = async () => {
         return { ...el, rate }
     })
    
-    const filteredIncome = income.filter(el => el.rate > success_rate)
+    const filteredIncome = income.filter(el => el.rate < success_rate)
     const costs = await getCosts(filteredIncome)
    
     const newData = filteredIncome.map((el,index)=>{
@@ -58,7 +58,7 @@ export const gainMetric = async () => {
         return {
             ...el,rate
         }
-    }).filter(el => el.rate > success_rate)
+    }).filter(el => el.rate < success_rate)
     
     const dataX = await getDataX(newData)
 
