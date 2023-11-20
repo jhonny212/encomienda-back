@@ -23,7 +23,7 @@ const getMovements = (filter) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const getMovementsByBranch = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = { branchOfficeId: 1 };
-    const data = (yield getMovements(filter)).map(el => {
+    return (yield getMovements(filter)).map(el => {
         return {
             Sucursal: el.branchOfficeId,
             Tipo: el.costTypeId,
@@ -34,7 +34,14 @@ const getMovementsByBranch = (id) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.getMovementsByBranch = getMovementsByBranch;
 const getAllMovements = () => __awaiter(void 0, void 0, void 0, function* () {
-    return getMovements({});
+    return (yield getMovements({})).map(el => {
+        return {
+            Sucursal: el.branchOfficeId,
+            Tipo: el.costTypeId,
+            "Total estimado": el._sum.estimatedCost,
+            "Total real": el._sum.finalCost
+        };
+    });
 });
 exports.getAllMovements = getAllMovements;
 //# sourceMappingURL=movements.js.map

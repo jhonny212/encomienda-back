@@ -27,5 +27,12 @@ export const getMovementsByBranch = async (id: number) => {
 }
 
 export const getAllMovements = async () => {
-    return getMovements({})
+    return (await getMovements({})).map(el=>{
+        return {
+            Sucursal: el.branchOfficeId,
+            Tipo: el.costTypeId,
+            "Total estimado": el._sum.estimatedCost,
+            "Total real": el._sum.finalCost
+        }
+    })
 }

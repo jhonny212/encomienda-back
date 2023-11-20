@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,14 +35,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportRouter = void 0;
 const express_1 = require("express");
 const movements_1 = require("../scripts/reports/movements");
+const ExcelJS = __importStar(require("exceljs"));
 exports.reportRouter = (0, express_1.Router)();
-function generateExcel() {
+function generarExcel(datos) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet('Datos');
+        if (datos.length > 0) {
+            // Encabezados de las columnas
+            const columnas = Object.keys(datos[0]);
+            sheet.addRow(columnas);
+            // Agregar datos
+            datos.forEach((fila) => {
+                const valores = columnas.map((columna) => fila[columna]);
+                sheet.addRow(valores);
+            });
+        }
+        // Guardar el archivo
+        return yield workbook.xlsx.writeBuffer();
+    });
 }
 exports.reportRouter.get('/movements/:branch', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield (0, movements_1.getMovementsByBranch)(Number(req.params.branch));
-        console.log(data);
-        return res.status(200).json(data);
+        const file = yield generarExcel(data);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');
+        return res.status(200).send(file);
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
+}));
+exports.reportRouter.get('/movements', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield (0, movements_1.getAllMovements)();
+        const file = yield generarExcel(data);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');
+        return res.status(200).send(file);
     }
     catch (error) {
         res.status(500).json(error);

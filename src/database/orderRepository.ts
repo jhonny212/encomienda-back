@@ -17,7 +17,10 @@ export const getPackagesByOrder = async (req: Request, orderId: number) => {
             orderId
         }
     }
-    return prisma.package.findMany(paginator(req, whereClause))
+    return prisma.package.findMany({
+        ...paginator(req),
+        ...whereClause
+    })
 }
 
 //OrderCrud
