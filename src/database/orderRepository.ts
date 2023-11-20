@@ -28,7 +28,8 @@ export const getOrderById = async (req: Request, id: number) => {
         }
     }
     return prisma.order.findFirst({
-        ...paginator(req, whereClause),
+        ...paginator(req),
+        ...whereClause,
         include: {
             brachOffice: true,
             orderStatus: true,

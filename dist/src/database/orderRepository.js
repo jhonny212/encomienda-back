@@ -35,7 +35,7 @@ const getOrderById = (req, id) => __awaiter(void 0, void 0, void 0, function* ()
             id
         }
     };
-    return database_1.prisma.order.findFirst(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req, whereClause)), { include: {
+    return database_1.prisma.order.findFirst(Object.assign(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), whereClause), { include: {
             brachOffice: true,
             orderStatus: true,
             Package: true,
@@ -137,6 +137,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, client, address, phone, description } = order;
     const routeId = order.route ? order.route[0].id : 0;
     const destiny = order.route ? order.route[order.route.length - 1].destinationId : 0;
+    const originId = order.route ? order.route[order.route.length - 1].originId : 0;
     const orderData = {
         //Basic info
         email,
@@ -150,6 +151,7 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         routeId,
         total: total || 0,
         cost: cost || 0,
+        originId
     };
     const orderInstance = yield database_1.prisma.order.create({
         data: Object.assign({}, orderData)

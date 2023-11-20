@@ -23,7 +23,7 @@ const getMovements = (filter) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const getMovementsByBranch = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = { branchOfficeId: 1 };
-    const data = (yield getMovements(filter)).map(el => {
+    return (yield getMovements(filter)).map(el => {
         return {
             Sucursal: el.branchOfficeId,
             Tipo: el.costTypeId,
