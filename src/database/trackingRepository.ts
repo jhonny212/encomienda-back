@@ -237,7 +237,19 @@ export const trackQr = async (req:Request) => {
             id: true,
             order: true,
             passed: true,
-            route: true,
+            route: {
+                select: {
+                    costWeight: true,
+                    destination: true,
+                    id: true,
+                    isActive: true,
+                    name: true,
+                    origin: true,
+                    priceWeight: true,
+                    weight: true,
+                    
+                }
+            },
             total: true,
             vehicle: true,
             vehicleCost: true,

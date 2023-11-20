@@ -69,8 +69,25 @@ export const getUsers = async (req: Request) => {
 
 export const createUser = async (req:Request) => {
     const data = req.body as UserRequest
-    return prisma.user.create({
+    const user = await prisma.user.create({
         data
+    })
+    return prisma.user.findFirst({
+        where: {
+            id: user.id
+        },
+        select: {
+            email: true,
+            id: true,
+            name: true,
+            employee: {
+                select: {
+                    branchOffice: true,
+                    job: true,
+                    name: true,
+                }
+            }
+        }
     })
 }
 export const updateUser = async (req:Request) => {
@@ -95,6 +112,8 @@ export const login = async (req:Request) => {
         },
         select: {
             email: true,
+            id: true,
+            name: true,
             employee: {
                 select: {
                     branchOffice: true,
