@@ -235,23 +235,7 @@ export const trackQr = async (req:Request) => {
             cost: true,
             date: true,
             id: true,
-            order: {
-                select: {
-                    address: true,
-                    origin: true,
-                    brachOffice: true,
-                    client: true,
-                    cost: true,
-                    date: true,
-                    deliveredDate: true,
-                    description: true,
-                    email: true,
-                    id: true,
-                    orderStatus: true,
-                    phone: true,
-                    total: true,
-                }
-            },
+            order: true,
             passed: true,
             route: {
                 select: {

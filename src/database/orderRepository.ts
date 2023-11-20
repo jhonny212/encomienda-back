@@ -209,7 +209,23 @@ export const getOrdersByBranch = (brachOfficeId: number) => {
             passed: false
         },
         select: {
-            order: true
+            order: {
+                select: {
+                    address: true,
+                    brachOffice: true,
+                    client: true,
+                    cost: true,
+                    date: true,
+                    deliveredDate: true,
+                    description: true,
+                    email: true,
+                    id: true,
+                    orderStatus: true,
+                    origin: true,
+                    phone: true,
+                    total: true
+                }
+            }
         }
     })
 }
