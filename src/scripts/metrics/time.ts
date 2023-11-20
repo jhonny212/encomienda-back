@@ -1,3 +1,4 @@
+import { getBranchById } from "../../database/roadRepository"
 import { OrderStatus } from "../../enum/enums"
 import { prisma } from "../../models/database"
 
@@ -20,5 +21,17 @@ const getOrders = async () => {
 
 
 export const timeMetric = async () => {
-    return getOrders()
+    const data = await getOrders()
+    const dataX = data.map(async (el)=> {
+        const origin = (await getBranchById(el?.originId || -1))[0]
+        const destiny = (await getBranchById(el?.brachOfficeId || -1))[0]
+        return `${origin.city.name} - ${destiny.city.name}`
+    })
+
+    const dataY = data.map(el=>el.averageTime)
+
+    return {
+        dataX,
+        dataY
+    }
 }

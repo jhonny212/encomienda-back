@@ -97,7 +97,8 @@ export const login = async (req:Request) => {
             email: true,
             employee: {
                 select: {
-                    jobId: true,
+                    branchOffice: true,
+                    job: true,
                     name: true,
                 }
             }

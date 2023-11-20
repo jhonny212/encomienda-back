@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gainMetric = void 0;
 const logRepository_1 = require("../../database/logRepository");
+const roadRepository_1 = require("../../database/roadRepository");
 const enums_1 = require("../../enum/enums");
 const database_1 = require("../../models/database");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -52,8 +53,17 @@ const gainMetric = () => __awaiter(void 0, void 0, void 0, function* () {
         el._sum.cost = costs[index].totalcost;
         const rate = getRate(el);
         return Object.assign(Object.assign({}, el), { rate });
-    });
-    return newData.filter(el => el.rate > success_rate);
+    }).filter(el => el.rate > success_rate);
+    const dataX = newData.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+        const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
+        const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
+        return `${origin.city.name} - ${destiny.city.name}`;
+    }));
+    const dataY = newData.map(el => el.rate);
+    return {
+        dataX,
+        dataY
+    };
 });
 exports.gainMetric = gainMetric;
 //# sourceMappingURL=gain.js.map

@@ -17,7 +17,7 @@ type averageTime = {
 
 type routeMetric = {
     brachOfficeId: number
-    orderId: number
+    originId: number
     passedTrack: number
     unpassedTrack: number
 }

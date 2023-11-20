@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOrdersByBranch = exports.updateRoute = exports.updateBranch = exports.deleteRoute = exports.createRoute = exports.deleteBranch = exports.createBranch = exports.getRoutes = exports.deleteDepartment = exports.getDepartments = exports.deleteCity = exports.getCities = exports.getBranches = void 0;
+exports.getOrdersByBranch = exports.updateRoute = exports.updateBranch = exports.deleteRoute = exports.createRoute = exports.deleteBranch = exports.createBranch = exports.getRoutes = exports.deleteDepartment = exports.getDepartments = exports.deleteCity = exports.getCities = exports.getBranchById = exports.getBranches = void 0;
 const database_1 = require("../models/database");
 const paginator_1 = require("../utils/paginator");
 const crud_1 = require("../utils/crud");
@@ -27,6 +27,17 @@ const getBranches = (req) => __awaiter(void 0, void 0, void 0, function* () {
         } }));
 });
 exports.getBranches = getBranches;
+const getBranchById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    return database_1.prisma.branchOffice.findMany({
+        where: {
+            id
+        },
+        include: {
+            city: true,
+        }
+    });
+});
+exports.getBranchById = getBranchById;
 const getCities = (req) => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.city.findMany(Object.assign(Object.assign({}, (0, paginator_1.paginator)(req)), { where: {
             isActive: true

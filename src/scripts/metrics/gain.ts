@@ -1,4 +1,5 @@
 import { getCosts } from "../../database/logRepository"
+import { getBranchById } from "../../database/roadRepository";
 import { OrderStatus } from "../../enum/enums"
 import { prisma } from "../../models/database"
 import dotenv from 'dotenv';
@@ -46,7 +47,18 @@ export const gainMetric = async () => {
         return {
             ...el,rate
         }
+    }).filter(el => el.rate > success_rate)
+    
+    const dataX =  newData.map(async (el)=>{
+        const origin = (await getBranchById(el?.originId || -1))[0]
+        const destiny = (await getBranchById(el?.brachOfficeId || -1))[0]
+        return `${origin.city.name} - ${destiny.city.name}`
     })
-    return newData.filter(el => el.rate > success_rate)
+
+    const dataY = newData.map(el=>el.rate)
+    return {
+        dataX,
+        dataY
+    }
 }
 

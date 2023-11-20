@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.timeMetric = void 0;
+const roadRepository_1 = require("../../database/roadRepository");
 const enums_1 = require("../../enum/enums");
 const database_1 = require("../../models/database");
 const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,7 +29,17 @@ const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
     return data;
 });
 const timeMetric = () => __awaiter(void 0, void 0, void 0, function* () {
-    return getOrders();
+    const data = yield getOrders();
+    const dataX = data.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+        const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
+        const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
+        return `${origin.city.name} - ${destiny.city.name}`;
+    }));
+    const dataY = data.map(el => el.averageTime);
+    return {
+        dataX,
+        dataY
+    };
 });
 exports.timeMetric = timeMetric;
 //# sourceMappingURL=time.js.map

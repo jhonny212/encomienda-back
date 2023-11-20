@@ -22,6 +22,17 @@ export const getBranches = async (req: Request)=>{
     })
 }
 
+export const getBranchById = async (id:number)=>{
+    return prisma.branchOffice.findMany({
+        where: {
+            id
+        },
+        include: {
+            city: true,
+        }
+    })
+}
+
 export const getCities = async (req: Request)=>{
     return prisma.city.findMany({
         ...paginator(req),
