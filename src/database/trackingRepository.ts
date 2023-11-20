@@ -231,6 +231,18 @@ export const trackQr = async (req:Request) => {
     const { orderId } = req.params
     return prisma.log.findMany({
         where: {orderId: Number(orderId)},
+        select: {
+            cost: true,
+            date: true,
+            id: true,
+            order: true,
+            passed: true,
+            route: true,
+            total: true,
+            vehicle: true,
+            vehicleCost: true,
+            
+        },
         orderBy: {
             id: 'asc'
         }
