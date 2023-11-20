@@ -33,6 +33,11 @@ function seedCities() {
             { name: 'Cubulco', departmentId: 2 },
             { name: 'Granados', departmentId: 2 },
             { name: 'Purulhá', departmentId: 2 },
+            { name: 'Ciudad de Guatemala', departmentId: 7 },
+            { name: 'Quetzaltenango', departmentId: 13 },
+            { name: 'Zunil', departmentId: 13 },
+            { name: 'Almolonga', departmentId: 13 },
+            { name: 'San Felipe', departmentId: 15 },
             // Agregar más ciudades con sus departmentId correspondientes
         ];
         for (const city of cityData) {
