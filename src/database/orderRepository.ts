@@ -203,8 +203,8 @@ export const crearOrder = async (req: Request) => {
 export const getOrdersByBranch = (brachOfficeId: number) => {
     return prisma.log.findMany({
         where: {
-            order: {
-                brachOfficeId,
+            route: {
+                originId: brachOfficeId
             },
             passed: false
         },

@@ -174,8 +174,8 @@ exports.crearOrder = crearOrder;
 const getOrdersByBranch = (brachOfficeId) => {
     return database_1.prisma.log.findMany({
         where: {
-            order: {
-                brachOfficeId,
+            route: {
+                originId: brachOfficeId
             },
             passed: false
         },

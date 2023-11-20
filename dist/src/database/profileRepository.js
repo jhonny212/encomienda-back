@@ -96,7 +96,8 @@ const login = (req) => __awaiter(void 0, void 0, void 0, function* () {
             email: true,
             employee: {
                 select: {
-                    jobId: true,
+                    branchOffice: true,
+                    job: true,
                     name: true,
                 }
             }
