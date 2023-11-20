@@ -36,7 +36,7 @@ async function seedDepartments() {
     }
 
     await prisma.$disconnect();
-}
+}   
 
 seedDepartments()
     .catch((error) => {
