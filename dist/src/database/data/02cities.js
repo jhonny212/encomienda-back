@@ -38,6 +38,7 @@ function seedCities() {
             { name: 'Zunil', departmentId: 13 },
             { name: 'Almolonga', departmentId: 13 },
             { name: 'San Felipe', departmentId: 15 },
+            { name: 'Retalhuleu', departmentId: 15 },
             // Agregar más ciudades con sus departmentId correspondientes
         ];
         for (const city of cityData) {
