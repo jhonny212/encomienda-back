@@ -20,13 +20,13 @@ const metrics = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const time = yield (0, time_1.timeMetric)();
     const route = yield (0, route_1.routeMetric)();
     function converData(data) {
-        return data.map(e => Number(e).toFixed(2));
+        return data.map(e => Number(Number(e).toFixed(2)));
     }
     const gainData = {
         item: 'Metrica en base a ganancias',
         categories: gain.dataX,
         min: gain.dataY.length > 1 ? Math.min(...gain.dataY) : 0,
-        max: Math.max(...gain.dataY).toFixed(2),
+        max: Number(Math.max(...gain.dataY).toFixed(2)),
         series: [
             {
                 name: 'Ganancias', data: converData(gain.dataY)
@@ -38,7 +38,7 @@ const metrics = (req) => __awaiter(void 0, void 0, void 0, function* () {
         item: 'Metrica en base a tiempo promedio de entrega',
         categories: time.dataX,
         min: time.dataY.length > 1 ? Math.min(...time.dataY) : 0,
-        max: Math.max(...time.dataY).toFixed(2),
+        max: Number(Math.max(...time.dataY).toFixed(2)),
         series: [
             {
                 name: 'Tiempo promedio de entrega', data: converData(time.dataY)
@@ -51,7 +51,7 @@ const metrics = (req) => __awaiter(void 0, void 0, void 0, function* () {
         item: 'Metrica en base a paquetes entregados exitosamente en base al tracking original',
         categories: route.dataX,
         min: tmp.length > 1 ? Math.min(...tmp) : 0,
-        max: Math.max(...tmp).toFixed(2),
+        max: Number(Math.max(...tmp).toFixed(2)),
         series: [
             {
                 name: 'Entregas con exito', data: converData(tmp)

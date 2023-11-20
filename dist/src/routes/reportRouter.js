@@ -105,7 +105,7 @@ exports.reportRouter.get('/vehicle/movements', (req, res) => __awaiter(void 0, v
 }));
 exports.reportRouter.get('/goals', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield (0, movements_1.getVehicleAllMovements)();
+        const data = yield (0, movements_1.getAllGoals)();
         const file = yield generarExcel(data);
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');
