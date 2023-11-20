@@ -36,8 +36,12 @@ const createNewLog = (log) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.createNewLog = createNewLog;
 const getCosts = (incomeFiltered = []) => __awaiter(void 0, void 0, void 0, function* () {
-    const branches = "(" + incomeFiltered.map(e => e.brachOfficeId).join(", ") + ")";
-    const routes = "(" + incomeFiltered.map(e => e.originId).join(", ") + ")";
+    const branch = incomeFiltered.map(e => e.brachOfficeId);
+    const route = incomeFiltered.map(e => e.originId);
+    branch.push(-1);
+    route.push(-1);
+    const branches = "(" + branch.join(", ") + ")";
+    const routes = "(" + route.join(", ") + ")";
     const sql = `SELECT
         o."brachOfficeId" , o."originId",
         SUM(l."vehicleCost" + l."cost") AS totalCost

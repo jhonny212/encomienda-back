@@ -56,7 +56,7 @@ export const updateTracking = async (data: {}, id: number) => {
 }
 
 export const updateLog = async ( id: number) => {
-    return prisma.tracking.update({
+    return prisma.log.update({
         data: {passed: true},
         where: {
             id
@@ -143,7 +143,7 @@ export const moveOrder = async (req: Request) => {
     }
 
     const logs = await getLogsByOrder(order, { type: 'desc' }, 1,false)
-    const validLog = logs.length == 0 || logs[0].route.originId == paths[0].route.originId
+    const validLog = logs.length == 0 || logs[0].route.destinationId == paths[0].route.originId
     
     let logResult: LogRequest = { cost: 0, orderId: 0, passed: true, routeId: 0, total: 0, vehicleCost: 0, vehicleId: 0 };
     
@@ -165,6 +165,7 @@ export const moveOrder = async (req: Request) => {
 
             if (result.passed) {
                 const log = await forceTracking(actualTrack.route, order)
+                console.log('1');
                 logResult = await createNewLog(log)
             }
 
@@ -173,6 +174,7 @@ export const moveOrder = async (req: Request) => {
             const result = await updateTracking({ passed: true }, actualTrack.id)
             if (result.passed) {
                 const log = await forceTracking(newRoute, order)
+                console.log('2');
                 logResult = await createNewLog(log)
             } else {
                 response.message = "Error al mover a nueva ruta, intente de nuevo."
@@ -181,6 +183,8 @@ export const moveOrder = async (req: Request) => {
     } else if (!validLog) {
         //Froce logic with logs and no tracking
         const log = await forceTracking(newRoute, order)
+        console.log('3');
+        console.log(newRoute, log);
         logResult = await createNewLog(log)
     }
     else {
@@ -189,13 +193,16 @@ export const moveOrder = async (req: Request) => {
         const result = await updateTracking({ passed: true }, finalTrack.id)
         if (result.passed) {
             const log = await forceTracking(finalTrack.route, order)
+            console.log('4');
             logResult = await createNewLog(log)
         }
     }
-
+    console.log(logResult);
     if (logResult.id) {
+        
         if(logs.length){
             updateLog(logs[0].id)
+            console.log(logs);
         }
         const finalRoute = await prisma.route.findFirst({
             where: {
@@ -204,6 +211,7 @@ export const moveOrder = async (req: Request) => {
         })
         if (orderInfo.brachOfficeId == finalRoute?.destinationId) {
             response.message = "La orden ha sido entregada a la sucursal final"
+            updateLog(logResult.id);
             await updateOrder({ orderStatusId: OrderStatus.DELIVERED, deliveredDate: new Date() }, order)
         } else {
             response.message = "Orden actualizada"

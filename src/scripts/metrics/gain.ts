@@ -61,7 +61,6 @@ export const gainMetric = async () => {
     }).filter(el => el.rate < success_rate)
     
     const dataX = await getDataX(newData)
-
     const dataY = newData.map(el=>el.rate)
     return {
         dataX,

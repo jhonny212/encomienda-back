@@ -60,7 +60,7 @@ const updateTracking = (data, id) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.updateTracking = updateTracking;
 const updateLog = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return database_1.prisma.tracking.update({
+    return database_1.prisma.log.update({
         data: { passed: true },
         where: {
             id
@@ -137,7 +137,7 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         return response;
     }
     const logs = yield (0, logRepository_1.getLogsByOrder)(order, { type: 'desc' }, 1, false);
-    const validLog = logs.length == 0 || logs[0].route.originId == paths[0].route.originId;
+    const validLog = logs.length == 0 || logs[0].route.destinationId == paths[0].route.originId;
     let logResult = { cost: 0, orderId: 0, passed: true, routeId: 0, total: 0, vehicleCost: 0, vehicleId: 0 };
     //Check if theres actual and next tracking
     if (paths.length > 1 && validLog) {
@@ -154,6 +154,7 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
             const result = yield (0, exports.updateTracking)({ passed: true }, actualTrack.id);
             if (result.passed) {
                 const log = yield forceTracking(actualTrack.route, order);
+                console.log('1');
                 logResult = yield (0, logRepository_1.createNewLog)(log);
             }
         }
@@ -162,6 +163,7 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
             const result = yield (0, exports.updateTracking)({ passed: true }, actualTrack.id);
             if (result.passed) {
                 const log = yield forceTracking(newRoute, order);
+                console.log('2');
                 logResult = yield (0, logRepository_1.createNewLog)(log);
             }
             else {
@@ -172,6 +174,8 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     else if (!validLog) {
         //Froce logic with logs and no tracking
         const log = yield forceTracking(newRoute, order);
+        console.log('3');
+        console.log(newRoute, log);
         logResult = yield (0, logRepository_1.createNewLog)(log);
     }
     else {
@@ -180,12 +184,15 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield (0, exports.updateTracking)({ passed: true }, finalTrack.id);
         if (result.passed) {
             const log = yield forceTracking(finalTrack.route, order);
+            console.log('4');
             logResult = yield (0, logRepository_1.createNewLog)(log);
         }
     }
+    console.log(logResult);
     if (logResult.id) {
         if (logs.length) {
             (0, exports.updateLog)(logs[0].id);
+            console.log(logs);
         }
         const finalRoute = yield database_1.prisma.route.findFirst({
             where: {
@@ -194,6 +201,7 @@ const moveOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
         });
         if (orderInfo.brachOfficeId == (finalRoute === null || finalRoute === void 0 ? void 0 : finalRoute.destinationId)) {
             response.message = "La orden ha sido entregada a la sucursal final";
+            (0, exports.updateLog)(logResult.id);
             yield (0, orderRepository_1.updateOrder)({ orderStatusId: enums_1.OrderStatus.DELIVERED, deliveredDate: new Date() }, order);
         }
         else {
