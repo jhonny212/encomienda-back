@@ -83,7 +83,15 @@ export const createUser = async (req:Request) => {
             employee: {
                 select: {
                     branchOffice: true,
-                    job: true,
+                    job: {
+                        select: {
+                            baseSalary: true,
+                            description: true,
+                            jobType: true,
+                            id: true,
+                            name: true
+                        }
+                    },
                     name: true,
                 }
             }
@@ -117,7 +125,15 @@ export const login = async (req:Request) => {
             employee: {
                 select: {
                     branchOffice: true,
-                    job: true,
+                    job: {
+                        select: {
+                            baseSalary: true,
+                            description: true,
+                            jobType: true,
+                            id: true,
+                            name: true
+                        }
+                    },
                     name: true,
                 }
             }

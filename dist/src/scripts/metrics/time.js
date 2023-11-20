@@ -17,25 +17,34 @@ const getOrders = () => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT
         o."brachOfficeId",
         o."originId",
-        AVG(EXTRACT(EPOCH FROM (o."deliveredDate" - o."date")) / 60) AS averageTime,
-        count(*) as total
+        AVG(EXTRACT(EPOCH FROM (o."deliveredDate" - o."date")) / 60) AS "averageTime",
+        count(*) as "total"
     FROM
         "Order" o
     WHERE o."orderStatusId" = ${enums_1.OrderStatus.DELIVERED}
     GROUP BY
     o."brachOfficeId", o."originId" 
-    ORDER BY averageTime ASC;`;
+    ORDER BY "averageTime" ASC;`;
     const data = yield database_1.prisma.$queryRawUnsafe(sql);
     return data;
 });
+function getDataX(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const newData = [];
+        for (const el of data) {
+            const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
+            const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
+            newData.push(`${origin.city.name} - ${destiny.city.name}`);
+        }
+        return newData;
+    });
+}
 const timeMetric = () => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield getOrders();
-    const dataX = data.map((el) => __awaiter(void 0, void 0, void 0, function* () {
-        const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
-        const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
-        return `${origin.city.name} - ${destiny.city.name}`;
-    }));
-    const dataY = data.map(el => el.averageTime);
+    const dataX = yield getDataX(data);
+    const dataY = data.map(el => {
+        return el.averageTime;
+    });
     return {
         dataX,
         dataY

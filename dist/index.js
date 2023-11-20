@@ -33,6 +33,7 @@ app.use("/api/vehicle", routes_1.vehicleRouter);
 app.use("/api/cost", routes_1.costRouter);
 app.use('/api/profile', routes_1.profileRouter);
 app.use('/api/tracking', routes_1.trackingRouter);
+app.use('/api/metric', routes_1.metricRouter);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

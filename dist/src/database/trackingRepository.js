@@ -227,7 +227,18 @@ const trackQr = (req) => __awaiter(void 0, void 0, void 0, function* () {
             id: true,
             order: true,
             passed: true,
-            route: true,
+            route: {
+                select: {
+                    costWeight: true,
+                    destination: true,
+                    id: true,
+                    isActive: true,
+                    name: true,
+                    origin: true,
+                    priceWeight: true,
+                    weight: true,
+                }
+            },
             total: true,
             vehicle: true,
             vehicleCost: true,

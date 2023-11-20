@@ -30,9 +30,9 @@ export const createNewLog = async (log: LogRequest) => {
 
 export const getCosts = async (incomeFiltered: any[] = []) => {
     const branches = "(" + incomeFiltered.map(e => e.brachOfficeId).join(", ") + ")";
-    const routes = "(" + incomeFiltered.map(e => e.routeId).join(", ") + ")";
+    const routes = "(" + incomeFiltered.map(e => e.originId).join(", ") + ")";
     const sql = `SELECT
-        o."brachOfficeId" , o."routeId",
+        o."brachOfficeId" , o."originId",
         SUM(l."vehicleCost" + l."cost") AS totalCost
         FROM
             "Order" o
@@ -40,10 +40,10 @@ export const getCosts = async (incomeFiltered: any[] = []) => {
             "Log" l ON o.id = l."orderId"
         WHERE o."orderStatusId"=${OrderStatus.DELIVERED}
         AND o."brachOfficeId" IN ${branches}
-        AND o."routeId" IN ${routes}
+        AND o."originId" IN ${routes}
         GROUP BY
-            o."brachOfficeId", o."routeId"
-        ORDER BY  o."brachOfficeId" ASC, o."routeId" ASC
+            o."brachOfficeId", o."originId"
+        ORDER BY  o."brachOfficeId" ASC, o."originId" ASC
             `
     const data = await prisma.$queryRawUnsafe(sql)
     return data as costSum[]

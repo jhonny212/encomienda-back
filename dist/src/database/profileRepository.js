@@ -67,8 +67,33 @@ const getUsers = (req) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUsers = getUsers;
 const createUser = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
-    return database_1.prisma.user.create({
+    const user = yield database_1.prisma.user.create({
         data
+    });
+    return database_1.prisma.user.findFirst({
+        where: {
+            id: user.id
+        },
+        select: {
+            email: true,
+            id: true,
+            name: true,
+            employee: {
+                select: {
+                    branchOffice: true,
+                    job: {
+                        select: {
+                            baseSalary: true,
+                            description: true,
+                            jobType: true,
+                            id: true,
+                            name: true
+                        }
+                    },
+                    name: true,
+                }
+            }
+        }
     });
 });
 exports.createUser = createUser;
@@ -94,10 +119,20 @@ const login = (req) => __awaiter(void 0, void 0, void 0, function* () {
         },
         select: {
             email: true,
+            id: true,
+            name: true,
             employee: {
                 select: {
                     branchOffice: true,
-                    job: true,
+                    job: {
+                        select: {
+                            baseSalary: true,
+                            description: true,
+                            jobType: true,
+                            id: true,
+                            name: true
+                        }
+                    },
                     name: true,
                 }
             }

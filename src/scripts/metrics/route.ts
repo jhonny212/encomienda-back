@@ -18,6 +18,17 @@ const getTracking = async ()=> {
     return prisma.$queryRawUnsafe<routeMetric[]>(sql)
 }
 
+async function getDataX(data: routeMetric[]) {
+    const newData = []
+    for( const el of data ){
+        const origin = (await getBranchById(el?.originId || -1))[0]
+        const destiny = (await getBranchById(el?.brachOfficeId || -1))[0]
+        newData.push(`${origin.city.name} - ${destiny.city.name}`)
+    }
+    return newData;
+}
+
+
 export const routeMetric = async () => {
     const tracking = await getTracking()
     const newData = tracking.map(el => {
@@ -26,11 +37,7 @@ export const routeMetric = async () => {
             errorRate: el.unpassedTrack / (el.unpassedTrack + el.passedTrack)
         }        
     }).filter(el=> el.errorRate < error_rate)
-    const dataX = newData.map(async (el)=> {
-        const origin = (await getBranchById(el?.originId || -1))[0]
-        const destiny = (await getBranchById(el?.brachOfficeId || -1))[0]
-        return `${origin.city.name} - ${destiny.city.name}`
-    })
+    const dataX = await getDataX(newData)
 
     const dataY = newData.map(el=>el.errorRate)
 

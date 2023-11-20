@@ -42,6 +42,17 @@ function getRate(el) {
     const rate = ((total - cost) / total) * 100;
     return rate;
 }
+function getDataX(data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const newData = [];
+        for (const el of data) {
+            const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
+            const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
+            newData.push(`${origin.city.name} - ${destiny.city.name}`);
+        }
+        return newData;
+    });
+}
 const gainMetric = () => __awaiter(void 0, void 0, void 0, function* () {
     const income = (yield getOrders()).map(el => {
         const rate = getRate(el);
@@ -54,11 +65,7 @@ const gainMetric = () => __awaiter(void 0, void 0, void 0, function* () {
         const rate = getRate(el);
         return Object.assign(Object.assign({}, el), { rate });
     }).filter(el => el.rate > success_rate);
-    const dataX = newData.map((el) => __awaiter(void 0, void 0, void 0, function* () {
-        const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
-        const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
-        return `${origin.city.name} - ${destiny.city.name}`;
-    }));
+    const dataX = yield getDataX(newData);
     const dataY = newData.map(el => el.rate);
     return {
         dataX,

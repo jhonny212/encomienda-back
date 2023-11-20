@@ -24,4 +24,5 @@ __exportStar(require("./vehicleRouter"), exports);
 __exportStar(require("./costRouter"), exports);
 __exportStar(require("./profileRouter"), exports);
 __exportStar(require("./trackingRouter"), exports);
+__exportStar(require("./metricRouter"), exports);
 //# sourceMappingURL=index.js.map
