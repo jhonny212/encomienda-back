@@ -21,9 +21,9 @@ const getTracking = async ()=> {
 async function getDataX(data: routeMetric[]) {
     const newData = []
     for( const el of data ){
-        const origin = (await getBranchById(el?.originId || -1))[0]
-        const destiny = (await getBranchById(el?.brachOfficeId || -1))[0]
-        newData.push(`${origin.city.name} - ${destiny.city.name}`)
+        let origin = (await getBranchById(el?.originId || -1))[0]
+        let destiny = (await getBranchById(el?.brachOfficeId || -1))[0]
+        newData.push(`${origin?.city?.name} - ${destiny?.city?.name}`)
     }
     return newData;
 }
