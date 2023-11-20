@@ -154,7 +154,7 @@ export const crearOrder = async (req: Request) => {
     const { email, client, address, phone, description } = order
     const routeId = order.route ? order.route[0].id : 0
     const destiny = order.route ? order.route[order.route.length - 1].destinationId : 0
-    const originId = order.route ? order.route[order.route.length - 1].originId : 0
+    const originId = order.route ? order.route[0].originId : 0
     
     const orderData = {
         //Basic info
