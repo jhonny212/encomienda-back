@@ -84,14 +84,17 @@ model Order {
     Package       Package[]
     route         Route?        @relation(fields: [routeId], references: [id])
     routeId       Int?
-    brachOffice   BranchOffice? @relation(fields: [brachOfficeId], references: [id])
+    brachOffice   BranchOffice? @relation("destiny", fields: [brachOfficeId], references: [id])
     brachOfficeId Int?
 
-    originId      Int?
+    origin   BranchOffice? @relation("origin", fields: [originId], references: [id])
+    originId Int?
 
     Tracking      Tracking[]
     TrackingReal  Log[]
     deliveredDate DateTime   @default(now())
+
+    
 }
 
 model Package {
@@ -122,10 +125,12 @@ model BranchOffice {
     //Path2    Path[]    @relation("ref_route4")
     city     City      @relation(fields: [cityId], references: [id])
     cityId   Int
-    Order    Order[]
+   
     capacity Int
     Vehicle  Vehicle[]
     Cost     Cost[]
+    Order1   Order[]   @relation("origin")
+    Order2   Order[]   @relation("destiny")
 }
 
 model CostType {

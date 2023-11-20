@@ -19,14 +19,17 @@ const metrics = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const gain = yield (0, gain_1.gainMetric)();
     const time = yield (0, time_1.timeMetric)();
     const route = yield (0, route_1.routeMetric)();
+    function converData(data) {
+        return data.map(e => Number(e).toFixed(2));
+    }
     const gainData = {
         item: 'Metrica en base a ganancias',
         categories: gain.dataX,
-        min: Math.min(...gain.dataY),
-        max: Math.max(...gain.dataY),
+        min: gain.dataY.length > 1 ? Math.min(...gain.dataY) : 0,
+        max: Math.max(...gain.dataY).toFixed(2),
         series: [
             {
-                name: 'Ganancias', data: gain.dataY
+                name: 'Ganancias', data: converData(gain.dataY)
             }
         ],
         colors: ['rgba(0,0,0,0.1)']
@@ -34,11 +37,11 @@ const metrics = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const timeData = {
         item: 'Metrica en base a tiempo promedio de entrega',
         categories: time.dataX,
-        min: Math.min(...time.dataY),
-        max: Math.max(...time.dataY),
+        min: time.dataY.length > 1 ? Math.min(...time.dataY) : 0,
+        max: Math.max(...time.dataY).toFixed(2),
         series: [
             {
-                name: 'Tiempo promedio de entrega', data: time.dataY
+                name: 'Tiempo promedio de entrega', data: converData(time.dataY)
             }
         ],
         colors: ['rgba(0,0,0,0.1)']
@@ -47,11 +50,11 @@ const metrics = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const routeData = {
         item: 'Metrica en base a paquetes entregados exitosamente en base al tracking original',
         categories: route.dataX,
-        min: Math.min(...tmp),
-        max: Math.max(...tmp),
+        min: tmp.length > 1 ? Math.min(...tmp) : 0,
+        max: Math.max(...tmp).toFixed(2),
         series: [
             {
-                name: 'Entregas con exito', data: tmp
+                name: 'Entregas con exito', data: converData(tmp)
             }
         ],
         colors: ['rgba(0,0,0,0.1)']
