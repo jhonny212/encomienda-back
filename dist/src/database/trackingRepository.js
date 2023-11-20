@@ -228,7 +228,6 @@ const trackQr = (req) => __awaiter(void 0, void 0, void 0, function* () {
             order: {
                 select: {
                     address: true,
-                    origin: true,
                     brachOffice: true,
                     client: true,
                     cost: true,
@@ -238,8 +237,9 @@ const trackQr = (req) => __awaiter(void 0, void 0, void 0, function* () {
                     email: true,
                     id: true,
                     orderStatus: true,
+                    origin: true,
                     phone: true,
-                    total: true,
+                    total: true
                 }
             },
             passed: true,

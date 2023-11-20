@@ -39,7 +39,8 @@ const getOrderById = (req, id) => __awaiter(void 0, void 0, void 0, function* ()
             brachOffice: true,
             orderStatus: true,
             Package: true,
-            route: true
+            route: true,
+            origin: true
         } }));
 });
 exports.getOrderById = getOrderById;
@@ -153,7 +154,6 @@ const crearOrder = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const orderInstance = yield database_1.prisma.order.create({
         data: Object.assign({}, orderData)
     });
-    console.log(orderInstance, "->");
     /**
      * Create packages
      */
@@ -180,7 +180,23 @@ const getOrdersByBranch = (brachOfficeId) => {
             passed: false
         },
         select: {
-            order: true
+            order: {
+                select: {
+                    address: true,
+                    brachOffice: true,
+                    client: true,
+                    cost: true,
+                    date: true,
+                    deliveredDate: true,
+                    description: true,
+                    email: true,
+                    id: true,
+                    orderStatus: true,
+                    origin: true,
+                    phone: true,
+                    total: true
+                }
+            }
         }
     });
 };

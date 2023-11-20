@@ -33,7 +33,8 @@ export const getOrderById = async (req: Request, id: number) => {
             brachOffice: true,
             orderStatus: true,
             Package: true,
-            route: true
+            route: true,
+            origin: true
         }
     })
 }
@@ -175,8 +176,6 @@ export const crearOrder = async (req: Request) => {
         }
     })
 
-    console.log(orderInstance,"->");
-    
 
     /**
      * Create packages
