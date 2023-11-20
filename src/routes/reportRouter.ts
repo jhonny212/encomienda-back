@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getAllMovements, getMovementsByBranch } from '../scripts/reports/movements';
+import { getAllMovements, getMovementsByBranch, getMovementsByVehicle,getVehicleAllMovements } from '../scripts/reports/movements';
 import * as ExcelJS from 'exceljs';
 
 export const reportRouter = Router();
@@ -40,6 +40,42 @@ reportRouter.get('/movements/:branch', async (req:Request, res:Response) => {
 reportRouter.get('/movements', async (req:Request, res:Response) => {
     try {
         const data = await getAllMovements()
+        const file = await generarExcel(data);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');
+        return res.status(200).send(file)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+reportRouter.get('/vehicle/movements/:branch', async (req:Request, res:Response) => {
+    try {
+        const data = await getMovementsByVehicle(Number(req.params.branch))
+        const file = await generarExcel(data);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');
+        return res.status(200).send(file)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+reportRouter.get('/vehicle/movements', async (req:Request, res:Response) => {
+    try {
+        const data = await getVehicleAllMovements()
+        const file = await generarExcel(data);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');
+        return res.status(200).send(file)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+reportRouter.get('/goals', async (req:Request, res:Response) => {
+    try {
+        const data = await getVehicleAllMovements()
         const file = await generarExcel(data);
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', 'attachment; filename=datos.xlsx');

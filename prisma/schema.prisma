@@ -93,8 +93,6 @@ model Order {
     Tracking      Tracking[]
     TrackingReal  Log[]
     deliveredDate DateTime   @default(now())
-
-    
 }
 
 model Package {
@@ -119,18 +117,19 @@ model BranchOffice {
     Employee Employee[]
 
     //relations
-    Route1   Route[]   @relation("ref_route1")
-    Route2   Route[]   @relation("ref_route2")
+    Route1 Route[] @relation("ref_route1")
+    Route2 Route[] @relation("ref_route2")
     //Path1    Path[]    @relation("ref_route3")
     //Path2    Path[]    @relation("ref_route4")
-    city     City      @relation(fields: [cityId], references: [id])
-    cityId   Int
-   
+    city   City    @relation(fields: [cityId], references: [id])
+    cityId Int
+
     capacity Int
     Vehicle  Vehicle[]
     Cost     Cost[]
     Order1   Order[]   @relation("origin")
     Order2   Order[]   @relation("destiny")
+    goal     Int       @default(5)
 }
 
 model CostType {

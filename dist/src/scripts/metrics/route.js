@@ -30,12 +30,13 @@ const getTracking = () => __awaiter(void 0, void 0, void 0, function* () {
     return database_1.prisma.$queryRawUnsafe(sql);
 });
 function getDataX(data) {
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         const newData = [];
         for (const el of data) {
-            const origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
-            const destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
-            newData.push(`${origin.city.name} - ${destiny.city.name}`);
+            let origin = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.originId) || -1))[0];
+            let destiny = (yield (0, roadRepository_1.getBranchById)((el === null || el === void 0 ? void 0 : el.brachOfficeId) || -1))[0];
+            newData.push(`${(_a = origin === null || origin === void 0 ? void 0 : origin.city) === null || _a === void 0 ? void 0 : _a.name} - ${(_b = destiny === null || destiny === void 0 ? void 0 : destiny.city) === null || _b === void 0 ? void 0 : _b.name}`);
         }
         return newData;
     });
