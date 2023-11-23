@@ -121,6 +121,12 @@ export const moveOrder = async (req: Request) => {
 
     const { order, force, newRoute } = req.body
     const paths = await getTrack(order, false, 2)
+    if(paths.length > 1){
+        if(!paths[1].route.isActive){
+            response.message = "El siguiente punto no se encuentra activo"
+            return response
+        }
+    }
     const orderInfo = await prisma.order.findFirst({
         where: {
             id: order
