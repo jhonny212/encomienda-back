@@ -93,6 +93,7 @@ model Order {
     Tracking      Tracking[]
     TrackingReal  Log[]
     deliveredDate DateTime   @default(now())
+    flag          Boolean    @default(false)
 }
 
 model Package {

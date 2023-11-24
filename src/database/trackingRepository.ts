@@ -121,6 +121,7 @@ export const moveOrder = async (req: Request) => {
 
     const { order, force, newRoute } = req.body
     const paths = await getTrack(order, false, 2)
+
     if(paths.length > 1){
         if(!paths[1].route.isActive){
             response.message = "El siguiente punto no se encuentra activo"
@@ -177,6 +178,15 @@ export const moveOrder = async (req: Request) => {
 
         } else if (force) {
             //Force logic
+            //Bandera
+            await prisma.order.update({
+                data: {
+                    flag: true
+                },
+                where: {
+                    id: order
+                }
+            })
             const result = await updateTracking({ passed: true }, actualTrack.id)
             if (result.passed) {
                 const log = await forceTracking(newRoute, order)
@@ -188,6 +198,15 @@ export const moveOrder = async (req: Request) => {
         }
     } else if (!validLog) {
         //Froce logic with logs and no tracking
+        //Bandera
+        await prisma.order.update({
+            data: {
+                flag: true
+            },
+            where: {
+                id: order
+            }
+        })
         const log = await forceTracking(newRoute, order)
         console.log('3');
         console.log(newRoute, log);
